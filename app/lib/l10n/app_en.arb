@@ -1,0 +1,355 @@
+{
+  "@@locale": "en",
+  "navHome": "Home",
+  "navPlay": "Play",
+  "navMatches": "Matches",
+  "navProfile": "Profile",
+  "hello": "Salam, Amine",
+  "homeTitle": "Ready to play tonight?",
+  "live": "{n} players searching near you",
+  "@live": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "playNow": "Find me a game",
+  "playSub": "We match you with players and a free pitch in under a minute.",
+  "openGames": "Games missing players",
+  "spots": "{n} spots left",
+  "@spots": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "join": "Join",
+  "nearby": "Pitches near you",
+  "seeAll": "See all",
+  "searchPh": "Search a pitch or area",
+  "da": "DA",
+  "perHour": "/h",
+  "reviewsN": "{n} reviews",
+  "@reviewsN": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "each": "{p} DA each",
+  "@each": {
+    "placeholders": {
+      "p": {
+        "type": "String"
+      }
+    }
+  },
+  "tonight": "Tonight",
+  "fLight": "Lights",
+  "fBall": "Ball",
+  "fShower": "Showers",
+  "fRoof": "Covered",
+  "fRef": "Referee",
+  "slotsTitle": "Available slots",
+  "free": "Free",
+  "booked": "Booked",
+  "pending": "Pending",
+  "reviews": "Player reviews",
+  "pickSlot": "Pick a slot",
+  "book": "Book {t}",
+  "@book": {
+    "placeholders": {
+      "t": {
+        "type": "String"
+      }
+    }
+  },
+  "reqTitle": "Request this slot",
+  "date": "Date",
+  "total": "Total",
+  "perPlayer": "Per player",
+  "cashNote": "Pay cash at the pitch. The manager confirms your request, then you get a QR code.",
+  "send": "Send request",
+  "cancel": "Cancel",
+  "sent": "Request sent",
+  "sentSub": "The manager will confirm shortly.",
+  "playTitle": "When can you play?",
+  "playHint": "Pick your windows. We handle the rest.",
+  "format": "Format",
+  "day": "Day",
+  "window": "Time window",
+  "position": "Position",
+  "distance": "Distance",
+  "km": "km",
+  "find": "Find my game",
+  "anytime": "Available anytime",
+  "anytimeSub": "Ping me for any game nearby",
+  "today": "Today",
+  "tomorrow": "Tomorrow",
+  "morning": "Morning",
+  "afternoon": "Afternoon",
+  "evening": "Evening",
+  "night": "Night",
+  "posGK": "GK",
+  "posDEF": "DEF",
+  "posMID": "MID",
+  "posFWD": "FWD",
+  "searching": "Building your game",
+  "s1": "Scanning free pitches",
+  "s2": "Matching your level",
+  "s3": "Filling positions",
+  "s4": "Locking the slot",
+  "playersN": "players",
+  "cancelSearch": "Cancel search",
+  "found": "Game found",
+  "acceptWithin": "Accept within",
+  "sec": "sec",
+  "yourTeam": "Your team",
+  "opponents": "Opponents",
+  "friends": "Yacine and Hakim are in this game",
+  "accept": "Accept game",
+  "pass": "Pass",
+  "you": "you",
+  "level": "Level",
+  "youreIn": "You're in",
+  "inSub": "Show this code when you arrive at the pitch.",
+  "code": "Booking code",
+  "goMatches": "Go to my matches",
+  "pitch": "Pitch",
+  "when": "When",
+  "upcoming": "Upcoming",
+  "past": "Past",
+  "showQr": "QR code",
+  "confirmed": "Confirmed",
+  "rate": "Rate game",
+  "rated": "Rated",
+  "win": "Win",
+  "loss": "Loss",
+  "draw": "Draw",
+  "rateTitle": "Rate the game",
+  "ratePitch": "How was the pitch?",
+  "submit": "Submit",
+  "earn": "How to earn",
+  "reliability": "Reliability",
+  "relSub": "47 booked · 44 showed up · 3 no-shows",
+  "played": "Played",
+  "wins": "Wins",
+  "points": "Rank pts",
+  "tokens": "Review tokens",
+  "teams": "My teams",
+  "captain": "Captain",
+  "member": "Player",
+  "members": "{n} members",
+  "@members": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "gold": "Gold",
+  "settings": "Settings",
+  "language": "Language",
+  "notifs": "Notifications",
+  "alerts": "Match alerts",
+  "alertsSub": "When a nearby game needs a player",
+  "reminders": "Game reminders",
+  "remindersSub": "One hour before kick-off",
+  "posfGK": "Goalkeeper",
+  "posfDEF": "Defender",
+  "posfMID": "Midfielder",
+  "posfFWD": "Forward",
+  "posfREF": "Referee",
+  "rankBronze": "Bronze",
+  "rankSilver": "Silver",
+  "rankGold": "Gold",
+  "rankElite": "Elite",
+  "rankLegend": "Legend",
+  "toNext": "{n} pts to {r}",
+  "@toNext": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      },
+      "r": {
+        "type": "String"
+      }
+    }
+  },
+  "verified": "Verified",
+  "rank": "Rank",
+  "loginTitle": "Your game, organised.",
+  "loginSub": "Find players, book pitches, play more.",
+  "phone": "Phone number",
+  "continueAs": "Continue as",
+  "rolePlayer": "Player",
+  "rolePlayerSub": "Find games, book pitches, referee",
+  "roleManager": "Stadium manager",
+  "roleManagerSub": "Confirm bookings, verify players, scan QR",
+  "logout": "Log out",
+  "mode": "How do you want to play?",
+  "mSolo": "Solo",
+  "mSoloSub": "Join any game",
+  "mFriends": "With friends",
+  "mFriendsSub": "Same team",
+  "mTeam": "My team",
+  "mTeamSub": "Find opponents",
+  "tagged": "Tagged friends",
+  "tag": "Tag",
+  "tagTitle": "Tag friends",
+  "done": "Done",
+  "pickTeam": "Pick your team",
+  "vsSearch": "We look for a {f} team at your level.",
+  "@vsSearch": {
+    "placeholders": {
+      "f": {
+        "type": "String"
+      }
+    }
+  },
+  "city": "City",
+  "positions": "Positions",
+  "posHint": "Tap in order of preference",
+  "addRef": "Add a referee",
+  "addRefSub": "200 DA · paid by the booker",
+  "findOpp": "Find opponents",
+  "balanced": "Balanced by rank",
+  "avg": "avg",
+  "referee": "Referee",
+  "sameTeam": "same team as you",
+  "stRequested": "Requested",
+  "stConfirmed": "Confirmed",
+  "stGuaranteed": "Guaranteed",
+  "stReqSub": "Waiting for the manager to confirm by phone",
+  "stConfSub": "Pay at the pitch and scan the QR to guarantee",
+  "stGuarSub": "Paid and guaranteed",
+  "payMethod": "Payment",
+  "payCash": "Cash at the pitch",
+  "payCashSub": "Manager confirms by phone",
+  "payOnline": "Pay online",
+  "payOnlineSub": "CIB / Edahabia via SATIM · +15 coins",
+  "payBtn": "Pay {a} DA",
+  "@payBtn": {
+    "placeholders": {
+      "a": {
+        "type": "String"
+      }
+    }
+  },
+  "satimTitle": "Secure payment",
+  "cardNo": "Card number",
+  "expiry": "Expiry",
+  "cvv": "CVV2",
+  "cardName": "Name on card",
+  "processing": "Processing payment…",
+  "paid": "Payment accepted",
+  "paidSub": "Your booking is Guaranteed.",
+  "refFee": "Referee fee",
+  "verifyNeeded": "Verification needed",
+  "verifyNeededSub": "Show your ID to any partner stadium manager to get verified. Until then you can join games, but not book pitches.",
+  "myVerifyCode": "Your verification QR",
+  "wallet": "Wallet",
+  "coins": "Coins",
+  "xp": "Rank XP",
+  "xpSub": "XP sets your rank. Coins are yours to spend.",
+  "eShow": "Show up to a booked game",
+  "eReview": "Rate a game",
+  "eRef": "Referee a game",
+  "eMvp": "Win · goal · MVP",
+  "eOnline": "Pay online",
+  "eInvite": "Invite a friend",
+  "eVerify": "Get verified",
+  "activity": "Recent activity",
+  "store": "Store",
+  "soon": "Soon",
+  "iDisc": "Pitch discount −20%",
+  "iTicket": "Tournament ticket",
+  "iJersey": "Sponsor jersey",
+  "iComm": "Community access",
+  "iFrame": "Profile frame",
+  "iRef": "Free referee",
+  "noshowRule": "No-show: −50 XP and −30 coins. Two no-shows = 7-day booking ban.",
+  "ratePlayers": "Rate the players",
+  "refGame": "You referee",
+  "refLog": "Match report",
+  "goal": "Goal",
+  "yellow": "Yellow",
+  "red": "Red",
+  "mvp": "MVP",
+  "submitReport": "Submit report",
+  "refApproved": "Approved by {s}",
+  "@refApproved": {
+    "placeholders": {
+      "s": {
+        "type": "String"
+      }
+    }
+  },
+  "refOpen": "Open report",
+  "events": "Events",
+  "pickEvent": "Tap a player to log",
+  "reported": "Report sent",
+  "demo": "Demo",
+  "demoVerified": "Verified account",
+  "demoVerifiedSub": "Turn off to see the unverified experience",
+  "invite": "Invite friends",
+  "getVerified": "Get verified",
+  "mgToday": "Today",
+  "mgScan": "Scan",
+  "mgPlayers": "Players",
+  "mgSettings": "Settings",
+  "manager": "Manager",
+  "bookings": "Bookings",
+  "toConfirm": "To confirm",
+  "call": "Call",
+  "confirm": "Confirm",
+  "scanQr": "Scan QR",
+  "scanTitle": "Scan booking QR",
+  "scanHint": "Point the camera at the player’s QR code",
+  "simulate": "Simulate scan",
+  "cashReceived": "Cash received",
+  "markGuar": "Mark as Guaranteed",
+  "verifyQ": "To verify",
+  "refApps": "Referee requests",
+  "idCheck": "ID check",
+  "chkName": "Name matches ID card",
+  "chkPhoto": "Photo matches face",
+  "chkAge": "Age 16+",
+  "reject": "Reject",
+  "verify": "Verify",
+  "approve": "Approve",
+  "gamesN": "{n} games",
+  "@gamesN": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "allDone": "All caught up",
+  "noshow": "No-show",
+  "booker": "Booker",
+  "unverified": "Not verified",
+  "scanned": "Booking found",
+  "freeSlot": "Free",
+  "withRef": "with referee",
+  "rating": "rating",
+  "sendCode": "Send code",
+  "codeLabel": "SMS code",
+  "codeSent": "We sent a 6-digit code to {phone}",
+  "verifyCode": "Verify",
+  "changeNumber": "Change number",
+  "demoMode": "Demo mode — no server connected. Pick a role to explore.",
+  "comingSoon": "Coming soon",
+  "genericError": "Something went wrong. Try again.",
+  "@codeSent": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  }
+}
