@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../config/env.dart';
 import '../../domain/models/user_role.dart';
 import 'auth_repository.dart';
 
@@ -18,6 +20,7 @@ class SupabaseAuthRepository implements AuthRepository {
   final _changes = StreamController<SessionUser?>.broadcast();
   late final StreamSubscription<AuthState> _sub;
   SessionUser? _user;
+  bool _googleReady = false;
 
   /// The role is decided by the database (`venue_managers` table), not by
   /// anything the client sends.
@@ -33,18 +36,45 @@ class SupabaseAuthRepository implements AuthRepository {
   Stream<SessionUser?> get changes => _changes.stream;
 
   @override
-  bool get rolePickedOnClient => false;
+  bool get isDemo => false;
 
   @override
-  Future<void> sendCode(String phone) =>
-      _client.auth.signInWithOtp(phone: phone);
+  bool get supportsGoogle => Env.googleWebClientId.isNotEmpty;
+
+  /// Native Google sign-in, then hand the ID token to Supabase.
+  @override
+  Future<void> signInWithGoogle() async {
+    final google = GoogleSignIn.instance;
+    if (!_googleReady) {
+      await google.initialize(serverClientId: Env.googleWebClientId);
+      _googleReady = true;
+    }
+    final account = await google.authenticate();
+    final idToken = account.authentication.idToken;
+    if (idToken == null) throw const AuthException('No Google ID token');
+    await _client.auth.signInWithIdToken(
+      provider: OAuthProvider.google,
+      idToken: idToken,
+    );
+  }
 
   @override
-  Future<void> verifyCode(String phone, String code, {UserRole? demoRole}) =>
-      _client.auth.verifyOTP(phone: phone, token: code, type: OtpType.sms);
+  Future<void> sendEmailCode(String email) =>
+      _client.auth.signInWithOtp(email: email);
 
   @override
-  Future<void> signOut() => _client.auth.signOut();
+  Future<void> verifyEmailCode(String email, String code) =>
+      _client.auth.verifyOTP(email: email, token: code, type: OtpType.email);
+
+  @override
+  Future<void> demoSignIn(UserRole role) =>
+      throw UnsupportedError('demo sign-in is only available without Supabase');
+
+  @override
+  Future<void> signOut() async {
+    if (_googleReady) await GoogleSignIn.instance.signOut();
+    await _client.auth.signOut();
+  }
 
   Future<void> dispose() async {
     await _sub.cancel();

@@ -259,10 +259,13 @@
   "rating": "note",
   "sendCode": "Envoyer le code",
   "codeLabel": "Code SMS",
-  "codeSent": "Nous avons envoyé un code à 6 chiffres au {phone}",
+  "codeSent": "Nous avons envoyé un code à 6 chiffres à {target}",
   "verifyCode": "Vérifier",
-  "changeNumber": "Changer de numéro",
   "demoMode": "Mode démo — aucun serveur connecté. Choisis un rôle pour explorer.",
   "comingSoon": "Bientôt",
-  "genericError": "Une erreur est survenue. Réessaie."
+  "genericError": "Une erreur est survenue. Réessaie.",
+  "continueWithGoogle": "Continuer avec Google",
+  "orEmail": "ou recevoir un code par e-mail",
+  "emailLabel": "E-mail",
+  "changeEmail": "Utiliser un autre e-mail"
 }

@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:matchiko/domain/models/booking_status.dart';
 import 'package:matchiko/domain/models/position.dart';
 import 'package:matchiko/domain/models/rank.dart';
+import 'package:matchiko/domain/models/phone_number.dart';
 import 'package:matchiko/ui/features/auth/view_models/session_view_model.dart';
 
 void main() {
@@ -57,10 +58,16 @@ void main() {
   });
 
   test('Algerian phone numbers normalise to E.164', () {
-    expect(SessionViewModel.toE164('0555 12 34 56'), '+213555123456');
-    expect(SessionViewModel.toE164('+213 661 00 00 00'), '+213661000000');
-    expect(SessionViewModel.toE164('770000000'), '+213770000000');
-    expect(SessionViewModel.toE164('021 00 00 00'), isNull, reason: 'landline');
-    expect(SessionViewModel.toE164('12'), isNull);
+    expect(algerianMobileE164('0555 12 34 56'), '+213555123456');
+    expect(algerianMobileE164('+213 661 00 00 00'), '+213661000000');
+    expect(algerianMobileE164('770000000'), '+213770000000');
+    expect(algerianMobileE164('021 00 00 00'), isNull, reason: 'landline');
+    expect(algerianMobileE164('12'), isNull);
+  });
+
+  test('email check', () {
+    expect(SessionViewModel.isEmail(' Amine@Gmail.com '), isTrue);
+    expect(SessionViewModel.isEmail('amine@gmail'), isFalse);
+    expect(SessionViewModel.isEmail('not an email'), isFalse);
   });
 }

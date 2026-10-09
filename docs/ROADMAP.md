@@ -1,18 +1,21 @@
 # Matchiko roadmap
 
 Each milestone ships something usable end to end (app + database + tests).
-Screen names refer to `SC.<name>` in `design/prototype/*.js`. Placeholder
-screens in the app show which one they will become.
+Screen names refer to `SC.<name>` in `design/prototype/*.js`. Screens the
+prototype doesn't have yet (✗ in `docs/PRODUCT.md` § 4) should be designed in
+Claude Design before their milestone starts.
 
 | # | Milestone | App screens | Backend | Done when |
 |---|---|---|---|---|
-| **M0** | **Setup** ✅ | Login (demo + phone OTP), nav shells, settings (language, logout), theme, EN/FR/AR + RTL | Schema, RLS, game-loop RPCs, seed, pgTAP tests | `flutter analyze`, `flutter test`, `supabase/tests/local/run.sh` all green |
-| M1 | Real sign-in + profile | `profile`, `settings` (notifications), verification QR sheet | Hosted Supabase project, SMS provider, avatars bucket | A new phone number can sign up, edit their profile, show their verification QR |
-| M2 | Pitches + booking | `home` (pitches near you), `detail` (slots), book sheet, `matches` (upcoming + ladder + QR) | Slot availability view, `request_booking` wired, Realtime on bookings | A verified player books a slot and sees it go Requested → Confirmed |
-| M3 | Manager app | `mtoday`, `mscan` (camera QR), `mplayers` (verify + referee requests) | `mobile_scanner`; manager RPCs already exist | A manager confirms, scans, verifies and completes games |
-| M4 | Matchmaking v1 | `play` (modes, tag friends, positions, city, referee), `searching` (radar), `found` (30 s offer), `confirmed` | `find_matches()` + pg_cron, offers through Realtime, teams balancing | Two test players searching the same slot get matched into one game |
-| M5 | After the game + rewards | `rate`, `reflog` (referee report), `wallet` (coins, XP, store teaser) | `rate_game`, `submit_match_report` wired, `reward_rules` tuned | Rewards and penalties show up in the wallet |
-| M6 | Online payment + push | `satim` | Edge Functions `satim-create-order` / `satim-callback`, FCM push, reminders | A player pays with CIB/Edahabia and the booking becomes Guaranteed |
-| M7 | Suggestions + growth | "Suggested for you", notifications center, teams management, invite friends | Suggestions from history, sponsor/ad slots, store purchases | — |
+| **M0** | **Setup** ✅ | Login (Google + email code, demo mode), nav shells, settings, theme, EN/FR/AR + RTL | Schema, RLS, game-loop RPCs, tuned rewards, phone privacy, 46 pgTAP tests | analyze, tests and DB tests green |
+| M1 | Sign-in + onboarding + profile | splash, onboarding (name, photo, city, positions, level, phone), `profile` + edit, settings (notifications, delete account, legal), verification QR sheet | Hosted Supabase (Paris), Google OAuth client ids, Brevo SMTP, avatars bucket, `delete_my_account()` | A new user signs in with Google or email, completes onboarding and shows their verification QR |
+| M2 | Pitches + booking + game page | `home`, pitch list + map + filters, `detail` (slots), book sheet, **game page** (line-up, RSVP, who paid, share to WhatsApp), `matches` | Slot availability view, RSVP + waitlist, reminders T−24 h / T−3 h (pg_cron), Realtime on bookings | A verified player books, opens the game to others, and friends join from a WhatsApp link |
+| M3 | Manager app + trust | `mtoday`, **calendar + walk-ins + block slots**, pitches & prices, `mscan` (booking, verification, check-in), `mplayers` (verify, referees, no-show reports), public profile, friends, notifications, report no-show | `mobile_scanner`, reliability %, trust ladder limits, no-show reports + appeals, late-cancel rule | A manager runs a full day from the app; no-shows show on profiles |
+| M4 | Matchmaking v1 + teams | `play`, tag friends, `searching`, `found` (30 s), `confirmed`, teams (create, page, recurring game) | `find_matches()` + pg_cron, offers through Realtime, balanced teams, auto-release of unfilled games | Two test players searching the same slot get matched into one game |
+| M5 | After the game + rewards + referees | `rate`, `reflog`, `wallet` + history, referee apply / availability / jobs / earnings | `rate_game`, `submit_match_report` wired, referee job board | Rewards and penalties show up in the wallet; a referee picks a job and reports it |
+| M6 | Push + venue tools | manager reports (cash, occupancy), staff accounts | FCM push via Edge Function, venue stats | Players get push reminders; a venue sees its weekly numbers |
+| M7 | Suggestions + growth | "Suggested for you", invite friends, store (open), sponsor slots | Suggestions from history, store purchases, admin back-office (web) | — |
+| Later | Online payment | `satim` | SATIM Edge Functions (needs a bank contract), or BaridiMob receipt pre-payment (see PRODUCT § 2) | A player pays online and the booking becomes Guaranteed |
 
-After each milestone: run the `matchiko-security` skill on the diff.
+After each milestone: run the `matchiko-security` skill on the diff. Workflow
+and model use: `docs/AI_WORKFLOW.md`.

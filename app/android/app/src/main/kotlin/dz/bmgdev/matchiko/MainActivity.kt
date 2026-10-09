@@ -1,4 +1,4 @@
-package dz.matchiko.matchiko
+package dz.bmgdev.matchiko
 
 import io.flutter.embedding.android.FlutterActivity
 

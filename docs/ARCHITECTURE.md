@@ -6,7 +6,8 @@ cash market. This doc is the map: the main loop, how it runs on Flutter +
 Supabase, and where each rule is enforced.
 
 Product decisions come from the design hand-off (`design/prototype/BRIEF.md`,
-`design/chats/chat1.md`). The prototype `design/prototype/Matchiko.html` is the
+`design/chats/chat1.md`) and `docs/PRODUCT.md` (full feature spec, cash-market
+rules, screen inventory). The prototype `design/prototype/Matchiko.html` is the
 visual reference for every screen.
 
 ## 1. Stack
@@ -16,8 +17,9 @@ visual reference for every screen.
 | App | **Flutter** (Dart 3, Android first, iOS from the same code) | Draws its own pixels, so the custom design (zellij patterns, diamond nav button, pitch drawings) matches exactly on every phone. Solid RTL for Arabic. Fast on the low-end Android phones common in Algeria. Official Supabase SDK. |
 | State | MVVM: `ChangeNotifier` view models + `provider` for injection | The pattern the Flutter team recommends (see the `flutter-apply-architecture-best-practices` skill). Little magic, easy to test. |
 | Navigation | `go_router` | Declarative routes, role-based redirects, deep links later. |
-| Backend | **Supabase**: Postgres + RLS, Auth (phone OTP), Realtime, Storage, Edge Functions, pg_cron | One managed service. Business rules live in Postgres next to the data, so a modified app can't break them. |
-| Payments | Cash at the pitch (QR scan) + **SATIM** (CIB / Edahabia) through an Edge Function | The two ways people actually pay. |
+| Backend | **Supabase**, hosted in **Paris (eu-west-3)**: Postgres + RLS, Auth, Realtime, Storage, Edge Functions, pg_cron | One managed service, closest region to Algeria. Business rules live in Postgres next to the data, so a modified app can't break them. Free plan covers launch (50k monthly users, 500 MB DB); move to Pro ($25/mo) before real traffic, because free projects pause after 7 idle days. |
+| Sign-in | **Google** (native, one tap on Android) + **6-digit code by email**. No SMS at launch. | Free. SMS to Algeria costs ~$0.20–0.30 each (≈ $300+ for the first 1,000 users with re-logins). See § Sign-in. |
+| Payments | **Cash at the pitch** (QR scan) at launch. SATIM (CIB / Edahabia) later. | Cash is how people pay today; SATIM needs a bank contract. The schema already has `payments` and the `requested → guaranteed` transition for it. |
 | Push | Firebase Cloud Messaging, sent from an Edge Function | Standard on Android. |
 
 **Why not React Native:** I first suggested it only because the prototype is
@@ -44,7 +46,7 @@ flowchart TD
     D2 --> D
     F --> E[Booking<br/>REQUESTED]
     E -->|Manager takes the call| G[CONFIRMED]
-    E -->|Pays online with SATIM| H
+    E -.->|Later: pays online with SATIM| H
     G -->|Cash at the pitch,<br/>manager scans QR| H[GUARANTEED]
     H --> I[Game day: play]
     I --> J[Referee logs goals,<br/>cards, MVP]
@@ -79,7 +81,7 @@ Enforced in Postgres (`bookings_status_guard` trigger + the RPCs). The app's
 stateDiagram-v2
     [*] --> requested: request_booking()
     requested --> confirmed: confirm_booking() manager
-    requested --> guaranteed: SATIM paid (Edge Function)
+    requested --> guaranteed: SATIM paid (later)
     confirmed --> guaranteed: scan_booking_qr() manager, cash received
     requested --> cancelled: cancel_booking()
     confirmed --> cancelled: cancel_booking()
@@ -98,14 +100,14 @@ flowchart LR
     end
     S -->|HTTPS + JWT| API[PostgREST + RPC<br/>RLS on every table]
     S -->|WebSocket| RT[Realtime<br/>offers, bookings,<br/>notifications]
-    S -->|Phone OTP| AUTH[Supabase Auth]
+    S -->|Google / email code| AUTH[Supabase Auth]
     API --> DB[(Postgres)]
     RT --> DB
     CRON[pg_cron<br/>matchmaker, expire offers,<br/>reminders] --> DB
     EF[Edge Functions<br/>satim-*, push] --> DB
-    EF --> SATIM[SATIM gateway]
+    EF -.-> SATIM[SATIM gateway, later]
     EF --> FCM[Firebase push]
-    AUTH --> SMS[SMS provider]
+    AUTH --> MAIL[Email: Brevo free SMTP]
 ```
 
 Rules of thumb:
@@ -124,11 +126,11 @@ Migrations: `supabase/migrations/`. Tests: `supabase/tests/database/`.
 
 | Area | Tables | Notes |
 |---|---|---|
-| People | `profiles` | Public: handle, name, avatar, city, positions, verified, XP. Private (only through `get_my_profile()`): coins, no-show count, ban. Phone stays in `auth.users`. |
+| People | `profiles` | Public: handle, name, avatar, city, positions, verified, XP. Private (only through `get_my_profile()`): phone, coins, no-show count, ban. Managers get a booker's phone through `booking_contact()`. |
 | Places | `cities`, `venues`, `pitches`, `venue_managers` | A venue (complex) has several pitches. Managers are linked to venues, which is what makes someone a manager. |
 | Roles | `referees`, `referee_applications`, `verification_requests` | Referee = verified player approved by a manager. |
 | Games | `bookings`, `booking_tickets`, `games`, `game_players` | One booking = one 1-hour slot = one game. `booking_tickets` holds the QR secret (booker only). An exclusion constraint prevents double booking. |
-| Money | `payments` | SATIM orders. Service role only. |
+| Money | `payments` | SATIM orders (later). Service role only. |
 | Matchmaking | `match_requests`, `match_offers`, `teams`, `team_members`, `friendships` | A request stores mode, friends/team, positions in order, city, day, windows, radius, referee wish. |
 | After the game | `match_events`, `player_ratings`, `pitch_ratings` | Written through `submit_match_report()` and `rate_game()`. |
 | Rewards | `wallet_ledger`, `reward_rules` | Append-only ledger, each reward paid once per (user, reason, game). Amounts are data (tunable without a release). |
@@ -173,7 +175,7 @@ Full checklist: `.claude/skills/matchiko-security/SKILL.md`. Summary:
   `user_metadata`.
 - QR codes are random 128-bit tokens, readable only by the booker, and only
   work for a manager of that venue.
-- SATIM: the Edge Function computes the amount from the booking, and the
+- SATIM (later): the Edge Function computes the amount from the booking, and the
   callback re-checks the order status with SATIM before marking it paid
   (idempotent).
 - No ID photos are stored: verification happens in person. Only avatars go to
@@ -192,23 +194,44 @@ app/                  Flutter app
   lib/ui/features/    one folder per feature: views/ + view_models/
   lib/l10n/           ARB files en/fr/ar (generated from the prototype)
 supabase/
-  config.toml         local Supabase (phone OTP, test numbers)
+  config.toml         local Supabase (Google + email code auth)
   migrations/         schema, RLS, RPCs
   seed.sql            local dev data (3 Alger venues, test users)
   tests/database/     pgTAP tests
   tests/local/        run tests on plain Postgres when Docker isn't available
 design/               Claude Design hand-off (prototype, brief, chat, tools)
-docs/                 this file, ROADMAP.md
+docs/                 this file, PRODUCT.md, ROADMAP.md, AI_WORKFLOW.md, economy/
 .claude/skills/       agent skills (Flutter, Dart, Supabase, security)
 ```
 
-## 9. Open decisions
+## 9. Sign-in (decided: free)
 
-| Decision | Options | Needed by |
+| Option | Cost for ~1,000 users | Verdict |
 |---|---|---|
-| SMS provider for OTP in Algeria | Twilio / Vonage / MessageBird (Supabase built-in) or a local aggregator via the Auth "Send SMS" hook | M1 |
-| Supabase region | Frankfurt (eu-central-1) or Paris (eu-west-3): lowest latency from Algeria | M1 |
-| SATIM merchant contract | Needs a bank (CIB) agreement and test credentials | M6 |
-| XP amounts per action | First guess in `seed.sql` (`reward_rules`), coins are locked | M5 |
-| Android package id | Currently `dz.matchiko.matchiko` | Before the first store upload |
-| Maps / distance | Plain lat/lng + Haversine first; PostGIS when needed | M4 |
+| **Google sign-in** (native) | Free (inside Supabase's 50k monthly users) | **Main button.** Nearly every Android phone already has a Google account. |
+| **Email code** (Supabase OTP + Brevo SMTP) | Free (Brevo: 300 emails/day; Resend: 100/day, 3,000/month) | **Fallback** for people who don't want Google. |
+| SMS code (Twilio/Plivo to Algeria) | ~$0.20–0.32 per SMS | Too expensive for launch. |
+| Firebase phone auth | 10 free SMS/day, then per-SMS, needs a billing account | Same cost problem. |
+| Telegram Gateway | $0.01 per delivered code | Cheap, but many players won't have Telegram. Option later via the Send SMS hook. |
+| WhatsApp authentication template | A few US cents per code (Meta's rate card) | Best paid option later (everyone has WhatsApp), via the Send SMS hook + an Edge Function. |
+
+The **phone number is still required** (managers call to confirm bookings).
+It's a private profile field, checked in person by the manager during ID
+verification, so no SMS is needed to trust it. Sources: [Firebase pricing
+summary](https://blog.logto.io/it/firebase-authentication-pricing),
+[Telegram Gateway](https://core.telegram.org/gateway), [Plivo
+Algeria](https://www.plivo.com/sms/pricing/dz/), [Supabase Send SMS
+hook](https://supabase.com/docs/guides/auth/auth-hooks/send-sms-hook),
+[Brevo](https://www.techradar.com/pro/software-services/brevo-review),
+[Resend](https://automationatlas.io/answers/resend-free-tier-explained-2026/).
+
+## 10. Decisions log
+
+| Decision | Choice |
+|---|---|
+| Sign-in | Google + email code (free); WhatsApp OTP later if needed |
+| Supabase region | Paris (eu-west-3) |
+| Online payment | Later (no SATIM at launch) |
+| XP per action | Monte Carlo model, see `docs/economy/REWARDS.md` |
+| App id | `dz.bmgdev.matchiko` (BMG.dev) |
+| Maps / distance | Plain lat/lng + Haversine first; PostGIS when needed (M4) |

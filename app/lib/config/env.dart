@@ -9,6 +9,12 @@ abstract final class Env {
     'SUPABASE_PUBLISHABLE_KEY',
   );
 
+  /// Google OAuth *web* client id (Supabase verifies tokens against it).
+  /// Empty → the Google button is hidden and only email codes are offered.
+  static const googleWebClientId = String.fromEnvironment(
+    'GOOGLE_WEB_CLIENT_ID',
+  );
+
   /// Without Supabase config the app runs in demo mode on local fake data,
   /// like the Claude Design prototype.
   static bool get hasSupabase =>

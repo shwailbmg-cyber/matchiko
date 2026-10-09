@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import '../../../../data/repositories/auth_repository.dart';
 import '../../../../domain/models/user_role.dart';
 
-enum LoginStep { phone, code }
+enum LoginStep { email, code }
 
 /// Holds who is signed in and drives the login screen. The router listens to
 /// it to redirect between the login, player and manager areas.
@@ -17,50 +17,46 @@ class SessionViewModel extends ChangeNotifier {
   final AuthRepository _auth;
   late final StreamSubscription<SessionUser?> _sub;
 
-  LoginStep step = LoginStep.phone;
-  String phone = '';
+  LoginStep step = LoginStep.email;
+  String email = '';
   bool busy = false;
   bool failed = false;
 
   SessionUser? get user => _auth.currentUser;
   bool get signedIn => user != null;
   UserRole? get role => user?.role;
-  bool get isDemo => _auth.rolePickedOnClient;
+  bool get isDemo => _auth.isDemo;
+  bool get canUseGoogle => _auth.supportsGoogle;
 
-  /// Normalises a local Algerian number ("0555 12 34 56" or "555123456")
-  /// to E.164 (+213555123456). Returns null when it isn't a mobile number.
-  static String? toE164(String input) {
-    var d = input.replaceAll(RegExp(r'\D'), '');
-    if (d.startsWith('213')) d = d.substring(3);
-    if (d.startsWith('0')) d = d.substring(1);
-    return RegExp(r'^[567]\d{8}$').hasMatch(d) ? '+213$d' : null;
-  }
+  static final _emailRe = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]{2,}$');
+  static bool isEmail(String v) => _emailRe.hasMatch(v.trim());
+
+  Future<void> signInWithGoogle() => _run(_auth.signInWithGoogle);
 
   Future<void> sendCode(String input) => _run(() async {
-    final e164 = toE164(input);
-    if (e164 == null) throw const FormatException('phone');
-    await _auth.sendCode(e164);
-    phone = e164;
+    final e = input.trim().toLowerCase();
+    if (!isEmail(e)) throw const FormatException('email');
+    await _auth.sendEmailCode(e);
+    email = e;
     step = LoginStep.code;
   });
 
   Future<void> verifyCode(String code) =>
-      _run(() => _auth.verifyCode(phone, code.trim()));
+      _run(() => _auth.verifyEmailCode(email, code.trim()));
 
   /// Demo mode only: sign in straight away with the picked role.
-  Future<void> demoSignIn(UserRole role) =>
-      _run(() => _auth.verifyCode('+213000000000', '000000', demoRole: role));
+  Future<void> demoSignIn(UserRole role) => _run(() => _auth.demoSignIn(role));
 
-  void changeNumber() {
-    step = LoginStep.phone;
+  void changeEmail() {
+    step = LoginStep.email;
     failed = false;
     notifyListeners();
   }
 
   Future<void> signOut() async {
     await _auth.signOut();
-    step = LoginStep.phone;
-    phone = '';
+    step = LoginStep.email;
+    email = '';
   }
 
   Future<void> _run(Future<void> Function() action) async {

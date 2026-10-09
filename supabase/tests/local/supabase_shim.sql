@@ -19,6 +19,7 @@ create table auth.users (
   aud text,
   role text,
   email text,
+  email_confirmed_at timestamptz,
   phone text unique,
   phone_confirmed_at timestamptz,
   raw_app_meta_data jsonb,
@@ -33,6 +34,18 @@ create table auth.users (
   reauthentication_token text,
   created_at timestamptz default now(),
   updated_at timestamptz default now()
+);
+
+create table auth.identities (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users (id) on delete cascade,
+  provider_id text not null,
+  provider text not null,
+  identity_data jsonb not null,
+  last_sign_in_at timestamptz,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now(),
+  unique (provider_id, provider)
 );
 
 -- Same logic as Supabase's auth.uid() / auth.jwt().

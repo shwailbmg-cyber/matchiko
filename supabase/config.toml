@@ -197,7 +197,7 @@ password_requirements = ""
 
 [auth.rate_limit]
 # Number of emails that can be sent per hour. Requires auth.email.smtp to be enabled.
-email_sent = 2
+email_sent = 30
 # Number of SMS messages that can be sent per hour. Requires auth.sms to be enabled.
 sms_sent = 30
 # Number of anonymous sign-ins that can be made per hour per IP address. Requires enable_anonymous_sign_ins = true.
@@ -218,8 +218,10 @@ web3 = 30
 # secret = ""
 
 [auth.email]
-# Allow/disallow new user signups via email to your project.
-enable_signup = false
+# Sign-in fallback for people without a Google account: 6-digit code by email.
+# Production: set custom SMTP (Brevo free tier, 300 emails/day) in the
+# dashboard; the built-in sender is limited to a few emails per hour.
+enable_signup = true
 # If enabled, a user will be required to confirm any email change on both the old, and new email
 # addresses. If disabled, only the new email is required to confirm.
 double_confirm_changes = true
@@ -256,16 +258,17 @@ otp_expiry = 3600
 # content_path = "./supabase/templates/password_changed_notification.html"
 
 [auth.sms]
-# Matchiko signs in with phone OTP only.
-enable_signup = true
-enable_confirmations = true
+# Phone OTP is off at launch (SMS to Algeria costs ~0.20-0.30 USD each).
+# The phone number is collected in the profile and checked in person by the
+# manager. To turn SMS/WhatsApp OTP on later, use the Send SMS auth hook.
+enable_signup = false
+enable_confirmations = false
 template = "Matchiko: {{ .Code }}"
 max_frequency = "60s"
 
-# Local dev numbers (no SMS is sent). The seed makes 213555000002 a manager.
-[auth.sms.test_otp]
-213555000001 = "123456"
-213555000002 = "123456"
+# Use pre-defined map of phone number to OTP for testing.
+# [auth.sms.test_otp]
+# 213555000001 = "123456"
 
 # Configure logged in session timeouts.
 # [auth.sessions]
@@ -314,6 +317,14 @@ max_frequency = "5s"
 # [auth.mfa.web_authn]
 # enroll_enabled = true
 # verify_enabled = true
+
+# Main sign-in: native Google (google_sign_in + signInWithIdToken). Fill in
+# the web client id; Android/iOS client ids go in client_id as a comma list.
+[auth.external.google]
+enabled = true
+client_id = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID)"
+secret = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET)"
+skip_nonce_check = true
 
 # Use an external OAuth provider. The full list of providers are: `apple`, `azure`, `bitbucket`,
 # `discord`, `facebook`, `github`, `gitlab`, `google`, `keycloak`, `linkedin_oidc`, `notion`, `twitch`,

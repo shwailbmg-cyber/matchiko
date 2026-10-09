@@ -259,10 +259,13 @@
   "rating": "تقييم",
   "sendCode": "أرسل الرمز",
   "codeLabel": "رمز SMS",
-  "codeSent": "أرسلنا رمزًا من 6 أرقام إلى {phone}",
+  "codeSent": "أرسلنا رمزًا من 6 أرقام إلى {target}",
   "verifyCode": "تحقق",
-  "changeNumber": "غيّر الرقم",
   "demoMode": "وضع تجريبي — لا يوجد خادم متصل. اختر دورًا للاستكشاف.",
   "comingSoon": "قريبًا",
-  "genericError": "حدث خطأ. حاول مرة أخرى."
+  "genericError": "حدث خطأ. حاول مرة أخرى.",
+  "continueWithGoogle": "المتابعة باستخدام Google",
+  "orEmail": "أو استلم رمزًا عبر البريد الإلكتروني",
+  "emailLabel": "البريد الإلكتروني",
+  "changeEmail": "استخدم بريدًا آخر"
 }

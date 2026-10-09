@@ -30,7 +30,7 @@ SQL functions) or in Edge Functions, never only in Dart.**
 | Self-verify | Set `profiles.verified = true` | Column not updatable by `authenticated`; only `verify_player` (manager of a venue) |
 | Forge a booking QR | Guess or reuse a code | QR = random 128-bit token stored server-side, single use, checked against the scanning manager's venue |
 | Spoof SATIM payment | Call the callback URL directly | Webhook re-queries SATIM `getOrderStatus` server-side with secret creds before marking paid |
-| Stalk players | Read other players' phone, exact location, ID photos | Phone and ID photos never readable by other players; ID bucket private, manager-only signed URLs, deleted after verification |
+| Stalk players | Read other players' phone or exact location | `profiles.phone` has no SELECT grant; only the owner and managers of a venue they booked can read it. No ID photos are stored (verification is in person). |
 | Spam bookings / no-shows | Many requests from one account | Unverified users can't book; rate limits in functions; booking ban after 2 no-shows |
 
 ## Supabase / Postgres checklist
@@ -45,7 +45,7 @@ SQL functions) or in Edge Functions, never only in Dart.**
 - [ ] No double booking: exclusion constraint on `(pitch_id, tstzrange)` for active bookings.
 - [ ] Views use `security_invoker = true` (otherwise they bypass RLS).
 - [ ] `service_role` / secret keys only in Edge Functions env and CI secrets. **Never** in the Flutter app, `.env` committed files, or `--dart-define` of release builds.
-- [ ] Storage: `id-documents` bucket private, upload only to `auth.uid()/…`, read only by managers through short-lived signed URLs; avatars public-read is OK.
+- [ ] Storage: avatars only (public-read OK, upload only to `auth.uid()/…`). No ID documents are ever uploaded.
 - [ ] Realtime: only tables whose RLS is correct are in the publication; private channels for offers.
 - [ ] Run the Supabase security advisor (`supabase db lint` / dashboard Advisors) and fix any ERROR.
 
@@ -61,7 +61,7 @@ SQL functions) or in Edge Functions, never only in Dart.**
 
 - [ ] **Storage**: session tokens in `flutter_secure_storage` (supabase_flutter's default local storage is OK for the session; nothing else sensitive in `shared_preferences`). No PII in logs (`debugPrint` stripped from release).
 - [ ] **Crypto/keys**: only the Supabase URL and publishable (anon) key ship in the app. Nothing that grants more than RLS allows.
-- [ ] **Auth**: phone OTP via Supabase Auth; handle `AuthException`; sign out clears local state; no "role" chosen on the client that the server trusts.
+- [ ] **Auth**: Google (`signInWithIdToken`) or email code via Supabase Auth; handle `AuthException`; sign out clears Google + Supabase sessions; no "role" chosen on the client that the server trusts. Phone numbers stay private (`get_my_profile`, `booking_contact` only).
 - [ ] **Network**: HTTPS only (`android:usesCleartextTraffic="false"`, no ATS exceptions).
 - [ ] **Platform**: deep links (`matchiko://`, app links) validate parameters and never perform an action without user confirmation; `android:exported` set deliberately; no WebView JS bridges.
 - [ ] **Code**: release builds use `--obfuscate --split-debug-info`; no debug banners/feature flags that unlock admin paths.

@@ -4,8 +4,10 @@ An app for organising small football games (5v5 / 6v6 / 8v8) in Algeria.
 Players find or join games and book pitches, stadium managers confirm, scan
 and verify, and referees log matches. **Flutter** app + **Supabase** backend.
 
-Read first: `docs/ARCHITECTURE.md` (the main loop, data model, security) and
-`docs/ROADMAP.md` (what's built, what's next).
+Read first: `docs/ARCHITECTURE.md` (main loop, data model, security,
+decisions), `docs/PRODUCT.md` (full feature spec, cash-market rules, screen
+inventory) and `docs/ROADMAP.md` (what's built, what's next). Rewards math:
+`docs/economy/REWARDS.md`.
 Design reference: `design/prototype/Matchiko.html` + `design/prototype/BRIEF.md`.
 Every screen should match the prototype (colors, spacing, copy).
 
@@ -27,6 +29,14 @@ supabase/tests/local/run.sh                                # plain Postgres + pg
 ```
 
 Cloud sessions get Flutter and pgTAP from `.claude/hooks/session-start.sh`.
+
+## Models and agents
+
+`opusplan` is the default: plan mode runs on Opus, execution on Sonnet.
+Subagents in `.claude/agents/`: `architect` (Opus, plans, read-only),
+`implementer` (Sonnet, builds), `runner` (Haiku, runs commands and reports),
+`Explore` (Haiku, search). Use `runner` for test/analyze runs. See
+`docs/AI_WORKFLOW.md`.
 
 ## Rules
 

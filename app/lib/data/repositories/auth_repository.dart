@@ -8,7 +8,9 @@ class SessionUser {
   final UserRole role;
 }
 
-/// Phone OTP sign-in. Algerian numbers only for now (+213).
+/// Sign-in is free at launch: native Google, or a 6-digit code by email.
+/// The phone number is a profile field the manager checks in person
+/// (see docs/ARCHITECTURE.md § Sign-in).
 abstract interface class AuthRepository {
   /// Current user, or null when signed out.
   SessionUser? get currentUser;
@@ -16,14 +18,21 @@ abstract interface class AuthRepository {
   /// Emits whenever the user signs in or out.
   Stream<SessionUser?> get changes;
 
-  /// True when the role is picked on the login screen (demo mode only).
+  /// True in demo mode: the role is picked on the login screen.
   /// With Supabase the role always comes from the server.
-  bool get rolePickedOnClient;
+  bool get isDemo;
 
-  Future<void> sendCode(String phone);
+  /// False when no Google client id was configured for this build.
+  bool get supportsGoogle;
 
-  /// [demoRole] is only used when [rolePickedOnClient] is true.
-  Future<void> verifyCode(String phone, String code, {UserRole? demoRole});
+  Future<void> signInWithGoogle();
+
+  Future<void> sendEmailCode(String email);
+
+  Future<void> verifyEmailCode(String email, String code);
+
+  /// Demo mode only.
+  Future<void> demoSignIn(UserRole role);
 
   Future<void> signOut();
 }

@@ -339,17 +339,20 @@
   "rating": "rating",
   "sendCode": "Send code",
   "codeLabel": "SMS code",
-  "codeSent": "We sent a 6-digit code to {phone}",
+  "codeSent": "We sent a 6-digit code to {target}",
   "verifyCode": "Verify",
-  "changeNumber": "Change number",
   "demoMode": "Demo mode — no server connected. Pick a role to explore.",
   "comingSoon": "Coming soon",
   "genericError": "Something went wrong. Try again.",
   "@codeSent": {
     "placeholders": {
-      "phone": {
+      "target": {
         "type": "String"
       }
     }
-  }
+  },
+  "continueWithGoogle": "Continue with Google",
+  "orEmail": "or get a code by email",
+  "emailLabel": "Email",
+  "changeEmail": "Use another email"
 }

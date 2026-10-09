@@ -10,8 +10,9 @@ import '../../../core/widgets/zellij.dart';
 import '../../settings/view_models/settings_view_model.dart';
 import '../view_models/session_view_model.dart';
 
-/// Login: phone number → SMS code. In demo mode (no Supabase config) the
-/// prototype's "Continue as Player / Stadium manager" cards sign in directly.
+/// Login: Continue with Google, or a 6-digit code by email (both free). In
+/// demo mode (no Supabase config) the prototype's "Continue as Player /
+/// Stadium manager" cards sign in directly.
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -20,12 +21,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _phone = TextEditingController();
+  final _email = TextEditingController();
   final _code = TextEditingController();
 
   @override
   void dispose() {
-    _phone.dispose();
+    _email.dispose();
     _code.dispose();
     super.dispose();
   }
@@ -64,28 +65,41 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   List<Widget> _otp(AppLocalizations l, SessionViewModel vm) {
-    if (vm.step == LoginStep.phone) {
+    if (vm.step == LoginStep.email) {
       return [
-        _Label(l.phone),
-        TextField(
-          controller: _phone,
-          keyboardType: TextInputType.phone,
-          textDirection: TextDirection.ltr,
-          autofillHints: const [AutofillHints.telephoneNumber],
-          decoration: const InputDecoration(
-            prefixText: '🇩🇿 +213  ',
-            hintText: '555 12 34 56',
+        if (vm.canUseGoogle) ...[
+          FilledButton.icon(
+            onPressed: vm.busy ? null : vm.signInWithGoogle,
+            icon: const Text(
+              'G',
+              style: TextStyle(fontWeight: FontWeight.w900),
+            ),
+            label: Text(l.continueWithGoogle),
           ),
+          const SizedBox(height: 18),
+          Text(
+            l.orEmail,
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: MkColors.sub, fontSize: 12.5),
+          ),
+        ],
+        _Label(l.emailLabel),
+        TextField(
+          controller: _email,
+          keyboardType: TextInputType.emailAddress,
+          textDirection: TextDirection.ltr,
+          autofillHints: const [AutofillHints.email],
+          decoration: const InputDecoration(hintText: 'nom@gmail.com'),
         ),
         const SizedBox(height: 16),
-        FilledButton(
-          onPressed: vm.busy ? null : () => vm.sendCode(_phone.text),
+        OutlinedButton(
+          onPressed: vm.busy ? null : () => vm.sendCode(_email.text),
           child: Text(l.sendCode),
         ),
       ];
     }
     return [
-      Text(l.codeSent(vm.phone), style: const TextStyle(color: MkColors.sub)),
+      Text(l.codeSent(vm.email), style: const TextStyle(color: MkColors.sub)),
       const SizedBox(height: 12),
       _Label(l.codeLabel),
       TextField(
@@ -99,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
         onPressed: vm.busy ? null : () => vm.verifyCode(_code.text),
         child: Text(l.verifyCode),
       ),
-      TextButton(onPressed: vm.changeNumber, child: Text(l.changeNumber)),
+      TextButton(onPressed: vm.changeEmail, child: Text(l.changeEmail)),
     ];
   }
 
