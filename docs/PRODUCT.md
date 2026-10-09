@@ -37,11 +37,14 @@ reliable players together.
 
 1. **T−24 h**: reminder to everyone. Full games can't be cancelled after this
    in the app (Playtomic rule). The booker can still call the manager.
-2. **T−3 h**: "Still coming?" tap. Players who don't answer by T−1 h lose
-   their spot to the **waitlist**. **❓** Should silence auto-release the
-   spot, or only flag it to the booker?
-3. **Unfilled open game at T−3 h**: the booker chooses to play anyway, invite
-   more people, or cancel (the slot is freed for the manager).
+2. **T−10 h**: "Still coming?" tap for every player. ✅ *Decided:* silence is
+   **never released automatically**. At T−8 h, players who haven't answered
+   are **flagged to the booker and to the stadium manager/owner**. The manager
+   decides: call the player, or mark them **"not confirmed"**, which frees
+   the spot for the waitlist and other players.
+3. **Unfilled open game at T−10 h**: the booker and the manager are told. The
+   booker chooses to play anyway, invite more people, or cancel (the slot is
+   freed).
 4. **Arrival**: the booker shows the QR. The manager scans it and collects the
    cash → **Guaranteed**. Individual players can check in by QR too, which
    records attendance.
@@ -53,10 +56,14 @@ reliable players together.
 player's share (price ÷ players) and gives the booker a **"who paid me"
 checklist**, as in Spond. It's informational only: no money moves in the app.
 
-**Late cancel** (< 24 h before a full game): counts as half a no-show
-(−25 XP, −15 coins, counts toward reliability, not toward the ban). **❓** OK?
+**Cancellations** ✅ *Decided:* every cancellation counts, even days
+ahead, because it always means someone isn't serious. It's recorded and
+lowers the reliability % (shows ÷ (shows + no-shows + cancellations)). Inside
+24 h a full game can't be cancelled in the app, so not coming = no-show.
+❓ Should an early cancel also cost XP/coins, or only reliability?
 
-**Semi-online payment without a SATIM contract (later, ❓):** many Algerians
+**Semi-online payment without a SATIM contract** (✅ *decided: not now*,
+only once the app is in production and used): many Algerians
 already send money with BaridiMob/CCP transfers. A venue could accept a
 transfer as an advance ("arboun"): the player uploads the receipt and the
 manager confirms it. That gives Guaranteed status without card payments.
@@ -66,7 +73,7 @@ Needs your validation with real venue owners.
 
 | Abuse | Defense |
 |---|---|
-| Fake accounts to dodge bans | Google account + in-person ID check before booking. One ID card = one verified account (the manager records the last 4 digits of the card number, hashed). |
+| Fake accounts to dodge bans | Google account + in-person ID check before booking. One ID card = one verified account: the manager types the **full card number**, stored as a keyed hash (HMAC with a server secret), so duplicates are caught without keeping readable ID numbers in the database. |
 | Farming coins with fake games | Rewards only after a manager-completed game at a real venue. Daily caps per user. A venue with abnormal completion patterns is flagged. |
 | A manager colluding with friends | Same caps. Admin can see per-venue stats and freeze a venue's rewards. |
 | Revenge no-show reports | Only the manager can confirm a report. Players can appeal within 48 h. |
@@ -187,12 +194,10 @@ matchmaking); (4) commission on online payments once SATIM is live.
 
 ## 7. Questions for you
 
-1. Silence at T−3 h: auto-release the spot to the waitlist, or just flag it?
-2. Late cancel = half a no-show: OK?
-3. Self-rated level at onboarding (beginner → competitive), used for
-   matchmaking until enough ratings come in: OK?
-4. Walk-in bookings by managers: OK to build early (M3)?
-5. Record the last 4 digits of the ID card (hashed) to stop one person having
-   two verified accounts: OK legally and for your users?
-6. BaridiMob/CCP receipt as a pre-payment: worth testing with venues?
-7. Which ~15 missing screens should go to Claude Design first?
+Answered: T−10 h flag to booker + manager (no auto-release) · every
+cancellation counts · self-rated level ✅ · full ID number (hashed) ·
+BaridiMob much later · discuss every feature first (`docs/FEATURES.md`).
+
+Still open:
+1. Early cancellation: reliability only, or also −XP/coins?
+2. Walk-in bookings by managers (explained in `docs/FEATURES.md` § M4).
