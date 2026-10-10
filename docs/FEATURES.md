@@ -183,7 +183,7 @@ taken in the app too. It also makes the app the manager's **only calendar**
 | ID | Feature | How it works | Suggest |
 |---|---|---|---|
 | L1 | Cash at the pitch | QR scan → Guaranteed ✅ | L |
-| L2 | Share per player ✅ | Shown in **round DA amounts, multiples of 50** (50, 100, 150…). If price ÷ all players isn't a multiple of 50, **goalkeepers don't pay** and the rest share it. If it still isn't round, round to the nearest 50; the small difference (+ extra / − missing) is shown to the booker | L ✅ built (calculation) |
+| L2 | Share per player ✅ | Shown in **round DA amounts, multiples of 50** (50, 100, 150…). If price ÷ all players isn't a multiple of 50, **goalkeepers don't pay** and the rest share it. If it still isn't round, round to the nearest 50 ✅ (e.g. 208 → 200; the booker pays the missing 100 DA himself). The difference is shown to the booker | L ✅ built (calculation) |
 | L3 | "Who paid me" | Booker ticks who paid his share | L |
 | L4 | BaridiMob receipt advance | ✅ much later | Later |
 | L5 | SATIM card payment | ✅ later | Later |
