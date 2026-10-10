@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Referee jobs</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Cairo:wght@400;600;700;800;900&amp;display=swap">
+<style>
+body{margin:0;background:#06110b}
+a{color:#3ddc84}a:hover{color:#7eeaae}
+button{font-family:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="width: 390px; height: 900px; box-sizing: border-box; background: #06110b; color: #eaf5ee; font-family: Cairo, system-ui, sans-serif; padding: 16px 16px 28px; display: flex; flex-direction: column; gap: 12px">
+<h1 style="margin: 0; font-family: 'Barlow Condensed', Cairo, sans-serif; font-weight: 800; font-size: 34px; text-transform: uppercase">Referee</h1>
+
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+<div style="background: #0e2016; border: 1px solid rgba(190,255,210,.09); border-radius: 16px; padding: 12px"><b style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 26px; line-height: 1">12</b><span style="font-size: 11.5px; color: #9dbfa9">Games</span></div>
+<div style="background: #0e2016; border: 1px solid rgba(190,255,210,.09); border-radius: 16px; padding: 12px"><b style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 26px; line-height: 1; color: #e9c46a">4.8</b><span style="font-size: 11.5px; color: #9dbfa9">Rating</span></div>
+<div style="background: #0e2016; border: 1px solid rgba(190,255,210,.09); border-radius: 16px; padding: 12px"><b style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 26px; line-height: 1; color: #3ddc84">2 400</b><span style="font-size: 11.5px; color: #9dbfa9">DA this month</span></div>
+</div>
+
+<div style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 16px; background: #0e2016; border: 1px solid rgba(190,255,210,.09)">
+<div style="flex: 1"><b style="font-size: 14px">Available</b><div style="font-size: 12px; color: #9dbfa9">Mon, Tue, Thu · 18:00 – 23:00 · Alger, Blida</div></div>
+<a href="#" style="font-size: 13px; font-weight: 700">Edit</a>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding: 4px; border-radius: 16px; background: #0e2016; border: 1px solid rgba(190,255,210,.09)">
+<button style="height: 40px; border-radius: 12px; border: 0; background: #3ddc84; color: #04200f; font-weight: 800">Jobs near me · 3</button>
+<button style="height: 40px; border-radius: 12px; border: 0; background: transparent; color: #9dbfa9; font-weight: 800">My games · 2</button>
+</div>
+
+<sc-for list="{{jobs}}" as="j" hint-placeholder-count="3">
+<div style="background: #0e2016; border: 1px solid rgba(190,255,210,.09); border-radius: 18px; padding: 14px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px">
+<div style="min-width: 0"><b style="font-size: 15px">{{j.place}}</b><div style="font-size: 12.5px; color: #9dbfa9">{{j.when}}</div></div>
+<b style="font-family: 'Barlow Condensed', sans-serif; font-size: 22px; color: #3ddc84; white-space: nowrap">200 DA</b>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 10px">
+<span style="font-size: 12px; color: #9dbfa9">{{j.info}}</span>
+<button style="height: 40px; padding: 0 18px; border-radius: 12px; border: 0; background: #3ddc84; color: #04200f; font-weight: 800; font-size: 13px">Accept</button>
+</div>
+</div>
+</sc-for>
+<div style="font-size: 12px; color: #9dbfa9; text-align: center">The booker pays you 200 DA in cash at the pitch.</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const jobs = [
+      ['Kouba Five', 'Today · 22:00 · 5v5', '2.1 km · booked by @samy_l'],
+      ['Complexe El Harrach', 'Tomorrow · 20:00 · 7v7', '0.8 km · competitive game'],
+      ['Terrain El Biar', 'Thu 14 · 21:00 · 11v11', '1.4 km · team challenge']
+    ].map(([place, when, info]) => ({ place, when, info }));
+    return { jobs };
+  }
+}
+</script>
+</body>
+</html>

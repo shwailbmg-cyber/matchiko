@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Notifications</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Cairo:wght@400;600;700;800;900&amp;display=swap">
+<style>
+body{margin:0;background:#06110b}
+a{color:#3ddc84}a:hover{color:#7eeaae}
+button{font-family:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #06110b; color: #eaf5ee; font-family: Cairo, system-ui, sans-serif; padding: 16px 20px 24px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; align-items: center; justify-content: space-between">
+<h1 style="margin: 0; font-family: 'Barlow Condensed', Cairo, sans-serif; font-weight: 800; font-size: 38px; text-transform: uppercase">Notifications</h1>
+<a href="#" style="font-size: 13px; font-weight: 700">Mark all read</a>
+</div>
+<div style="font-size: 12px; font-weight: 800; color: #9dbfa9; text-transform: uppercase; letter-spacing: .9px">Today</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{today}}" as="n" hint-placeholder-count="4">
+<div style="{{n.box}}">
+<span style="{{n.icon}}">{{n.mark}}</span>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+<b style="font-size: 14px">{{n.title}}</b>
+<span style="font-size: 12.5px; color: #9dbfa9; line-height: 1.45">{{n.body}}</span>
+<span style="font-size: 11px; color: #6b8f7a">{{n.time}}</span>
+</div>
+</div>
+</sc-for>
+</div>
+<div style="font-size: 12px; font-weight: 800; color: #9dbfa9; text-transform: uppercase; letter-spacing: .9px">Earlier</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{earlier}}" as="n" hint-placeholder-count="3">
+<div style="{{n.box}}">
+<span style="{{n.icon}}">{{n.mark}}</span>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+<b style="font-size: 14px">{{n.title}}</b>
+<span style="font-size: 12.5px; color: #9dbfa9; line-height: 1.45">{{n.body}}</span>
+<span style="font-size: 11px; color: #6b8f7a">{{n.time}}</span>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const tone = { lime: '#3ddc84', sand: '#e9c46a', blue: '#8cc8f5', terra: '#ef7b5a' };
+    const make = (unread) => ([mark, c, title, body, time]) => ({
+      mark, title, body, time,
+      box: 'display:flex;gap:12px;padding:12px 14px;border-radius:16px;border:1px solid rgba(190,255,210,.09);background:' + (unread ? '#15301f' : '#0e2016'),
+      icon: 'width:36px;height:36px;border-radius:11px;flex:none;display:grid;place-items:center;font-weight:900;font-size:15px;background:' + tone[c] + '26;color:' + tone[c]
+    });
+    const today = [
+      ['?', 'sand', 'Still coming tonight?', 'Tuesday 21:00 at El Harrach. Please confirm before 11:00.', '10 min ago'],
+      ['+', 'lime', '1 spot near you', 'Kouba Five, 22:00, needs a midfielder. 1.2 km away.', '35 min ago'],
+      ['✓', 'blue', 'Booking confirmed', 'The manager confirmed Thursday 20:00 at Terrain El Biar.', '2 h ago'],
+      ['!', 'terra', 'Walid hasn’t confirmed', 'He has not answered for your Tuesday game. The manager can call him.', '3 h ago']
+    ].map(make(true));
+    const earlier = [
+      ['★', 'sand', 'Rate your last game', 'Kouba Five, Saturday. Rating gives you 10 coins.', 'Yesterday'],
+      ['@', 'lime', 'Sofiane added you as a friend', 'Accept to see each other’s games.', '2 days ago'],
+      ['↑', 'lime', 'You reached Gold', '1 000 XP. Next: Elite at 2 000 XP.', '5 days ago']
+    ].map(make(false));
+    return { today, earlier };
+  }
+}
+</script>
+</body>
+</html>

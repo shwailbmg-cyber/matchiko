@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Settings</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Cairo:wght@400;600;700;800;900&amp;display=swap">
+<style>
+body{margin:0;background:#06110b}
+a{color:#3ddc84}a:hover{color:#7eeaae}
+button{font-family:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="width: 390px; height: 900px; box-sizing: border-box; background: #06110b; color: #eaf5ee; font-family: Cairo, system-ui, sans-serif; padding: 16px 20px 28px; display: flex; flex-direction: column; gap: 10px">
+<h1 style="margin: 0 0 6px; font-size: 24px; font-weight: 900">Settings</h1>
+<sc-for list="{{groups}}" as="g" hint-placeholder-count="4">
+<div style="font-size: 12px; font-weight: 800; color: #9dbfa9; text-transform: uppercase; letter-spacing: .9px; margin-top: 10px">{{g.title}}</div>
+<div style="background: #0e2016; border: 1px solid rgba(190,255,210,.09); border-radius: 18px; overflow: hidden">
+<sc-for list="{{g.rows}}" as="r" hint-placeholder-count="3">
+<button style="width: 100%; display: flex; align-items: center; gap: 12px; padding: 13px 16px; border: 0; border-bottom: 1px solid rgba(190,255,210,.08); background: transparent; color: #eaf5ee; text-align: left">
+<span style="flex: 1; display: flex; flex-direction: column"><b style="font-size: 14px; font-weight: 700">{{r.label}}</b><span style="font-size: 12px; color: #9dbfa9">{{r.sub}}</span></span>
+<span style="{{r.right}}">{{r.value}}</span>
+</button>
+</sc-for>
+</div>
+</sc-for>
+<button style="margin-top: 14px; height: 52px; border-radius: 16px; border: 1px solid rgba(240,100,100,.3); background: transparent; color: #f06464; font-weight: 700">Log out</button>
+<a href="#" style="text-align: center; font-size: 13px; color: #f06464">Delete my account</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const sw = (on) => 'width:48px;height:28px;border-radius:14px;flex:none;position:relative;font-size:0;background:' + (on ? '#3ddc84' : '#15301f') + ';box-shadow:inset ' + (on ? '22px' : '-22px') + ' 0 0 -1px ' + (on ? '#3ddc84' : '#15301f') + ', inset ' + (on ? '-3px' : '3px') + ' 0 0 0 transparent';
+    const val = 'font-size:13px;color:#9dbfa9;font-weight:700';
+    const row = (label, sub, value, toggle) => ({ label, sub, value: toggle === undefined ? value : (toggle ? 'On' : 'Off'), right: toggle === undefined ? val : 'font-size:12px;font-weight:800;padding:4px 10px;border-radius:99px;' + (toggle ? 'background:rgba(61,220,132,.14);color:#3ddc84' : 'background:#15301f;color:#9dbfa9') });
+    const groups = [
+      { title: 'Account', rows: [row('Phone number', '+213 555 12 34 56', 'Change'), row('Email', 'amine@gmail.com', 'Change'), row('Language', 'English · Français · العربية', 'English')] },
+      { title: 'Notifications', rows: [row('Games near me', 'When a game needs players like you', '', true), row('Game reminders', '24 h and 10 h before', '', true), row('Quiet hours', 'No alerts 00:00–08:00, except game day', '', false)] },
+      { title: 'Privacy', rows: [row('Who sees my games', 'Everyone or friends only', 'Everyone'), row('Blocked players', '1 player', '')] },
+      { title: 'Help', rows: [row('Help and contact', 'Questions, report a problem', ''), row('Terms and privacy policy', 'Law 18-07 on personal data', '')] }
+    ];
+    return { groups };
+  }
+}
+</script>
+</body>
+</html>

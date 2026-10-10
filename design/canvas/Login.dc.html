@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Login</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Cairo:wght@400;600;700;800;900&amp;display=swap">
+<style>
+body{margin:0;background:#06110b}
+a{color:#3ddc84}a:hover{color:#7eeaae}
+button{font-family:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #06110b; color: #eaf5ee; font-family: Cairo, system-ui, sans-serif; padding: 16px 16px 24px; display: flex; flex-direction: column; gap: 18px">
+
+<div style="border-radius: 28px; padding: 18px 20px 26px; background: linear-gradient(170deg, #1f7c47, #0d2e1b); border: 1px solid rgba(61,220,132,.28); display: flex; flex-direction: column; align-items: center; gap: 8px">
+<div style="align-self: flex-end; display: flex; gap: 4px">
+<button style="height: 30px; min-width: 38px; border-radius: 10px; border: 0; background: #eaf5ee; color: #04200f; font-size: 12px; font-weight: 800">EN</button>
+<button style="height: 30px; min-width: 38px; border-radius: 10px; border: 0; background: rgba(4,32,15,.45); color: #b5d6c1; font-size: 12px; font-weight: 800">FR</button>
+<button style="height: 30px; min-width: 38px; border-radius: 10px; border: 0; background: rgba(4,32,15,.45); color: #b5d6c1; font-size: 12px; font-weight: 800">ع</button>
+</div>
+<svg width="72" height="72" viewBox="0 0 40 40" role="img" aria-label="Matchiko logo"><g fill="#3ddc84"><rect x="8" y="8" width="24" height="24" rx="2.5"/><rect x="8" y="8" width="24" height="24" rx="2.5" transform="rotate(45 20 20)"/></g><circle cx="20" cy="20" r="8.6" fill="#06110b"/><path d="M20 14.6l5.1 3.7-2 6h-6.2l-2-6z" fill="none" stroke="#3ddc84" stroke-width="1.5" stroke-linejoin="round"/></svg>
+<div style="font-weight: 900; font-size: 36px; letter-spacing: -.5px">matchi<span style="color: #3ddc84">ko</span></div>
+<h1 style="margin: 4px 0 0; font-family: 'Barlow Condensed', Cairo, sans-serif; font-weight: 800; font-size: 34px; line-height: .95; text-transform: uppercase; text-align: center">Your game, organised.</h1>
+<div style="color: #cde7d6; font-size: 13px; text-align: center">Find players, book pitches, play more.</div>
+</div>
+
+<button style="height: 56px; border-radius: 17px; border: 0; background: #eaf5ee; color: #04200f; font-weight: 800; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 10px"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.5 12.2c0-.8-.1-1.5-.2-2.2H12v4.2h5.9a5 5 0 0 1-2.2 3.3v2.7h3.5c2.1-1.9 3.3-4.7 3.3-8z"/><path fill="#34A853" d="M12 23c3 0 5.4-1 7.2-2.7l-3.5-2.7c-1 .7-2.2 1.1-3.7 1.1-2.9 0-5.3-1.9-6.2-4.5H2.2v2.8A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.8 14.2a6.6 6.6 0 0 1 0-4.3V7.1H2.2a11 11 0 0 0 0 9.9z"/><path fill="#EA4335" d="M12 5.4c1.6 0 3.1.6 4.2 1.7l3.1-3.1A11 11 0 0 0 2.2 7.1l3.6 2.8C6.7 7.3 9.1 5.4 12 5.4z"/></svg>Continue with Google</button>
+
+<div style="display: flex; align-items: center; gap: 10px; color: #9dbfa9; font-size: 12px"><span style="flex: 1; height: 1px; background: rgba(190,255,210,.15)"></span>or get a code<span style="flex: 1; height: 1px; background: rgba(190,255,210,.15)"></span></div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding: 4px; border-radius: 16px; background: #0e2016; border: 1px solid rgba(190,255,210,.09)">
+<button style="height: 42px; border-radius: 12px; border: 0; background: #3ddc84; color: #04200f; font-weight: 800">Phone</button>
+<button style="height: 42px; border-radius: 12px; border: 0; background: transparent; color: #9dbfa9; font-weight: 800">Email</button>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="phone" style="font-size: 12px; font-weight: 800; color: #9dbfa9; text-transform: uppercase; letter-spacing: .9px">Phone number</label>
+<div style="display: flex; align-items: center; height: 52px; border-radius: 14px; background: #0e2016; border: 1px solid rgba(190,255,210,.18); padding: 0 14px; gap: 10px; direction: ltr">
+<span style="font-weight: 700; font-size: 14px; padding-right: 10px; border-right: 1px solid rgba(190,255,210,.18)">+213</span>
+<input id="phone" value="555 12 34 56" style="flex: 1; background: none; border: 0; outline: 0; color: #eaf5ee; font-size: 18px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700">
+</div>
+<div style="font-size: 12px; color: #9dbfa9">We send a 6-digit code by WhatsApp (or SMS).</div>
+</div>
+
+<button style="height: 56px; border-radius: 17px; border: 0; background: #3ddc84; color: #04200f; font-weight: 800; font-size: 16px">Send code</button>
+
+<div style="margin-top: auto; text-align: center; font-size: 12px; color: #9dbfa9; line-height: 1.6">By continuing you accept the <a href="#">Terms</a> and the <a href="#">Privacy policy</a>.<br>Stadium manager? <a href="#">Sign in here</a></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

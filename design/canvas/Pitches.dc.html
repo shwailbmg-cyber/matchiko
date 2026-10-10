@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Manager pitches and prices</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Cairo:wght@400;600;700;800;900&amp;display=swap">
+<style>
+body{margin:0;background:#06110b}
+a{color:#3ddc84}a:hover{color:#7eeaae}
+button{font-family:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="width: 390px; height: 1000px; box-sizing: border-box; background: #06110b; color: #eaf5ee; font-family: Cairo, system-ui, sans-serif; padding: 16px 16px 28px; display: flex; flex-direction: column; gap: 12px">
+<h1 style="margin: 0; font-family: 'Barlow Condensed', Cairo, sans-serif; font-weight: 800; font-size: 34px; text-transform: uppercase">Pitches &amp; prices</h1>
+
+<div style="background: #0e2016; border: 1px solid rgba(190,255,210,.09); border-radius: 18px; overflow: hidden">
+<div style="height: 110px; position: relative; background: repeating-linear-gradient(90deg, #1a6b3c 0 12.5%, #1d7542 12.5% 25%)"><div style="position: absolute; inset: 8px; border: 1.5px solid rgba(234,245,238,.35); border-radius: 4px"></div><span style="position: absolute; left: 12px; bottom: 10px; font-size: 12px; font-weight: 800; padding: 3px 9px; border-radius: 8px; background: #3ddc84; color: #04200f">Up to 7v7</span><button style="position: absolute; right: 10px; top: 10px; height: 32px; padding: 0 12px; border-radius: 10px; border: 0; background: rgba(6,17,11,.7); color: #eaf5ee; font-size: 12px; font-weight: 700">Change photos</button></div>
+<div style="padding: 14px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; justify-content: space-between; align-items: center"><b style="font-size: 16px">Terrain 1</b><a href="#" style="font-size: 13px; font-weight: 700">Edit</a></div>
+<div style="display: flex; gap: 6px; flex-wrap: wrap">
+<sc-for list="{{features}}" as="f" hint-placeholder-count="4">
+<span style="font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 99px; background: rgba(61,220,132,.1); color: #3ddc84">{{f}}</span>
+</sc-for>
+</div>
+</div>
+</div>
+
+<span style="font-size: 12px; font-weight: 800; color: #9dbfa9; text-transform: uppercase; letter-spacing: .9px; margin-top: 4px">Prices per hour · Terrain 1</span>
+<div style="background: #0e2016; border: 1px solid rgba(190,255,210,.09); border-radius: 18px; overflow: hidden">
+<sc-for list="{{prices}}" as="p" hint-placeholder-count="5">
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-bottom: 1px solid rgba(190,255,210,.08)">
+<div style="flex: 1; min-width: 0"><b style="font-size: 14px">{{p.name}}</b><div style="font-size: 12px; color: #9dbfa9">{{p.when}}</div></div>
+<b style="font-family: 'Barlow Condensed', sans-serif; font-size: 22px">{{p.price}}</b>
+</div>
+</sc-for>
+</div>
+
+<span style="font-size: 12px; font-weight: 800; color: #9dbfa9; text-transform: uppercase; letter-spacing: .9px; margin-top: 4px">Opening hours</span>
+<div style="background: #0e2016; border: 1px solid rgba(190,255,210,.09); border-radius: 18px; padding: 4px 14px">
+<div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(190,255,210,.08); font-size: 14px"><span style="color: #9dbfa9">Sat – Thu</span><b>15:00 – 00:00</b></div>
+<div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(190,255,210,.08); font-size: 14px"><span style="color: #9dbfa9">Friday</span><b>14:00 – 00:00</b></div>
+<div style="display: flex; justify-content: space-between; padding: 10px 0; font-size: 14px"><span style="color: #9dbfa9">Ramadan</span><b>21:30 – 03:00</b></div>
+</div>
+
+<div style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 16px; background: #0e2016; border: 1px solid rgba(190,255,210,.09)">
+<div style="flex: 1"><b style="font-size: 14px">Last-minute deals</b><div style="font-size: 12px; color: #9dbfa9">Empty 3 h before: −20%, sent to nearby players</div></div>
+<span style="font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 99px; background: rgba(61,220,132,.14); color: #3ddc84">On</span>
+</div>
+
+<div style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 16px; background: #0e2016; border: 1px solid rgba(233,196,106,.3)">
+<div style="flex: 1"><b style="font-size: 14px">Your plan: 10% commission</b><div style="font-size: 12px; color: #9dbfa9">Only on bookings made in the app · switch to monthly plan</div></div>
+<a href="#" style="font-size: 13px; font-weight: 700">Change</a>
+</div>
+
+<button style="height: 52px; border-radius: 16px; border: 1px dashed rgba(61,220,132,.5); background: transparent; color: #3ddc84; font-weight: 800">+ Add a pitch</button>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const features = ['Lights', 'Ball', 'Covered', 'Changing room'];
+    const prices = [
+      ['Off-peak', 'Sat – Thu · 15:00 – 18:00', '1 800 DA'],
+      ['Peak', 'Sat – Thu · 18:00 – 00:00', '2 500 DA'],
+      ['Weekend', 'Friday · all day', '2 800 DA'],
+      ['Students', 'Off-peak, with student card', '1 500 DA'],
+      ['Ramadan nights', 'After taraweeh', '3 000 DA']
+    ].map(([name, when, price]) => ({ name, when, price }));
+    return { features, prices };
+  }
+}
+</script>
+</body>
+</html>

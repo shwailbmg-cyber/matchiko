@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Public profile</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Cairo:wght@400;600;700;800;900&amp;display=swap">
+<style>
+body{margin:0;background:#06110b}
+a{color:#3ddc84}a:hover{color:#7eeaae}
+button{font-family:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="width: 390px; height: 1000px; box-sizing: border-box; background: #06110b; color: #eaf5ee; font-family: Cairo, system-ui, sans-serif; padding: 16px 16px 28px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 0 4px">
+<button aria-label="Back" style="width: 44px; height: 44px; border-radius: 13px; background: #0e2016; border: 1px solid rgba(190,255,210,.12); color: #9dbfa9; display: grid; place-items: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+<button aria-label="More options" style="width: 44px; height: 44px; border-radius: 13px; background: #0e2016; border: 1px solid rgba(190,255,210,.12); color: #9dbfa9; display: grid; place-items: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg></button>
+</div>
+
+<div style="border-radius: 24px; padding: 20px; background: linear-gradient(160deg, #17583a, #0d2819); border: 1px solid rgba(61,220,132,.22); display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; gap: 14px; align-items: center">
+<div style="position: relative"><span style="width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 26px; background: rgba(233,196,106,.16); color: #e9c46a">YK</span><span style="position: absolute; right: 0; bottom: 0; width: 22px; height: 22px; border-radius: 50%; background: #3ddc84; color: #04200f; display: grid; place-items: center; border: 2px solid #154d31"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span></div>
+<div style="min-width: 0">
+<div style="font-weight: 800; font-size: 20px">Yacine Kaci</div>
+<div style="font-size: 13px; color: #cde7d6">@yacine_dz · Kouba, Alger</div>
+<div style="display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap">
+<span style="display: inline-flex; align-items: center; height: 24px; padding: 0 10px; border-radius: 99px; font-size: 12px; font-weight: 900; background: linear-gradient(135deg, #f8dc85, #d49e2a); color: #3a2702">🥇 Gold</span>
+<span style="display: inline-flex; align-items: center; height: 24px; padding: 0 9px; border-radius: 99px; font-size: 11.5px; font-weight: 800; color: #8cc8f5; background: rgba(108,180,238,.14); border: 1px solid rgba(108,180,238,.3)">Verified</span>
+</div>
+</div>
+</div>
+<div style="display: flex; gap: 6px; flex-wrap: wrap">
+<span style="display: inline-flex; align-items: center; gap: 5px; height: 27px; padding: 0 11px; border-radius: 99px; font-size: 12px; font-weight: 800; color: #3ddc84; background: rgba(61,220,132,.12); border: 1px solid rgba(61,220,132,.32)">🎯 Midfielder</span>
+<span style="display: inline-flex; align-items: center; gap: 5px; height: 27px; padding: 0 11px; border-radius: 99px; font-size: 12px; font-weight: 800; color: #ef7b5a; background: rgba(239,123,90,.12); border: 1px solid rgba(239,123,90,.32)">⚽ Forward</span>
+<span style="display: inline-flex; align-items: center; height: 27px; padding: 0 11px; border-radius: 99px; font-size: 12px; font-weight: 800; color: #cde7d6; background: rgba(4,32,15,.45)">Level: Good</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+<button style="height: 44px; border-radius: 13px; border: 0; background: #3ddc84; color: #04200f; font-weight: 800">Add friend</button>
+<button style="height: 44px; border-radius: 13px; border: 1px solid rgba(234,245,238,.3); background: transparent; color: #eaf5ee; font-weight: 700">Invite to a game</button>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+<sc-for list="{{stats}}" as="s" hint-placeholder-count="6">
+<div style="background: #0e2016; border: 1px solid rgba(190,255,210,.09); border-radius: 16px; padding: 12px">
+<b style="display: block; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 28px; line-height: 1; color: {{s.color}}">{{s.v}}</b>
+<span style="font-size: 11.5px; color: #9dbfa9; font-weight: 600">{{s.l}}</span>
+</div>
+</sc-for>
+</div>
+
+<div style="background: #0e2016; border: 1px solid rgba(190,255,210,.09); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; justify-content: space-between"><b>Reliability</b><b style="font-family: 'Barlow Condensed', sans-serif; font-size: 20px; color: #3ddc84">97%</b></div>
+<div style="height: 8px; border-radius: 4px; background: #15301f; overflow: hidden"><span style="display: block; width: 97%; height: 100%; background: #3ddc84; border-radius: 4px"></span></div>
+<div style="font-size: 12.5px; color: #9dbfa9">Last 20 games: 19 played, 1 cancelled, 0 no-shows</div>
+</div>
+
+<div style="background: #0e2016; border: 1px solid rgba(190,255,210,.09); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 10px">
+<b>What players say</b>
+<div style="display: flex; gap: 6px; flex-wrap: wrap">
+<span style="font-size: 12px; font-weight: 700; color: #3ddc84; background: rgba(61,220,132,.1); padding: 3px 10px; border-radius: 99px">#fair_play · 31</span>
+<span style="font-size: 12px; font-weight: 700; color: #3ddc84; background: rgba(61,220,132,.1); padding: 3px 10px; border-radius: 99px">#on_time · 24</span>
+<span style="font-size: 12px; font-weight: 700; color: #3ddc84; background: rgba(61,220,132,.1); padding: 3px 10px; border-radius: 99px">#skilled · 18</span>
+<span style="font-size: 12px; font-weight: 700; color: #e9c46a; background: rgba(233,196,106,.12); padding: 3px 10px; border-radius: 99px">#late · 2</span>
+</div>
+</div>
+
+<div style="background: #0e2016; border: 1px solid rgba(190,255,210,.09); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 10px">
+<b>Badges</b>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; text-align: center">
+<sc-for list="{{badges}}" as="b" hint-placeholder-count="4">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 4px"><span style="width: 48px; height: 48px; border-radius: 14px; background: #15301f; display: grid; place-items: center; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 18px; color: #e9c46a">{{b.v}}</span><span style="font-size: 11px; color: #9dbfa9">{{b.l}}</span></div>
+</sc-for>
+</div>
+</div>
+<a href="#" style="text-align: center; font-size: 13px; color: #9dbfa9">Block or report this player</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const stats = [['64', 'Games', '#eaf5ee'], ['38', 'Wins', '#eaf5ee'], ['41', 'Goals', '#eaf5ee'], ['9', 'MVP', '#e9c46a'], ['1 420', 'XP', '#3ddc84'], ['4.6', 'Rating', '#e9c46a']].map(([v, l, color]) => ({ v, l, color }));
+    const badges = [['100', 'Games'], ['x3', 'Hat-trick'], ['4w', 'Streak'], ['MVP', '5 MVPs']].map(([v, l]) => ({ v, l }));
+    return { stats, badges };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Team page</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Cairo:wght@400;600;700;800;900&amp;display=swap">
+<style>
+body{margin:0;background:#06110b}
+a{color:#3ddc84}a:hover{color:#7eeaae}
+button{font-family:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="width: 390px; height: 1000px; box-sizing: border-box; background: #06110b; color: #eaf5ee; font-family: Cairo, system-ui, sans-serif; padding: 16px 16px 28px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 0 4px">
+<button aria-label="Back" style="width: 44px; height: 44px; border-radius: 13px; background: #0e2016; border: 1px solid rgba(190,255,210,.12); color: #9dbfa9; display: grid; place-items: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+<span style="font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 8px; background: rgba(233,196,106,.14); color: #e9c46a">You are captain</span>
+</div>
+
+<div style="border-radius: 24px; padding: 20px; background: linear-gradient(160deg, #17583a, #0d2819); border: 1px solid rgba(61,220,132,.22); display: flex; gap: 16px; align-items: center">
+<span style="width: 64px; height: 64px; border-radius: 18px; background: #15301f; display: grid; place-items: center"><svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><g fill="#3ddc84"><rect x="8" y="8" width="24" height="24" rx="2.5"/><rect x="8" y="8" width="24" height="24" rx="2.5" transform="rotate(45 20 20)"/></g><circle cx="20" cy="20" r="8.6" fill="#06110b"/><path d="M20 14.6l5.1 3.7-2 6h-6.2l-2-6z" fill="none" stroke="#3ddc84" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
+<div style="flex: 1">
+<div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 30px; line-height: 1; text-transform: uppercase">FC El Harrach</div>
+<div style="font-size: 13px; color: #cde7d6; margin-top: 4px">7 players · plays 7v7 · avg 1 210 XP</div>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; text-align: center">
+<div style="background: #0e2016; border: 1px solid rgba(190,255,210,.09); border-radius: 16px; padding: 12px"><b style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 28px; color: #3ddc84">12</b><span style="font-size: 12px; color: #9dbfa9">Wins</span></div>
+<div style="background: #0e2016; border: 1px solid rgba(190,255,210,.09); border-radius: 16px; padding: 12px"><b style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 28px; color: #e9c46a">3</b><span style="font-size: 12px; color: #9dbfa9">Draws</span></div>
+<div style="background: #0e2016; border: 1px solid rgba(190,255,210,.09); border-radius: 16px; padding: 12px"><b style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 28px; color: #f06464">8</b><span style="font-size: 12px; color: #9dbfa9">Losses</span></div>
+</div>
+
+<div style="background: #0e2016; border: 1px solid rgba(190,255,210,.09); border-radius: 18px; padding: 16px; display: flex; align-items: center; gap: 12px">
+<div style="flex: 1"><b style="font-size: 14px">Weekly game</b><div style="font-size: 13px; color: #9dbfa9">Every Tuesday 21:00 · El Harrach · until 31 Dec</div></div>
+<a href="#" style="font-size: 13px; font-weight: 700">Edit</a>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+<button style="height: 52px; border-radius: 14px; border: 0; background: #3ddc84; color: #04200f; font-weight: 800">Find an opponent</button>
+<button style="height: 52px; border-radius: 14px; border: 1px solid rgba(190,255,210,.18); background: #0e2016; color: #eaf5ee; font-weight: 700">Challenge a team</button>
+</div>
+
+<div style="display: flex; justify-content: space-between; align-items: baseline"><span style="font-size: 12px; font-weight: 800; color: #9dbfa9; text-transform: uppercase; letter-spacing: .9px">Members</span><a href="#" style="font-size: 13px; font-weight: 700">+ Invite</a></div>
+<div style="background: #0e2016; border: 1px solid rgba(190,255,210,.09); border-radius: 18px; overflow: hidden">
+<sc-for list="{{members}}" as="m" hint-placeholder-count="5">
+<div style="display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid rgba(190,255,210,.08)">
+<span style="{{m.avatar}}">{{m.ini}}</span>
+<div style="flex: 1; min-width: 0"><b style="font-size: 14px">{{m.name}}</b><div style="font-size: 12px; color: #9dbfa9">{{m.sub}}</div></div>
+<span style="font-size: 12px; font-weight: 800; color: {{m.tagColor}}">{{m.tag}}</span>
+</div>
+</sc-for>
+</div>
+
+<span style="font-size: 12px; font-weight: 800; color: #9dbfa9; text-transform: uppercase; letter-spacing: .9px">Last results</span>
+<div style="display: flex; gap: 8px">
+<sc-for list="{{results}}" as="r" hint-placeholder-count="5">
+<span style="{{r.style}}">{{r.v}}</span>
+</sc-for>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const cols = ['#3ddc84', '#e9c46a', '#6cb4ee', '#ef7b5a', '#b39ddb', '#4dd0c8'];
+    const av = (i) => 'width:36px;height:36px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:800;font-size:13px;background:' + cols[i % 6] + '26;color:' + cols[i % 6];
+    const members = [
+      ['Amine B', '🎯 MID · 🥇 Gold', 'Captain', '#e9c46a'],
+      ['Yacine K', '🎯 MID · 🥇 Gold', 'Coming', '#3ddc84'],
+      ['Hakim M', '🛡️ DEF · 🥈 Silver', 'Coming', '#3ddc84'],
+      ['Bilal T', '🧤 GK · 💎 Elite', 'Coming', '#3ddc84'],
+      ['Walid D', '🛡️ DEF · 🥉 Bronze', 'No answer', '#e9c46a']
+    ].map(([name, sub, tag, tagColor], i) => ({ name, sub, tag, tagColor, ini: name.split(' ').map(w => w[0]).join(''), avatar: av(i) }));
+    const res = { W: ['#3ddc84', '#04200f'], D: ['#e9c46a', '#3a2702'], L: ['#f06464', '#2a0606'] };
+    const results = ['W', 'W', 'L', 'D', 'W'].map(v => ({ v, style: 'width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-family:Barlow Condensed,sans-serif;font-weight:800;font-size:20px;background:' + res[v][0] + ';color:' + res[v][1] }));
+    return { members, results };
+  }
+}
+</script>
+</body>
+</html>
