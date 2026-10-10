@@ -17,28 +17,28 @@ Decided items are marked ✅.
 
 | ID | Feature | How it works | Suggest |
 |---|---|---|---|
-| A1 | Sign-in | Google or email code ✅ | L |
+| A1 | Sign-in | Google, email code, **and phone number code** ✅ (phone code sent by WhatsApp first, SMS as fallback, through Supabase's Send SMS hook; SMS to Algeria costs ~$0.20–0.30 each) | L |
 | A2 | Onboarding | Name, photo, city, positions in order, **self-rated level** ✅, phone | L |
 | A3 | One account, several roles | Same account can be player + referee; a manager account is separate (decided earlier) | L |
 | A4 | Verification | Manager checks ID in person; **full ID number stored as a keyed hash** ✅ to block duplicate accounts | L |
-| A5 | Age rule | 16+ checked at verification. Under-16 only through academies later | L |
+| A5 | Age rule | **15+** ✅, checked at verification | L |
 | A6 | Privacy | Choose who sees my games (everyone / friends) | V2 |
 | A7 | Block a user | Never matched with them, can't invite you | V2 |
 | A8 | Delete account | Required by Google Play / App Store | L |
-| A9 | Change phone / email | Phone change after verification needs a manager re-check | V2 |
+| A9 | Change phone / email | ✅ A code is sent to the new phone/email, confirm it, done. No manager check | V2 |
 
 ## B. Finding pitches and games
 
 | ID | Feature | How it works | Suggest |
 |---|---|---|---|
-| B1 | Home feed | Games missing players, friends playing, pitches nearby | L |
-| B2 | "Suggested for you" | From your usual days, times, pitches, friends | V2 |
+| B1 | Home feed | Games that need players near you (with one-tap Join), friends playing, pitches nearby. ✅ Plus a **push to nearby players** (right position, level, reliability) when a game needs players | L |
+| B2 | "Suggested for you" ✅ | **Recommender system**: learns from your usual days, times, pitches, friends, positions and level; starts with simple scoring, then improves with data | V2 |
 | B3 | Pitch list + filters | Format, price, lights, covered, showers, distance | L |
-| B4 | Map view | Pitches on a map (OpenStreetMap = free) | V2 |
+| B4 | Map view ✅ | Pitches on a map (OpenStreetMap = free) | V2 |
 | B5 | Pitch page | Photos, amenities, prices, slots, reviews, call, directions (opens Google Maps) | L |
 | B6 | Favourite pitches | Quick access + alerts when a slot frees up | V2 |
 | B7 | Free-slot alert | "Tell me if Kouba Five frees up Tuesday 21:00" | V2 |
-| B8 | All 58 wilayas | Cities grouped by wilaya, travel mode (Alger today, Oran tomorrow) ✅ | L |
+| B8 | **69 wilayas + communes** ✅ | All 69 wilayas (11 new ones in 2025–26) and their 1,541 communes, so pitches in small towns are covered; search in another wilaya when travelling | L |
 
 ## C. Games (the heart)
 
@@ -181,20 +181,28 @@ taken in the app too. It also makes the app the manager's **only calendar**
 | ID | Feature | How it works | Suggest |
 |---|---|---|---|
 | L1 | Cash at the pitch | QR scan → Guaranteed ✅ | L |
-| L2 | Share per player | Price ÷ players shown on the game page | L |
+| L2 | Share per player ✅ | Shown in **round DA amounts, multiples of 50** (50, 100, 150…). If price ÷ all players isn't a multiple of 50, **goalkeepers don't pay** and the rest share it. If it still isn't round, round to the nearest 50; the small difference (+ extra / − missing) is shown to the booker | L ✅ built (calculation) |
 | L3 | "Who paid me" | Booker ticks who paid his share | L |
 | L4 | BaridiMob receipt advance | ✅ much later | Later |
 | L5 | SATIM card payment | ✅ later | Later |
 
-## M. Business (how BMG.dev earns)
+## M. Business (how BMG.dev earns) ✅
 
 | ID | Feature | How it works | Suggest |
 |---|---|---|---|
-| M1 | Free for players | ✅ | L |
-| M2 | Venue subscription | Manager tools free for 3–6 months, then monthly | Later |
-| M3 | Sponsor slots | Home banner, sponsored store items, tournament sponsors | Later |
-| M4 | Premium player | Advanced stats, priority matchmaking | Later |
-| M5 | Commission on online payments | Once SATIM is live | Later |
+| M1 | Free for players | Players never pay to use the app ✅ | L |
+| M2 | Venue plan A: **10 % commission** | 10 % of each game booked through the app. The manager pays nothing else. Cash is never handled by us: a **monthly statement** of app bookings, paid by the venue ✅ | L |
+| M3 | Venue plan B: **monthly subscription** | Fixed monthly fee, no commission. The venue picks A or B ✅ | L |
+| M4 | Sponsors | Sponsored tournaments, store items, jerseys ✅ | Later |
+| M5 | **Premium player** | Paid plan with real perks: T-shirts, training sessions, invitations to special games/events, priority in matching, advanced stats ✅ | Later |
+| M6 | Small sponsor ads | Small ad slots (home, game page, results card) ✅ | Later |
+| M7 | Commission on online payments | When SATIM is live | Later |
+
+**Commission note.** Walk-in bookings the manager enters himself are not
+charged (only bookings made by players in the app), so managers have no
+reason to hide bookings. The risk is a player and manager agreeing to book
+outside the app: the trust ladder, rewards and verification only work for
+in-app bookings, which keeps players inside.
 
 ## N. BMG admin back-office (web)
 

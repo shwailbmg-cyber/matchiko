@@ -7,7 +7,8 @@ and verify, and referees log matches. **Flutter** app + **Supabase** backend.
 
 Read first: `docs/ARCHITECTURE.md` (main loop, data model, security,
 decisions), `docs/PRODUCT.md` (full feature spec, cash-market rules, screen
-inventory), `docs/FEATURES.md` (feature catalogue with decisions) and
+inventory), `docs/FEATURES.md` (feature catalogue with decisions),
+`docs/COMPETITORS.md` (similar businesses worldwide) and
 `docs/ROADMAP.md` (what's built, what's next). Rewards math:
 `docs/economy/REWARDS.md`.
 Design reference: `design/prototype/Matchiko.html` + `design/prototype/BRIEF.md`.
