@@ -84,7 +84,7 @@ Decided items are marked ✅.
 | E4 | **Walk-in bookings** | See box below | L |
 | E5 | Block slots | Maintenance, private events, school use | L |
 | E6 | Weekly "abonnement" | A team books the same slot every week for a month/season | L |
-| E7 | Prices | Per pitch, peak/off-peak, weekend, Ramadan nights | L |
+| E7 | Prices | Per pitch, peak/off-peak, weekend, Ramadan nights, **student and off-peak prices** ✅ | L |
 | E8 | Opening hours | Per day, special days (Eid, Ramadan) | L |
 | E9 | Scan QR | Booking (cash received → Guaranteed), player verification, player check-in ✅ | L |
 | E10 | No-show / "not confirmed" | Mark players; it frees the spot ✅ | L |
@@ -93,8 +93,10 @@ Decided items are marked ✅.
 | E13 | Staff accounts | Owner + staff with limited rights (staff can scan, not change prices) | V2 |
 | E14 | Venue profile | Photos, amenities, rules, map pin | L |
 | E15 | Reports | Occupancy, revenue (cash recorded), no-shows | V2 |
-| E16 | Equipment rental | Balls, bibs, gloves as add-ons | Later |
+| E16 | Equipment loan with deposit ✅ | The venue lends bibs and a ball; the booker leaves a small cash deposit (e.g. 500 DA or his ID card), returned when the equipment comes back. The app records who has what | V2 |
 | E17 | Venue tournaments | Venue creates a tournament, teams register | Later |
+| E18 | **Last-minute deals** ✅ | A slot still empty 3 h before gets a discount set by the manager, pushed to nearby players | V2 |
+| E19 | **Training / beginner sessions** ✅ | Venues or coaches list paid sessions (beginners, kids 15+, goalkeepers); players book a place. Also a Premium perk | Later |
 
 **E4 Walk-in bookings, explained.** Most people will keep booking by phone
 call or in person at first, without the app. If the manager doesn't enter

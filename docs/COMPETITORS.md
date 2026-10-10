@@ -35,7 +35,7 @@ WhatsApp groups, phone calls and Facebook pages.
 4. **Local fit:** 69 wilayas and small towns, Friday–Saturday weekend,
    Ramadan mode, Arabic/French/English.
 
-## Ideas from this research not yet in FEATURES.md
+## Ideas from this research (all accepted ✅, now E7, E16, E18, E19 in FEATURES.md)
 
 - **Last-minute deals** (Playtomic/KheloMore): an empty slot within 3 hours
   gets a discount pushed to nearby players. Fills empty slots for the venue.
