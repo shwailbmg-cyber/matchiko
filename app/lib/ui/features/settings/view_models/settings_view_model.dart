@@ -1,3 +1,5 @@
+import 'dart:ui' show PlatformDispatcher;
+
 import 'package:flutter/widgets.dart';
 
 import '../../../../data/repositories/settings_repository.dart';
@@ -13,9 +15,15 @@ class SettingsViewModel extends ChangeNotifier {
   Locale _locale = const Locale('en');
   Locale get locale => _locale;
 
-  Future<void> load() async {
-    final code = await _repo.loadLanguage();
-    if (code != null) {
+  /// Saved choice first, else the phone's language if we support it,
+  /// else English (younger players use English more than French).
+  Future<void> load({String? deviceLanguage}) async {
+    final device =
+        deviceLanguage ?? PlatformDispatcher.instance.locale.languageCode;
+    final code =
+        await _repo.loadLanguage() ??
+        (SettingsRepository.supported.contains(device) ? device : 'en');
+    if (code != _locale.languageCode) {
       _locale = Locale(code);
       notifyListeners();
     }

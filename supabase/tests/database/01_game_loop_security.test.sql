@@ -32,7 +32,7 @@ select ok(
   'clients cannot call award()');
 
 select ok(
-  not has_function_privilege('anon', 'public.request_booking(uuid, timestamptz, boolean, public.payment_method, public.position, boolean)', 'execute'),
+  not has_function_privilege('anon', 'public.request_booking(uuid, timestamptz, boolean, public.payment_method, public.position, boolean, smallint)', 'execute'),
   'anon cannot call RPCs');
 
 -- ── Player a1 ───────────────────────────────────────────────────────────

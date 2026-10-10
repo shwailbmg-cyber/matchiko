@@ -60,7 +60,8 @@ checklist**, as in Spond. It's informational only: no money moves in the app.
 ahead, because it always means someone isn't serious. It's recorded and
 lowers the reliability % (shows ÷ (shows + no-shows + cancellations)). Inside
 24 h a full game can't be cancelled in the app, so not coming = no-show.
-❓ Should an early cancel also cost XP/coins, or only reliability?
+✅ It also costs **−20 XP and −10 coins** (a no-show costs −50 / −30). A
+cancellation by the manager costs the booker nothing.
 
 **Semi-online payment without a SATIM contract** (✅ *decided: not now*,
 only once the app is in production and used): many Algerians
@@ -198,6 +199,6 @@ Answered: T−10 h flag to booker + manager (no auto-release) · every
 cancellation counts · self-rated level ✅ · full ID number (hashed) ·
 BaridiMob much later · discuss every feature first (`docs/FEATURES.md`).
 
-Still open:
-1. Early cancellation: reliability only, or also −XP/coins?
-2. Walk-in bookings by managers (explained in `docs/FEATURES.md` § M4).
+Also answered: early cancel costs XP/coins · flexible sizes 3v3–11v11 ·
+no women's games for now · standard Arabic/French (B2) + English, no Darija.
+Next: the feature-by-feature review in `docs/FEATURES.md`.

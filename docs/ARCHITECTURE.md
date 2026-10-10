@@ -1,6 +1,6 @@
 # Matchiko architecture
 
-Matchiko organises small football games (5v5 / 6v6 / 8v8) in Algeria: it gets
+Matchiko organises small football games (3v3 up to 11v11, sized per pitch) in Algeria: it gets
 enough players together, finds a free pitch, and stops no-shows in a mostly
 cash market. This doc is the map: the main loop, how it runs on Flutter +
 Supabase, and where each rule is enforced.
@@ -127,7 +127,7 @@ Migrations: `supabase/migrations/`. Tests: `supabase/tests/database/`.
 | Area | Tables | Notes |
 |---|---|---|
 | People | `profiles` | Public: handle, name, avatar, city, positions, verified, XP. Private (only through `get_my_profile()`): phone, coins, no-show count, ban. Managers get a booker's phone through `booking_contact()`. |
-| Places | `cities`, `venues`, `pitches`, `venue_managers` | A venue (complex) has several pitches. Managers are linked to venues, which is what makes someone a manager. |
+| Places | `cities`, `venues`, `pitches`, `venue_managers` | A venue (complex) has several pitches; each pitch has a `max_per_side` (e.g. 7 or 11) and each game picks its `per_side` up to it. Managers are linked to venues, which is what makes someone a manager. |
 | Roles | `referees`, `referee_applications`, `verification_requests` | Referee = verified player approved by a manager. |
 | Games | `bookings`, `booking_tickets`, `games`, `game_players` | One booking = one 1-hour slot = one game. `booking_tickets` holds the QR secret (booker only). An exclusion constraint prevents double booking. |
 | Money | `payments` | SATIM orders (later). Service role only. |

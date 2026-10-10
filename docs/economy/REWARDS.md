@@ -57,6 +57,7 @@ In `supabase/migrations/20261009000400_reference_data_and_rewards.sql`:
 | Referee a game | 40 | 50 |
 | Pay online | 0 | 15 |
 | Invite a friend who plays | 0 | 100 |
+| Cancel a booking (booker, any time) | −20 | −10 |
 | No-show | −50 | −30 |
 
 A no-show (−50 XP) wipes out more than one game's XP (≈ 46 on average), so

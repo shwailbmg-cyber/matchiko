@@ -50,11 +50,26 @@ void main() {
     });
   });
 
-  test('formats have one line-up slot per player', () {
-    for (final f in GameFormat.values) {
-      expect(f.lineup.length, f.perTeam);
+  test('any size from 3 to 11 gets a sensible line-up', () {
+    for (var n = GameFormat.min; n <= GameFormat.max; n++) {
+      final f = GameFormat(n);
+      expect(f.lineup.length, n);
       expect(f.lineup.first, Position.gk);
+      expect(f.lineup.where((p) => p == Position.gk).length, 1);
+      expect(f.lineup, contains(Position.fwd));
     }
+    String shape(int n) {
+      final l = GameFormat(n).lineup;
+      int c(Position p) => l.where((x) => x == p).length;
+      return '${c(Position.def)}-${c(Position.mid)}-${c(Position.fwd)}';
+    }
+
+    expect(shape(5), '2-1-1');
+    expect(shape(7), '3-2-1');
+    expect(shape(8), '3-3-1');
+    expect(shape(11), '4-4-2');
+    expect(const GameFormat(12).isValid, isFalse);
+    expect(const GameFormat(7).label, '7v7');
   });
 
   test('Algerian phone numbers normalise to E.164', () {

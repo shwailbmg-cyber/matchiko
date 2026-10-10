@@ -5,10 +5,10 @@ insert into public.venues (id, name, name_ar, city_id, district, lat, lng) value
   ('00000000-0000-0000-0000-00000000a002', 'Terrain El Biar', 'ملعب الأبيار', 'alger', 'El Biar', 36.7686, 3.0300),
   ('00000000-0000-0000-0000-00000000a003', 'Kouba Five', 'ملعب القبة', 'alger', 'Kouba', 36.7270, 3.0850);
 
-insert into public.pitches (id, venue_id, name, format, price_da, features) values
-  ('00000000-0000-0000-0000-00000000b001', '00000000-0000-0000-0000-00000000a001', 'Terrain 1', '6v6', 2500, '{light,ball,roof}'),
-  ('00000000-0000-0000-0000-00000000b002', '00000000-0000-0000-0000-00000000a002', 'Terrain 1', '8v8', 3000, '{light,shower,ref}'),
-  ('00000000-0000-0000-0000-00000000b003', '00000000-0000-0000-0000-00000000a003', 'Five 1', '5v5', 2000, '{light,ball,shower,roof}');
+insert into public.pitches (id, venue_id, name, max_per_side, price_da, features) values
+  ('00000000-0000-0000-0000-00000000b001', '00000000-0000-0000-0000-00000000a001', 'Terrain 1', 7, 2500, '{light,ball,roof}'),
+  ('00000000-0000-0000-0000-00000000b002', '00000000-0000-0000-0000-00000000a002', 'Terrain 1', 11, 3000, '{light,shower,ref}'),
+  ('00000000-0000-0000-0000-00000000b003', '00000000-0000-0000-0000-00000000a003', 'Five 1', 5, 2000, '{light,ball,shower,roof}');
 
 -- Test accounts. Sign in locally with the email code from Mailpit
 -- (http://127.0.0.1:54324).

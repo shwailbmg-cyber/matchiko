@@ -52,13 +52,13 @@ Decided items are marked ✅.
 | C6 | Waitlist | Full game → join the waitlist; first in gets the freed spot | L |
 | C7 | "Still coming?" at **T−10 h** ✅ | No answer → **flagged to booker + manager**, the manager calls or marks "not confirmed", which frees the spot ✅ | L |
 | C8 | **Find a replacement** | When someone cancels, the spot is pushed to nearby players with the same position and good reliability | V2 |
-| C9 | Cancel | Every cancellation counts against reliability ✅. Inside 24 h of a full game, no app cancel → absence = no-show | L |
+| C9 | Cancel | Every cancellation counts ✅: lowers reliability **and costs −20 XP / −10 coins** ✅ (manager cancellations cost nothing). Inside 24 h of a full game, no app cancel → absence = no-show | L ✅ built |
 | C10 | Recurring weekly game | "Every Tuesday 21:00 at Kouba", same group, auto-invite | V2 |
 | C11 | Auto-balanced teams | By level/rank, friends together ✅; booker can swap players | L |
 | C12 | Bibs/colours | "Team A = bibs" note on the game page | V2 |
 | C13 | Game chat | WhatsApp group link at launch; in-app chat later | L (link) / Later (chat) |
-| C14 | Formats | 5v5, 6v6, 8v8 ✅. Add 7v7 and 11v11? | ❓ |
-| C15 | Women's / mixed games | Filter + women-only games | ❓ |
+| C14 | Flexible sizes ✅ | A pitch has a max size (7-a-side, full 11-a-side…); the booker picks any size from 3v3 up to that max (5v5, 6v6, 7v7, 8v8, 11v11…) and can change it before the game | L ✅ built |
+| C15 | Women's / mixed games | ✅ Not for now | Skip |
 | C16 | Level of a game | "Casual / competitive" tag so beginners don't land in strong games | L |
 
 ## D. Matchmaking (smart search)
@@ -215,7 +215,7 @@ taken in the app too. It also makes the app the manager's **only calendar**
 | O2 | Ramadan mode | Time windows shift after iftar / taraweeh (22:00–02:00), Ramadan prices | L |
 | O3 | Summer heat | Default suggestions favour evening/night in summer | V2 |
 | O4 | Prayer times | Avoid suggesting Friday 12:00–14:00 | V2 |
-| O5 | Darija tone | Friendly copy in Arabic/French as people actually speak | ❓ |
+| O5 | Language level ✅ | **Standard Arabic and standard French, simple (B2 level max), plus English** for the younger generation. No Darija. The app opens in the phone's language (EN/FR/AR), English otherwise | L ✅ |
 | O6 | Low connectivity | Works on 3G, caches the last screens, small images | L |
 | O7 | Low-end phones | Light animations, small app size | L |
 
@@ -232,9 +232,7 @@ taken in the app too. It also makes the app the manager's **only calendar**
 
 ---
 
-## Still open
+## Next to discuss
 
-1. **Early cancellation** (more than 24 h ahead): reliability only, or also lose XP/coins?
-2. **C14**: add 7v7 and 11v11?
-3. **C15**: women's / mixed games?
-4. **O5**: friendly Darija-style copy?
+Go through the sections and reply with IDs. Suggested order: **C** (games),
+**E** (manager), **F** (trust), then the rest.

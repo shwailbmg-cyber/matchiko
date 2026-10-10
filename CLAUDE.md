@@ -1,6 +1,7 @@
 # Matchiko
 
-An app for organising small football games (5v5 / 6v6 / 8v8) in Algeria.
+An app for organising small football games (3v3 up to 11v11, sized per
+pitch) in Algeria.
 Players find or join games and book pitches, stadium managers confirm, scan
 and verify, and referees log matches. **Flutter** app + **Supabase** backend.
 
@@ -54,7 +55,8 @@ Subagents in `.claude/agents/`: `architect` (Opus, plans, read-only),
 - Directional layout only (`EdgeInsetsDirectional`, `AlignmentDirectional`) so
   Arabic RTL works. Design tokens from `lib/ui/core/theme/`, not raw hex.
 - User-facing text goes in `app/lib/l10n/app_{en,fr,ar}.arb`, all three
-  languages. Keep the user's wording verbatim.
+  languages: standard Arabic, standard French, English. Simple words, B2
+  level max, no Darija/slang. Keep the user's wording verbatim.
 - KISS: the simplest thing that works and still scales. No new package
   without a reason (check pub.dev publisher, maintenance, advisories).
 - Before merging: `flutter analyze`, `flutter test`, the DB tests, and the

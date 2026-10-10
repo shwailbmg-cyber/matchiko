@@ -7,7 +7,7 @@ select plan(9);
 insert into auth.users (id, phone) values
   ('00000000-0000-0000-0000-0000000000a3', '213555000003');
 
-select is((select count(*)::int from public.reward_rules), 12, 'every reward reason has a rule');
+select is((select count(*)::int from public.reward_rules), 13, 'every reward reason has a rule');
 select is((select count(*)::int from public.cities), 6, 'cities ship with the migrations');
 
 -- Two past games at the manager's venue: a1 plays both, a3 skips the first.
@@ -18,9 +18,9 @@ insert into public.bookings (id, pitch_id, booker_id, starts_at, ends_at, total_
    '00000000-0000-0000-0000-0000000000a1', now() - interval '2 hours', now() - interval '1 hour', 2500);
 update public.bookings set status = 'guaranteed'
   where id in ('00000000-0000-0000-0000-0000000000c1', '00000000-0000-0000-0000-0000000000c2');
-insert into public.games (id, booking_id, format) values
-  ('00000000-0000-0000-0000-0000000000d1', '00000000-0000-0000-0000-0000000000c1', '6v6'),
-  ('00000000-0000-0000-0000-0000000000d2', '00000000-0000-0000-0000-0000000000c2', '6v6');
+insert into public.games (id, booking_id, per_side) values
+  ('00000000-0000-0000-0000-0000000000d1', '00000000-0000-0000-0000-0000000000c1', 6),
+  ('00000000-0000-0000-0000-0000000000d2', '00000000-0000-0000-0000-0000000000c2', 6);
 insert into public.game_players (game_id, user_id, team, position) values
   ('00000000-0000-0000-0000-0000000000d1', '00000000-0000-0000-0000-0000000000a1', 'A', 'mid'),
   ('00000000-0000-0000-0000-0000000000d1', '00000000-0000-0000-0000-0000000000a3', 'B', 'gk'),
