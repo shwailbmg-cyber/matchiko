@@ -300,6 +300,23 @@ class ProfileScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 12),
                 MkCard(
+                  onTap: () => context.push(Routes.referee),
+                  child: Row(
+                    children: [
+                      const Text('🟨', style: TextStyle(fontSize: 24)),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          me.isReferee ? l.referee : l.becomeReferee,
+                          style: const TextStyle(fontWeight: FontWeight.w800),
+                        ),
+                      ),
+                      const Icon(Icons.chevron_right, color: MkColors.sub),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
+                MkCard(
                   onTap: () => context.push(Routes.teams),
                   child: Row(
                     children: [

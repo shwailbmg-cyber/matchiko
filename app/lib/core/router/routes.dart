@@ -16,6 +16,8 @@ abstract final class Routes {
   static const pitches = '/pitches';
   static const friends = '/friends';
   static const teams = '/teams';
+  static const referee = '/referee';
+  static String matchReport(String gameId) => '/referee/report/$gameId';
   static String team(String id) => '/team/$id';
   static String player(String handle, {String? game}) =>
       '/player/$handle${game == null ? '' : '?game=$game'}';

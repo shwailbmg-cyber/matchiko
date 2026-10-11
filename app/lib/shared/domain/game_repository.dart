@@ -5,6 +5,7 @@ import 'package:matchiko/shared/domain/pitch.dart';
 import 'package:matchiko/shared/domain/player.dart';
 import 'package:matchiko/shared/domain/position.dart';
 import 'package:matchiko/shared/domain/profile.dart';
+import 'package:matchiko/shared/domain/referee.dart';
 import 'package:matchiko/shared/domain/team.dart';
 
 /// Everything the screens read and do about pitches, games and the signed-in
@@ -45,6 +46,22 @@ abstract interface class GameRepository {
 
   /// Cancels a request, declines one, or removes a friend.
   Future<void> removeFriend(String handle);
+
+  // ── Referee ──────────────────────────────────────────────────────────
+  Future<RefereeStatus> refereeStatus();
+
+  /// Applies at the venue of [pitchId]; its manager approves in person.
+  Future<void> applyReferee({required String pitchId});
+  Future<List<RefAvailability>> refereeAvailability();
+  Future<void> setRefereeAvailability(RefAvailability a);
+  Future<void> clearRefereeAvailability(int weekday);
+
+  /// Open jobs first (job board), then my jobs.
+  Future<List<RefJob>> refereeJobs();
+
+  /// One referee per game, no overlaps (`take_referee_job`).
+  Future<void> takeRefereeJob(String bookingId);
+  Future<void> submitMatchReport(String gameId, List<MatchEvent> events);
 
   // ── Teams ────────────────────────────────────────────────────────────
   Future<List<Team>> myTeams();

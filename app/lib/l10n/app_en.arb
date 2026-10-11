@@ -583,5 +583,30 @@
   "addMember": "Add a friend to the team",
   "removeMember": "Remove from the team",
   "leaveTeam": "Leave the team",
-  "hour": "Time"
+  "hour": "Time",
+  "becomeReferee": "Become a referee",
+  "becomeRefereeSub": "Referee games near you and earn {fee} DA per game, paid in cash by the booker, plus XP and coins. A stadium manager approves you in person.",
+  "@becomeRefereeSub": {
+    "placeholders": {
+      "fee": {
+        "type": "String"
+      }
+    }
+  },
+  "refVenue": "Stadium where you apply",
+  "refVerifyFirst": "Get verified first: managers approve verified players only.",
+  "applyReferee": "Send my application",
+  "refPending": "Application sent. The stadium manager will check your ID and approve you.",
+  "refGamesDone": "Games refereed",
+  "refEarned": "Earned (cash)",
+  "refToReport": "Reports to write",
+  "refJobs": "Games looking for a referee",
+  "refNoJobs": "No game needs a referee right now.",
+  "refTake": "Take",
+  "refClash": "You already referee a game at that time.",
+  "refMine": "My next games",
+  "refAvailability": "When I can referee",
+  "refOff": "Not available",
+  "refTapPlayer": "Tap a player to add a goal, a card or the MVP.",
+  "undo": "Undo last"
 }

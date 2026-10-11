@@ -8,6 +8,7 @@ import 'package:matchiko/shared/domain/pitch.dart';
 import 'package:matchiko/shared/domain/player.dart';
 import 'package:matchiko/shared/domain/position.dart';
 import 'package:matchiko/shared/domain/profile.dart';
+import 'package:matchiko/shared/domain/referee.dart';
 import 'package:matchiko/shared/domain/team.dart';
 import 'package:matchiko/shared/domain/game_repository.dart';
 
@@ -43,6 +44,13 @@ class DemoGameRepository implements GameRepository {
   final _people = <String, Player>{};
   final _notifs = <AppNotification>[];
   final _teams = <String, Team>{};
+  late RefereeStatus _refStatus = _me.isReferee
+      ? RefereeStatus.approved
+      : RefereeStatus.none;
+  final _availability = <int, RefAvailability>{
+    5: const RefAvailability(weekday: 5, startHour: 18, endHour: 23),
+  };
+  final _jobs = <String, RefJob>{};
 
   /// Reports sent from this device (the demo has no review queue yet).
   final reports = <(String, ReportReason)>[];
@@ -306,6 +314,7 @@ class DemoGameRepository implements GameRepository {
       ),
     ]);
     _seedTeams();
+    _seedJobs();
   }
 
   static const _names = [
@@ -455,6 +464,98 @@ class DemoGameRepository implements GameRepository {
   @override
   Future<void> removeFriend(String handle) =>
       _wait(() => _setFriend(handle, FriendStatus.none));
+
+  void _seedJobs() {
+    // The game I refereed yesterday (not one of my games as a player).
+    _add(
+      Game(
+        id: 'r1',
+        pitch: _pitches[2],
+        startsAt: _at(-1, 21),
+        perSide: 5,
+        status: BookingStatus.guaranteed,
+        players: _filler(10),
+      ),
+    );
+    for (final (id, d, h, venue, n, mine, reported, game) in [
+      ('j1', 1, 20, 'Complexe El Harrach', 7, false, false, null),
+      ('j2', 2, 21, 'Stade Biar', 11, false, false, null),
+      ('j3', 3, 19, 'Kouba Five', 5, false, false, null),
+      ('j4', 4, 22, 'Complexe El Harrach', 7, true, false, null),
+      ('j5', -1, 21, 'Kouba Five', 5, true, false, 'r1'),
+      ('j6', -6, 20, 'Kouba Five', 5, true, true, 'p2'),
+    ]) {
+      _jobs[id] = RefJob(
+        bookingId: id,
+        startsAt: _at(d, h),
+        venue: venue,
+        perSide: n,
+        mine: mine,
+        reported: reported,
+        gameId: game,
+      );
+    }
+  }
+
+  @override
+  Future<RefereeStatus> refereeStatus() => _wait(() => _refStatus);
+
+  @override
+  Future<void> applyReferee({required String pitchId}) => _wait(() {
+    if (_refStatus == RefereeStatus.none) _refStatus = RefereeStatus.pending;
+    _changed();
+  });
+
+  @override
+  Future<List<RefAvailability>> refereeAvailability() => _wait(
+    () => _availability.values.toList()..sort((a, b) => a.weekday - b.weekday),
+  );
+
+  @override
+  Future<void> setRefereeAvailability(RefAvailability a) => _wait(() {
+    if (a.endHour <= a.startHour) throw ArgumentError('end before start');
+    _availability[a.weekday] = a;
+    _changed();
+  });
+
+  @override
+  Future<void> clearRefereeAvailability(int weekday) => _wait(() {
+    _availability.remove(weekday);
+    _changed();
+  });
+
+  @override
+  Future<List<RefJob>> refereeJobs() => _wait(() {
+    if (_refStatus != RefereeStatus.approved) throw StateError('referees only');
+    return _jobs.values.toList()
+      ..sort((a, b) => a.startsAt.compareTo(b.startsAt));
+  });
+
+  @override
+  Future<void> takeRefereeJob(String bookingId) => _wait(() {
+    final j = _jobs[bookingId];
+    if (j == null || j.mine) throw StateError('job not available');
+    final clash = _jobs.values.any(
+      (o) => o.mine && o.startsAt.difference(j.startsAt).inMinutes.abs() < 60,
+    );
+    if (clash) throw StateError('you already referee a game at that time');
+    _jobs[bookingId] = j.copyWith(mine: true);
+    _changed();
+  });
+
+  @override
+  Future<void> submitMatchReport(String gameId, List<MatchEvent> events) =>
+      _wait(() {
+        final j = _jobs.values.firstWhere((x) => x.gameId == gameId && x.mine);
+        if (j.reported) throw StateError('report already submitted');
+        if (events.where((e) => e.type == MatchEventType.mvp).length > 1) {
+          throw ArgumentError('only one MVP');
+        }
+        _jobs[j.bookingId] = j.copyWith(reported: true);
+        _earn(RewardReason.referee, 40, 50, _clock());
+        _me = _me.copyWith(xp: _me.xp + 40, coins: _me.coins + 50);
+        _changed();
+      });
 
   Player get _mePlayer => Player(
     handle: _me.handle,
