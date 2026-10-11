@@ -17,6 +17,10 @@ String dayLabel(BuildContext context, DateTime t, {DateTime? now}) {
   return DateFormat.E(_locale(context)).format(t);
 }
 
+/// Short weekday in the app language ("Thu", "jeu.", "الخميس").
+String weekdayShort(BuildContext context, DateTime t) =>
+    DateFormat.E(_locale(context)).format(t);
+
 /// "21:00" (24 h, as in Algeria).
 String hhmm(DateTime t) =>
     '${t.hour.toString().padLeft(2, '0')}:${t.minute.toString().padLeft(2, '0')}';

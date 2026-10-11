@@ -414,5 +414,17 @@
   "refAvailability": "Quand je peux arbitrer",
   "refOff": "Pas disponible",
   "refTapPlayer": "Touchez un joueur pour ajouter un but, un carton ou le MVP.",
-  "undo": "Annuler le dernier"
+  "undo": "Annuler le dernier",
+  "calendar": "Calendrier",
+  "prevWeek": "Semaine précédente",
+  "nextWeek": "Semaine suivante",
+  "blocked": "Bloqué",
+  "blockSlot": "Bloquer",
+  "blockReason": "Raison (facultatif)",
+  "walkIn": "Sur place",
+  "walkInSub": "Pour un client qui a appelé ou qui est venu sans l’application.",
+  "customerName": "Nom du client",
+  "customerPhone": "Téléphone (facultatif)",
+  "freeThisHour": "Libérer ce créneau",
+  "slotTaken": "Ce créneau est déjà pris."
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:matchiko/shared/domain/booking_status.dart';
 import 'package:matchiko/shared/domain/app_notification.dart';
+import 'package:matchiko/shared/domain/calendar_entry.dart';
 import 'package:matchiko/shared/domain/game.dart';
 import 'package:matchiko/shared/domain/ledger_entry.dart';
 import 'package:matchiko/shared/domain/pitch.dart';
@@ -51,6 +52,9 @@ class DemoGameRepository implements GameRepository {
     5: const RefAvailability(weekday: 5, startHour: 18, endHour: 23),
   };
   final _jobs = <String, RefJob>{};
+
+  /// Blocks and walk-ins at the manager's venue (`pitch_blocks`).
+  final _blocks = <String, (String pitchId, CalendarEntry entry)>{};
 
   /// Reports sent from this device (the demo has no review queue yet).
   final reports = <(String, ReportReason)>[];
@@ -315,6 +319,25 @@ class DemoGameRepository implements GameRepository {
     ]);
     _seedTeams();
     _seedJobs();
+    _blocks['b1'] = (
+      'harrach',
+      CalendarEntry(
+        id: 'b1',
+        startsAt: _at(1, 18),
+        kind: CalendarKind.blocked,
+        label: 'Maintenance',
+      ),
+    );
+    _blocks['w1'] = (
+      'harrach',
+      CalendarEntry(
+        id: 'w1',
+        startsAt: _at(1, 20),
+        kind: CalendarKind.walkIn,
+        label: 'Karim (téléphone)',
+        phone: '+213555000111',
+      ),
+    );
   }
 
   static const _names = [
@@ -788,7 +811,10 @@ class DemoGameRepository implements GameRepository {
           final key = _slotKey(pitchId, t);
           // Deterministic sample availability, like the prototype.
           final x = (pitchId.length * 7 + day.day * 13 + h * 29) % 11;
-          final state = _taken.contains(key)
+          final blocked = _blocks.values.any(
+            (b) => b.$1 == pitchId && b.$2.startsAt == t,
+          );
+          final state = _taken.contains(key) || blocked
               ? SlotState.booked
               : t.isBefore(now)
               ? SlotState.booked
@@ -998,6 +1024,92 @@ class DemoGameRepository implements GameRepository {
           : g,
     ),
   );
+
+  @override
+  Future<List<Pitch>> venuePitches() => _wait(() => [_pitches[0]]);
+
+  bool _slotTaken(String pitchId, DateTime t) =>
+      _games.values.any(
+        (g) =>
+            g.pitch.id == pitchId &&
+            g.startsAt == t &&
+            g.status != BookingStatus.cancelled,
+      ) ||
+      _blocks.values.any((b) => b.$1 == pitchId && b.$2.startsAt == t);
+
+  @override
+  Future<List<CalendarEntry>> venueWeek(String pitchId, DateTime from) => _wait(
+    () {
+      final to = from.add(const Duration(days: 7));
+      bool inWeek(DateTime t) => !t.isBefore(from) && t.isBefore(to);
+      return [
+        for (final g in _games.values)
+          if (g.pitch.id == pitchId &&
+              inWeek(g.startsAt) &&
+              g.status != BookingStatus.cancelled)
+            CalendarEntry(
+              id: g.id,
+              startsAt: g.startsAt,
+              kind: CalendarKind.booking,
+              label: g.players
+                  .firstWhere((p) => p.isBooker, orElse: () => g.players.first)
+                  .name,
+              status: g.status,
+              gameId: g.id,
+            ),
+        for (final b in _blocks.values)
+          if (b.$1 == pitchId && inWeek(b.$2.startsAt)) b.$2,
+      ]..sort((a, b) => a.startsAt.compareTo(b.startsAt));
+    },
+  );
+
+  @override
+  Future<void> blockSlot(
+    String pitchId,
+    DateTime startsAt, {
+    String reason = '',
+  }) => _wait(() {
+    if (_slotTaken(pitchId, startsAt)) throw StateError('slot already booked');
+    final id = 'b${++_seq}';
+    _blocks[id] = (
+      pitchId,
+      CalendarEntry(
+        id: id,
+        startsAt: startsAt,
+        kind: CalendarKind.blocked,
+        label: reason.trim(),
+      ),
+    );
+    _changed();
+  });
+
+  @override
+  Future<void> addWalkIn(
+    String pitchId,
+    DateTime startsAt, {
+    required String name,
+    String? phone,
+  }) => _wait(() {
+    if (_slotTaken(pitchId, startsAt)) throw StateError('slot already booked');
+    final id = 'w${++_seq}';
+    _blocks[id] = (
+      pitchId,
+      CalendarEntry(
+        id: id,
+        startsAt: startsAt,
+        kind: CalendarKind.walkIn,
+        label: name.trim(),
+        phone: phone,
+      ),
+    );
+    _changed();
+  });
+
+  @override
+  Future<void> removeBlock(String id) => _wait(() {
+    _blocks.remove(id);
+    _changed();
+  });
 
   @override
   Future<List<Profile>> verificationQueue() => _wait(() => List.of(_queue));

@@ -608,5 +608,17 @@
   "refAvailability": "When I can referee",
   "refOff": "Not available",
   "refTapPlayer": "Tap a player to add a goal, a card or the MVP.",
-  "undo": "Undo last"
+  "undo": "Undo last",
+  "calendar": "Calendar",
+  "prevWeek": "Previous week",
+  "nextWeek": "Next week",
+  "blocked": "Blocked",
+  "blockSlot": "Block",
+  "blockReason": "Reason (optional)",
+  "walkIn": "Walk-in",
+  "walkInSub": "For a customer who called or came without the app.",
+  "customerName": "Customer name",
+  "customerPhone": "Phone (optional)",
+  "freeThisHour": "Free this hour",
+  "slotTaken": "This hour is already taken."
 }

@@ -7,6 +7,7 @@ import 'package:matchiko/features/auth/presentation/login_screen.dart';
 import 'package:matchiko/features/friends/presentation/friends_screen.dart';
 import 'package:matchiko/features/game/presentation/game_screen.dart';
 import 'package:matchiko/features/home/presentation/home_screen.dart';
+import 'package:matchiko/features/manager/presentation/calendar_screen.dart';
 import 'package:matchiko/features/manager/presentation/players_screen.dart';
 import 'package:matchiko/features/manager/presentation/scan_screen.dart';
 import 'package:matchiko/features/manager/presentation/today_screen.dart';
@@ -118,9 +119,9 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (_, _, shell) => _Shell(shell: shell, manager: true),
         branches: [
           _branch(Routes.mToday, const TodayScreen()),
+          _branch(Routes.mCalendar, const CalendarScreen()),
           _branch(Routes.mScan, const ScanScreen()),
           _branch(Routes.mPlayers, const PlayersScreen()),
-          _branch(Routes.mSettings, const SettingsScreen()),
         ],
       ),
     ],
@@ -147,10 +148,10 @@ class _Shell extends StatelessWidget {
     final l = AppLocalizations.of(context);
     final items = manager
         ? [
-            MkNavItem(Icons.calendar_today_outlined, l.mgToday),
+            MkNavItem(Icons.today_outlined, l.mgToday),
+            MkNavItem(Icons.calendar_month_outlined, l.calendar),
             MkNavItem(Icons.qr_code_scanner, l.mgScan),
             MkNavItem(Icons.groups_outlined, l.mgPlayers),
-            MkNavItem(Icons.settings_outlined, l.mgSettings),
           ]
         : [
             MkNavItem(Icons.home_outlined, l.navHome),

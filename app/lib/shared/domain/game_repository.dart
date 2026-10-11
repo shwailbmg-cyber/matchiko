@@ -1,4 +1,5 @@
 import 'package:matchiko/shared/domain/app_notification.dart';
+import 'package:matchiko/shared/domain/calendar_entry.dart';
 import 'package:matchiko/shared/domain/game.dart';
 import 'package:matchiko/shared/domain/ledger_entry.dart';
 import 'package:matchiko/shared/domain/pitch.dart';
@@ -140,6 +141,28 @@ abstract interface class GameRepository {
   Future<Game> scanBooking(String code);
   Future<void> markNoShow(String gameId);
   Future<List<Profile>> verificationQueue();
+
+  /// Pitches at my venue.
+  Future<List<Pitch>> venuePitches();
+
+  /// Everything on [pitchId] for the 7 days from [from] (midnight).
+  Future<List<CalendarEntry>> venueWeek(String pitchId, DateTime from);
+
+  /// Manager only; fails when the hour is taken.
+  Future<void> blockSlot(
+    String pitchId,
+    DateTime startsAt, {
+    String reason = '',
+  });
+  Future<void> addWalkIn(
+    String pitchId,
+    DateTime startsAt, {
+    required String name,
+    String? phone,
+  });
+
+  /// Removes a block or a walk-in.
+  Future<void> removeBlock(String id);
   Future<void> verifyPlayer(String handle);
 }
 

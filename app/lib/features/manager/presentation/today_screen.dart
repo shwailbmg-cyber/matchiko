@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:matchiko/core/router/routes.dart';
 
 import 'package:matchiko/shared/domain/booking_status.dart';
 import 'package:matchiko/shared/domain/game.dart';
@@ -39,8 +41,20 @@ class TodayScreen extends ConsumerWidget {
         Row(
           children: [
             const MkLogo(),
-            const Spacer(),
-            MkTag('🏟️ ${l.manager}', color: MkColors.sand),
+            Expanded(
+              child: Align(
+                alignment: AlignmentDirectional.centerEnd,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: MkTag('🏟️ ${l.manager}', color: MkColors.sand),
+                ),
+              ),
+            ),
+            IconButton(
+              tooltip: l.settings,
+              onPressed: () => context.push(Routes.settings),
+              icon: const Icon(Icons.settings_outlined, color: MkColors.sub),
+            ),
           ],
         ),
         const SizedBox(height: 16),

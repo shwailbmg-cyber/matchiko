@@ -28,5 +28,5 @@ abstract final class Routes {
   static const mToday = '/m/today';
   static const mScan = '/m/scan';
   static const mPlayers = '/m/players';
-  static const mSettings = '/m/settings';
+  static const mCalendar = '/m/calendar';
 }

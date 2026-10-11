@@ -62,7 +62,7 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
 - [x] **S9** Notifications center + report no-show / report player. (M3)
 - [x] **S10** Teams: list, create, team page, recurring game. (M4)
 - [x] **S11** Referee: apply, availability, jobs, earnings, match report. (M5)
-- [ ] **S12** Manager calendar: week view, block slot, walk-in booking. (M3)
+- [x] **S12** Manager calendar: week view, block slot, walk-in booking. (M3)
 - [ ] **S13** Manager venue: pitches and prices, opening hours. (M3)
 - [ ] **S14** Manager scan modes (booking, verification, check-in) +
       players tab (referee applications, no-show reports). (M3)
