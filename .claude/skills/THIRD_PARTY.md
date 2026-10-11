@@ -12,7 +12,8 @@ commit hash here.
 | `dart-*` | [dart-lang/skills](https://github.com/dart-lang/skills) | 0d9f1c4 | BSD-3-Clause |
 | `supabase`, `supabase-postgres-best-practices` | [supabase/agent-skills](https://github.com/supabase/agent-skills) | c9be0e9 | MIT |
 | `differential-review`, `sharp-edges`, `semgrep`, `supply-chain-risk-auditor`, `agentic-actions-auditor` | [trailofbits/skills](https://github.com/trailofbits/skills) | 82fe822 | CC BY-SA 4.0 (the copied files stay under CC BY-SA 4.0) |
-| `matchiko-security` | written for this project | — | same as this repo |
+| `owasp-security` | [agamm/claude-code-owasp](https://github.com/agamm/claude-code-owasp) | 8ac7965 | MIT (`owasp-security/LICENSE`) |
+| `matchiko-security`, `owasp-mobile-flutter`, `kiss-flutter`, `build-loop` | written for this project | — | same as this repo |
 
 ## Not vendored on purpose
 
@@ -22,5 +23,10 @@ commit hash here.
   gives the agent runtime-error and widget-tree tools.
 - **Trail of Bits `codeql`**: CodeQL has no Dart support.
 - **Community OWASP mobile scanners** (e.g. harishwarrior/flutter-claude-skills):
-  they ship unaudited Python scripts. `matchiko-security` covers the
-  OWASP MASVS checks we need instead.
+  they ship unaudited Python scripts. `owasp-mobile-flutter` covers the
+  Mobile Top 10 and MASVS checks we need instead.
+- **jassics/awesome-claude-security `masvs-review`**: GPL-3.0, very short,
+  and depends on other skills from that pack. Replaced by
+  `owasp-mobile-flutter`.
+- `owasp-security` was vendored without its `evals/` and `scripts/`
+  (only the markdown skill and references); audited at the commit above.

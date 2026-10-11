@@ -61,14 +61,20 @@ Subagents in `.claude/agents/`: `architect` (Opus, plans, read-only),
 - KISS: the simplest thing that works and still scales. No new package
   without a reason (check pub.dev publisher, maintenance, advisories).
 - Before merging: `flutter analyze`, `flutter test`, the DB tests, and the
-  `matchiko-security` skill on the diff.
+  `matchiko-security` + `owasp-mobile-flutter` skills on the diff.
+- Work in steps (`docs/LOOP.md`): each step is tested and pushed, CI green,
+  before the next starts.
 
 ## Skills in this repo (`.claude/skills/`)
 
 - Flutter/Dart (official): architecture, routing, localization, layouts,
   widget/integration tests, static analysis, mocks, coverage.
 - Supabase (official): `supabase`, `supabase-postgres-best-practices`.
-- Security: `matchiko-security` (project checklist), plus Trail of Bits'
+- Build: `kiss-flutter` (how we write Flutter), `build-loop` (autonomous
+  step loop, backlog in `docs/LOOP.md`; say "run the build loop").
+- Security: `matchiko-security` (project checklist), `owasp-security`
+  (OWASP Top 10:2025, ASVS 5.0), `owasp-mobile-flutter` (Mobile Top 10 2024,
+  MASVS v2), plus Trail of Bits'
   `differential-review`, `sharp-edges`, `semgrep`,
   `supply-chain-risk-auditor`, `agentic-actions-auditor`.
 
