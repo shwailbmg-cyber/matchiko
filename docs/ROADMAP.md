@@ -19,3 +19,16 @@ Claude Design before their milestone starts.
 
 After each milestone: run the `matchiko-security` skill on the diff. Workflow
 and model use: `docs/AI_WORKFLOW.md`.
+
+## Clickable demo (built ahead of M1–M5)
+
+All main screens run in demo mode on sample data (`DemoGameRepository`):
+home, pitch + booking sheet, game page (line-up, who's coming, who paid,
+cost split, still-coming check, size change, open to others, cancel),
+matches + rating, profile, play (search → found → join), notifications,
+settings (language, demo "verified" switch), and the manager's today,
+scan and players screens. The Supabase `GameRepository` replaces the demo
+one milestone by milestone; the database rules already exist.
+
+How to test: CI builds a web demo (GitHub Pages, on `main`) and a demo APK
+(workflow artifact on every push, `preview` release on `main`).

@@ -278,7 +278,7 @@ class DemoGameRepository extends GameRepository {
     for (var i = 0; i < n; i++)
       _p(
         _names[i % _names.length],
-        Position.playable[i % 4],
+        Position.playable[(i ~/ 2) % 4],
         i.isEven ? Team.a : Team.b,
         rel: 85 + (i * 7) % 15,
         paid: i % 3 != 0,
