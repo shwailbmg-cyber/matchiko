@@ -15,7 +15,7 @@ visual reference for every screen.
 | Layer | Choice | Why |
 |---|---|---|
 | App | **Flutter** (Dart 3, Android first, iOS from the same code) | Draws its own pixels, so the custom design (zellij patterns, diamond nav button, pitch drawings) matches exactly on every phone. Solid RTL for Arabic. Fast on the low-end Android phones common in Algeria. Official Supabase SDK. |
-| State | MVVM: `ChangeNotifier` view models + `provider` for injection | The pattern the Flutter team recommends (see the `flutter-apply-architecture-best-practices` skill). Little magic, easy to test. |
+| State | **Riverpod** (`flutter_riverpod`, plain providers and `Notifier`s, no codegen) + **freezed** / `json_serializable` models | Compile-safe dependency injection, easy overrides in tests, data refreshes from one change stream. Immutable models with `copyWith` and JSON. See the `kiss-flutter` skill. |
 | Navigation | `go_router` | Declarative routes, role-based redirects, deep links later. |
 | Backend | **Supabase**, hosted in **Paris (eu-west-3)**: Postgres + RLS, Auth, Realtime, Storage, Edge Functions, pg_cron | One managed service, closest region to Algeria. Business rules live in Postgres next to the data, so a modified app can't break them. Free plan covers launch (50k monthly users, 500 MB DB); move to Pro ($25/mo) before real traffic, because free projects pause after 7 idle days. |
 | Sign-in | **Google** (native, one tap on Android) + **6-digit code by email**. No SMS at launch. | Free. SMS to Algeria costs ~$0.20–0.30 each (≈ $300+ for the first 1,000 users with re-logins). See § Sign-in. |
@@ -186,12 +186,15 @@ Full checklist: `.claude/skills/matchiko-security/SKILL.md`. Summary:
 
 ```
 app/                  Flutter app
-  lib/config/         build-time env (--dart-define-from-file)
-  lib/data/           repositories + services (Supabase access)
-  lib/domain/models/  pure Dart models (Rank, Position, BookingStatus…)
-  lib/routing/        go_router, role-based redirects
-  lib/ui/core/        theme tokens, shared widgets (logo, nav, zellij)
-  lib/ui/features/    one folder per feature: views/ + view_models/
+  lib/core/           app infrastructure, no business types: env, router
+                      (role redirects), theme tokens, generic widgets,
+                      format helpers, settings (language)
+  lib/shared/         vocabulary every feature uses: domain/ (freezed models
+                      + repository interfaces), data/ (demo repository),
+                      widgets/ (badges, ticket, pitch turf), providers.dart
+  lib/features/<f>/   feature-first: domain/ data/ presentation/ (only the
+                      layers the feature needs). Features never import each
+                      other; the router composes them.
   lib/l10n/           ARB files en/fr/ar (generated from the prototype)
 supabase/
   config.toml         local Supabase (Google + email code auth)

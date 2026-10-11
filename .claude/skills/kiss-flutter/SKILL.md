@@ -26,19 +26,29 @@ Prefer the simplest solution that works.
 
 ```
 lib/
-  core/            theme, shared widgets, router, formatting, env, errors
+  core/            infra with no business types: env, router, theme,
+                   generic widgets, format, settings (language)
+  shared/          what several features use: domain/ (freezed models,
+                   repository interfaces), data/, widgets/, providers.dart
   features/<name>/
-    domain/        freezed models + repository interface (abstract class)
+    domain/        models + repository interface only this feature uses
     data/          repository implementations (demo, supabase)
-    presentation/  screens/ + providers.dart (Riverpod)
+    presentation/  *_screen.dart + providers.dart / *_controller.dart
   l10n/            ARB files (en, fr, ar)
 ```
 
-- Three layers, no more. No use-case classes unless one has real logic
-  shared by two screens. No mappers when the model can `fromJson` the row.
-- A feature imports another feature's `domain/` only, never its `data/` or
-  `presentation/`.
-- Repositories are exposed as providers; swap demo/Supabase in one place.
+- Three layers, no more, and only the ones a feature needs. No use-case
+  classes unless one has real logic shared by two screens. No mappers when
+  the model can `fromJson` the row.
+- Features never import each other. Something two features need moves to
+  `shared/`. The router (`core/router`) is the only place that knows every
+  screen.
+- Repositories are providers overridden in `main()` (and in tests); swap
+  demo/Supabase in one place. Data providers call `watchGames(ref)` so they
+  refetch when the repository's change stream ticks.
+- Screen-local UI state (a selected tab, form text) can stay in a
+  `ConsumerStatefulWidget`; state shared with a sheet or across screens goes
+  in a `Notifier`.
 
 ## Rules
 
