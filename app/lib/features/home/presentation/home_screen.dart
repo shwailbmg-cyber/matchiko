@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:matchiko/shared/domain/game.dart';
-import 'package:matchiko/shared/domain/pitch.dart';
 import 'package:matchiko/l10n/gen/app_localizations.dart';
 import 'package:matchiko/core/router/routes.dart';
 import 'package:matchiko/core/format.dart';
@@ -11,9 +10,9 @@ import 'package:matchiko/core/theme/mk_colors.dart';
 import 'package:matchiko/core/theme/mk_theme.dart';
 import 'package:matchiko/core/widgets/logo_mark.dart';
 import 'package:matchiko/core/widgets/mk_widgets.dart';
-import 'package:matchiko/shared/widgets/badges.dart';
 import 'package:matchiko/core/widgets/zellij.dart';
 import 'package:matchiko/features/home/presentation/providers.dart';
+import 'package:matchiko/shared/widgets/pitch_row.dart';
 
 /// `SC.home` in the prototype: hero with the live counter, games missing
 /// players, pitches near you.
@@ -81,7 +80,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         itemBuilder: (_, i) => _OpenGameCard(home.openGames[i]),
                       ),
               ),
-              MkSection(l.nearby),
+              MkSection(
+                l.nearby,
+                trailing: TextButton(
+                  onPressed: () => context.push(Routes.pitches),
+                  child: Text(l.seeAll),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextField(
@@ -301,74 +306,3 @@ class _OpenGameCard extends StatelessWidget {
 
 /// Pitch row used on home and search: turf thumb, name, distance, rating,
 /// size, price per hour.
-class PitchRow extends StatelessWidget {
-  const PitchRow(this.pitch, {super.key});
-
-  final Pitch pitch;
-
-  @override
-  Widget build(BuildContext context) {
-    final l = AppLocalizations.of(context);
-    final lang = Localizations.localeOf(context).languageCode;
-    return MkCard(
-      padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 16, 10),
-      onTap: () => context.push(Routes.pitch(pitch.id)),
-      child: Row(
-        children: [
-          const SizedBox(width: 76, child: PitchTurf()),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  pitch.name(lang),
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 15,
-                  ),
-                ),
-                Text(
-                  '${pitch.district} · ${pitch.km} ${l.km}',
-                  style: const TextStyle(color: MkColors.sub, fontSize: 12.5),
-                ),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    const Icon(Icons.star, size: 14, color: MkColors.sand),
-                    Text(
-                      ' ${pitch.rating}  ',
-                      style: const TextStyle(
-                        color: MkColors.sand,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 12.5,
-                      ),
-                    ),
-                    MkTag('≤ ${pitch.maxPerSide}v${pitch.maxPerSide}'),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                money(pitch.priceDa),
-                style: const TextStyle(
-                  fontFamily: MkFonts.display,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 22,
-                ),
-              ),
-              Text(
-                '${l.da}${l.perHour}',
-                style: const TextStyle(color: MkColors.sub, fontSize: 11.5),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}

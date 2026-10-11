@@ -338,5 +338,12 @@
   "editProfile": "Modifier le profil",
   "save": "Enregistrer",
   "saved": "Enregistré",
-  "pickLevel": "Choisissez votre niveau"
+  "pickLevel": "Choisissez votre niveau",
+  "allPitches": "Tous les terrains",
+  "favorites": "Favoris",
+  "upTo": "Jusqu’à {price} DA",
+  "noPitchMatch": "Aucun terrain ne correspond à ces filtres.",
+  "clearFilters": "Effacer les filtres",
+  "addFavorite": "Ajouter aux favoris",
+  "removeFavorite": "Retirer des favoris"
 }

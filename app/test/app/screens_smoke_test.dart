@@ -75,6 +75,7 @@ void main() {
       await open(t, Routes.notifications);
       await open(t, Routes.settings);
       await open(t, Routes.editProfile);
+      await open(t, Routes.pitches);
 
       await auth.signOut();
       await t.pumpAndSettle();

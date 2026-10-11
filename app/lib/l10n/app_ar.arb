@@ -338,5 +338,12 @@
   "editProfile": "تعديل الملف الشخصي",
   "save": "حفظ",
   "saved": "تم الحفظ",
-  "pickLevel": "اختر مستواك"
+  "pickLevel": "اختر مستواك",
+  "allPitches": "كل الملاعب",
+  "favorites": "المفضلة",
+  "upTo": "حتى {price} دج",
+  "noPitchMatch": "لا يوجد ملعب يطابق هذه الفلاتر.",
+  "clearFilters": "مسح الفلاتر",
+  "addFavorite": "أضف إلى المفضلة",
+  "removeFavorite": "أزل من المفضلة"
 }

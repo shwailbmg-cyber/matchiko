@@ -484,5 +484,19 @@
   "editProfile": "Edit profile",
   "save": "Save",
   "saved": "Saved",
-  "pickLevel": "Choose your level"
+  "pickLevel": "Choose your level",
+  "allPitches": "All pitches",
+  "favorites": "Favourites",
+  "upTo": "Up to {price} DA",
+  "@upTo": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "noPitchMatch": "No pitch matches these filters.",
+  "clearFilters": "Clear filters",
+  "addFavorite": "Add to favourites",
+  "removeFavorite": "Remove from favourites"
 }

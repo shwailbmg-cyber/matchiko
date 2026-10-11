@@ -15,6 +15,7 @@ import 'package:matchiko/core/widgets/mk_widgets.dart';
 import 'package:matchiko/shared/widgets/badges.dart';
 import 'package:matchiko/core/widgets/zellij.dart';
 import 'package:matchiko/features/pitch/presentation/pitch_controller.dart';
+import 'package:matchiko/shared/widgets/favorite_button.dart';
 import 'package:matchiko/shared/widgets/verify_needed.dart';
 
 /// `SC.detail` in the prototype: pitch hero, amenities, day + slot picker,
@@ -154,6 +155,14 @@ class _Hero extends StatelessWidget {
               icon: const BackButtonIcon(),
             ),
             const Spacer(),
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: MkColors.bg.withValues(alpha: .6),
+                shape: BoxShape.circle,
+              ),
+              child: FavoriteButton(pitch.id),
+            ),
+            const SizedBox(width: 8),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
               decoration: BoxDecoration(

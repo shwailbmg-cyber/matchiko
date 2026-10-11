@@ -34,6 +34,7 @@ class DemoGameRepository implements GameRepository {
   final _past = <Game>[];
   final _queue = <Profile>[];
   final _taken = <String>{};
+  final _favorites = <String>{'harrach'};
   int _seq = 100;
 
   final _changes = StreamController<int>.broadcast();
@@ -350,6 +351,16 @@ class DemoGameRepository implements GameRepository {
 
   @override
   Future<Profile> me() => _wait(() => _me);
+
+  @override
+  Future<Set<String>> favoritePitchIds() => _wait(() => {..._favorites});
+
+  @override
+  Future<void> setFavorite(String pitchId, {required bool favorite}) =>
+      _wait(() {
+        favorite ? _favorites.add(pitchId) : _favorites.remove(pitchId);
+        _changed();
+      });
 
   @override
   Future<void> updateProfile({

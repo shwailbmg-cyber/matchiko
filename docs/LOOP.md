@@ -55,7 +55,7 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
       hardening (obfuscate, `allowBackup=false`, cleartext off).
 - [x] **S5** Splash + onboarding (name, city, positions, level, phone) +
       edit profile. (M1)
-- [ ] **S6** Pitch list with search and filters (format, price, lights,
+- [x] **S6** Pitch list with search and filters (format, price, lights,
       covered, showers) + favourites. (M2)
 - [ ] **S7** Wallet: coins, XP, rank progress, history. (M5)
 - [ ] **S8** Public profile + friends (search by @handle, add, invite). (M3)

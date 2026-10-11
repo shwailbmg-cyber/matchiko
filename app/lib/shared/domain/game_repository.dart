@@ -29,6 +29,10 @@ abstract interface class GameRepository {
   Future<Pitch> pitch(String id);
   Future<List<Slot>> slots(String pitchId, DateTime day);
 
+  /// Ids of the pitches I marked with a heart (`favorite_pitches`).
+  Future<Set<String>> favoritePitchIds();
+  Future<void> setFavorite(String pitchId, {required bool favorite});
+
   /// Open games near me that still need players.
   Future<List<Game>> openGames();
   Future<List<Game>> myUpcoming();

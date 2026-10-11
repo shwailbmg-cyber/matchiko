@@ -25,6 +25,11 @@ final meProvider = FutureProvider.autoDispose<Profile>(
   (ref) => watchGames(ref).me(),
 );
 
+/// Ids of my favourite pitches.
+final favoritesProvider = FutureProvider.autoDispose<Set<String>>(
+  (ref) => watchGames(ref).favoritePitchIds(),
+);
+
 /// Sign-in backend. `main()` overrides it (demo or Supabase).
 final authRepositoryProvider = Provider<AuthRepository>(
   (ref) => throw UnimplementedError('Override authRepositoryProvider'),

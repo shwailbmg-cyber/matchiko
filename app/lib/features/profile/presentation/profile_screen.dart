@@ -36,11 +36,16 @@ class ProfileScreen extends ConsumerWidget {
               children: [
                 Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsetsDirectional.only(start: 4),
-                      child: MkTitle(l.navProfile),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsetsDirectional.only(start: 4),
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: AlignmentDirectional.centerStart,
+                          child: MkTitle(l.navProfile),
+                        ),
+                      ),
                     ),
-                    const Spacer(),
                     IconButton(
                       tooltip: l.editProfile,
                       onPressed: () => context.push(Routes.editProfile),
@@ -198,12 +203,17 @@ class ProfileScreen extends ConsumerWidget {
                           ),
                           const Spacer(),
                           if (next != null)
-                            Text(
-                              '${money(me.xp)} / ${money(next.minXp)}',
-                              style: const TextStyle(
-                                fontFamily: MkFonts.display,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 18,
+                            Flexible(
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  '${money(me.xp)} / ${money(next.minXp)}',
+                                  style: const TextStyle(
+                                    fontFamily: MkFonts.display,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 18,
+                                  ),
+                                ),
                               ),
                             ),
                         ],

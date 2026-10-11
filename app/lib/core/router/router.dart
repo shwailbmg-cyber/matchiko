@@ -12,6 +12,7 @@ import 'package:matchiko/features/manager/presentation/today_screen.dart';
 import 'package:matchiko/features/matches/presentation/matches_screen.dart';
 import 'package:matchiko/features/notifications/presentation/notifications_screen.dart';
 import 'package:matchiko/features/pitch/presentation/pitch_screen.dart';
+import 'package:matchiko/features/pitches/presentation/pitches_screen.dart';
 import 'package:matchiko/features/play/presentation/play_screen.dart';
 import 'package:matchiko/features/profile/presentation/profile_form_screen.dart';
 import 'package:matchiko/features/profile/presentation/profile_screen.dart';
@@ -69,6 +70,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: Routes.notifications,
         builder: (_, _) => const NotificationsScreen(),
       ),
+      GoRoute(path: Routes.pitches, builder: (_, _) => const PitchesScreen()),
       GoRoute(
         path: '/pitch/:id',
         builder: (_, s) => PitchScreen(s.pathParameters['id']!),

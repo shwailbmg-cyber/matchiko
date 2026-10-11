@@ -13,6 +13,7 @@ abstract final class Routes {
   static const notifications = '/notifications';
   static const wallet = '/wallet';
   static const editProfile = '/edit-profile';
+  static const pitches = '/pitches';
   static String pitch(String id) => '/pitch/$id';
   static String game(String id) => '/game/$id';
 
