@@ -321,18 +321,18 @@ class _LineUp extends StatelessWidget {
         child: LayoutBuilder(
           builder: (_, c) {
             final dots = <Widget>[];
-            for (final team in Team.values) {
+            for (final team in Side.values) {
               final ps = game.players.where((p) => p.team == team).toList();
               final byPos = <Position, List<GamePlayer>>{};
               for (final p in ps) {
                 (byPos[p.position] ??= []).add(p);
               }
-              final color = team == Team.a ? MkColors.primary : MkColors.terra;
+              final color = team == Side.a ? MkColors.primary : MkColors.terra;
               byPos.forEach((pos, list) {
                 for (var i = 0; i < list.length; i++) {
                   final p = list[i];
                   var x = _x[pos]! * c.maxWidth;
-                  if (team == Team.b) x = c.maxWidth - x;
+                  if (team == Side.b) x = c.maxWidth - x;
                   final y = (i + 1) / (list.length + 1) * c.maxHeight;
                   final r = p.isMe ? 15.0 : 13.0;
                   dots.add(
@@ -378,7 +378,7 @@ class _TeamAverages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final a = game.players.where((p) => p.team == Team.a).length;
+    final a = game.players.where((p) => p.team == Side.a).length;
     final b = game.players.length - a;
     const style = TextStyle(
       fontSize: 12,

@@ -19,6 +19,8 @@ import 'package:matchiko/features/player/presentation/player_screen.dart';
 import 'package:matchiko/features/profile/presentation/profile_form_screen.dart';
 import 'package:matchiko/features/profile/presentation/profile_screen.dart';
 import 'package:matchiko/features/settings/presentation/settings_screen.dart';
+import 'package:matchiko/features/teams/presentation/team_screen.dart';
+import 'package:matchiko/features/teams/presentation/teams_screen.dart';
 import 'package:matchiko/features/wallet/presentation/wallet_screen.dart';
 import 'package:matchiko/l10n/gen/app_localizations.dart';
 import 'package:matchiko/shared/domain/auth_repository.dart';
@@ -76,6 +78,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: Routes.pitches, builder: (_, _) => const PitchesScreen()),
       GoRoute(path: Routes.wallet, builder: (_, _) => const WalletScreen()),
       GoRoute(path: Routes.friends, builder: (_, _) => const FriendsScreen()),
+      GoRoute(path: Routes.teams, builder: (_, _) => const TeamsScreen()),
+      GoRoute(
+        path: '/team/:id',
+        builder: (_, s) => TeamScreen(s.pathParameters['id']!),
+      ),
       GoRoute(
         path: '/player/:handle',
         builder: (_, s) => PlayerScreen(

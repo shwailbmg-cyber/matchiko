@@ -5,6 +5,7 @@ import 'package:matchiko/shared/domain/pitch.dart';
 import 'package:matchiko/shared/domain/player.dart';
 import 'package:matchiko/shared/domain/position.dart';
 import 'package:matchiko/shared/domain/profile.dart';
+import 'package:matchiko/shared/domain/team.dart';
 
 /// Everything the screens read and do about pitches, games and the signed-in
 /// player. [changes] ticks when data changes (Realtime later), so the
@@ -44,6 +45,27 @@ abstract interface class GameRepository {
 
   /// Cancels a request, declines one, or removes a friend.
   Future<void> removeFriend(String handle);
+
+  // ── Teams ────────────────────────────────────────────────────────────
+  Future<List<Team>> myTeams();
+  Future<Team> team(String id);
+
+  /// Returns the new team's id. I am its captain.
+  Future<String> createTeam({required String name, required int perSide});
+
+  /// Captain only (RLS).
+  Future<void> addTeamMember(String teamId, String handle);
+
+  /// Captain removes anyone; a member removes themselves (leave).
+  Future<void> removeTeamMember(String teamId, String handle);
+
+  /// Captain only.
+  Future<void> setUsualGame(
+    String teamId, {
+    required int weekday,
+    required int hour,
+    required String pitchId,
+  });
 
   /// About a game both of us played, or about behaviour in general.
   /// A no-show report needs [gameId]. Checked by RLS on `player_reports`.

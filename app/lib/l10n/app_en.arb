@@ -561,5 +561,27 @@
   "rsRude": "Rude or insulting",
   "rsUnsafe": "Dangerous play or violence",
   "rsOther": "Something else",
-  "reportNote": "Add details (optional)"
+  "reportNote": "Add details (optional)",
+  "createTeam": "Create a team",
+  "teamName": "Team name",
+  "noTeams": "No team yet. Create one with your friends.",
+  "usualGame": "Usual game",
+  "usualGameAt": "Every {day} at {time}",
+  "@usualGameAt": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "noUsualGame": "No usual game yet",
+  "setUsualGame": "Set the usual game",
+  "bookUsual": "Book our usual slot",
+  "addMember": "Add a friend to the team",
+  "removeMember": "Remove from the team",
+  "leaveTeam": "Leave the team",
+  "hour": "Time"
 }

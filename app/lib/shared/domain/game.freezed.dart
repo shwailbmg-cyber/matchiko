@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$GamePlayer {
 
- String get name; String get handle; Position get position; Team get team; int get reliability; bool get paid; bool get confirmed;/// Added by the booker, has no account.
+ String get name; String get handle; Position get position; Side get team; int get reliability; bool get paid; bool get confirmed;/// Added by the booker, has no account.
  bool get guest; bool get isMe; bool get isBooker;
 /// Create a copy of GamePlayer
 /// with the given fields replaced by the non-null parameter values.
@@ -55,7 +55,7 @@ abstract mixin class $GamePlayerCopyWith<$Res>  {
   factory $GamePlayerCopyWith(GamePlayer value, $Res Function(GamePlayer) _then) = _$GamePlayerCopyWithImpl;
 @useResult
 $Res call({
- String name, String handle, Position position, Team team, int reliability, bool paid, bool confirmed, bool guest, bool isMe, bool isBooker
+ String name, String handle, Position position, Side team, int reliability, bool paid, bool confirmed, bool guest, bool isMe, bool isBooker
 });
 
 
@@ -78,7 +78,7 @@ name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,handle: null == handle ? _self.handle : handle // ignore: cast_nullable_to_non_nullable
 as String,position: null == position ? _self.position : position // ignore: cast_nullable_to_non_nullable
 as Position,team: null == team ? _self.team : team // ignore: cast_nullable_to_non_nullable
-as Team,reliability: null == reliability ? _self.reliability : reliability // ignore: cast_nullable_to_non_nullable
+as Side,reliability: null == reliability ? _self.reliability : reliability // ignore: cast_nullable_to_non_nullable
 as int,paid: null == paid ? _self.paid : paid // ignore: cast_nullable_to_non_nullable
 as bool,confirmed: null == confirmed ? _self.confirmed : confirmed // ignore: cast_nullable_to_non_nullable
 as bool,guest: null == guest ? _self.guest : guest // ignore: cast_nullable_to_non_nullable
@@ -169,7 +169,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  String handle,  Position position,  Team team,  int reliability,  bool paid,  bool confirmed,  bool guest,  bool isMe,  bool isBooker)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  String handle,  Position position,  Side team,  int reliability,  bool paid,  bool confirmed,  bool guest,  bool isMe,  bool isBooker)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _GamePlayer() when $default != null:
 return $default(_that.name,_that.handle,_that.position,_that.team,_that.reliability,_that.paid,_that.confirmed,_that.guest,_that.isMe,_that.isBooker);case _:
@@ -190,7 +190,7 @@ return $default(_that.name,_that.handle,_that.position,_that.team,_that.reliabil
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  String handle,  Position position,  Team team,  int reliability,  bool paid,  bool confirmed,  bool guest,  bool isMe,  bool isBooker)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  String handle,  Position position,  Side team,  int reliability,  bool paid,  bool confirmed,  bool guest,  bool isMe,  bool isBooker)  $default,) {final _that = this;
 switch (_that) {
 case _GamePlayer():
 return $default(_that.name,_that.handle,_that.position,_that.team,_that.reliability,_that.paid,_that.confirmed,_that.guest,_that.isMe,_that.isBooker);case _:
@@ -210,7 +210,7 @@ return $default(_that.name,_that.handle,_that.position,_that.team,_that.reliabil
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  String handle,  Position position,  Team team,  int reliability,  bool paid,  bool confirmed,  bool guest,  bool isMe,  bool isBooker)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  String handle,  Position position,  Side team,  int reliability,  bool paid,  bool confirmed,  bool guest,  bool isMe,  bool isBooker)?  $default,) {final _that = this;
 switch (_that) {
 case _GamePlayer() when $default != null:
 return $default(_that.name,_that.handle,_that.position,_that.team,_that.reliability,_that.paid,_that.confirmed,_that.guest,_that.isMe,_that.isBooker);case _:
@@ -231,7 +231,7 @@ class _GamePlayer extends GamePlayer {
 @override final  String name;
 @override final  String handle;
 @override final  Position position;
-@override final  Team team;
+@override final  Side team;
 @override@JsonKey() final  int reliability;
 @override@JsonKey() final  bool paid;
 @override@JsonKey() final  bool confirmed;
@@ -275,7 +275,7 @@ abstract mixin class _$GamePlayerCopyWith<$Res> implements $GamePlayerCopyWith<$
   factory _$GamePlayerCopyWith(_GamePlayer value, $Res Function(_GamePlayer) _then) = __$GamePlayerCopyWithImpl;
 @override @useResult
 $Res call({
- String name, String handle, Position position, Team team, int reliability, bool paid, bool confirmed, bool guest, bool isMe, bool isBooker
+ String name, String handle, Position position, Side team, int reliability, bool paid, bool confirmed, bool guest, bool isMe, bool isBooker
 });
 
 
@@ -298,7 +298,7 @@ name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,handle: null == handle ? _self.handle : handle // ignore: cast_nullable_to_non_nullable
 as String,position: null == position ? _self.position : position // ignore: cast_nullable_to_non_nullable
 as Position,team: null == team ? _self.team : team // ignore: cast_nullable_to_non_nullable
-as Team,reliability: null == reliability ? _self.reliability : reliability // ignore: cast_nullable_to_non_nullable
+as Side,reliability: null == reliability ? _self.reliability : reliability // ignore: cast_nullable_to_non_nullable
 as int,paid: null == paid ? _self.paid : paid // ignore: cast_nullable_to_non_nullable
 as bool,confirmed: null == confirmed ? _self.confirmed : confirmed // ignore: cast_nullable_to_non_nullable
 as bool,guest: null == guest ? _self.guest : guest // ignore: cast_nullable_to_non_nullable

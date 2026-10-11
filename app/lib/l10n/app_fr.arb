@@ -384,5 +384,17 @@
   "rsRude": "Impoli ou insultant",
   "rsUnsafe": "Jeu dangereux ou violence",
   "rsOther": "Autre chose",
-  "reportNote": "Ajouter des détails (facultatif)"
+  "reportNote": "Ajouter des détails (facultatif)",
+  "createTeam": "Créer une équipe",
+  "teamName": "Nom de l’équipe",
+  "noTeams": "Pas encore d’équipe. Créez-en une avec vos amis.",
+  "usualGame": "Match habituel",
+  "usualGameAt": "Chaque {day} à {time}",
+  "noUsualGame": "Pas encore de match habituel",
+  "setUsualGame": "Choisir le match habituel",
+  "bookUsual": "Réserver notre créneau habituel",
+  "addMember": "Ajouter un ami à l’équipe",
+  "removeMember": "Retirer de l’équipe",
+  "leaveTeam": "Quitter l’équipe",
+  "hour": "Heure"
 }

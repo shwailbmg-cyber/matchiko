@@ -8,6 +8,7 @@ import 'package:matchiko/shared/domain/pitch.dart';
 import 'package:matchiko/shared/domain/player.dart';
 import 'package:matchiko/shared/domain/position.dart';
 import 'package:matchiko/shared/domain/profile.dart';
+import 'package:matchiko/shared/domain/team.dart';
 import 'package:matchiko/shared/domain/game_repository.dart';
 
 /// In-memory sample data, same as the Claude Design prototype. Used when the
@@ -41,6 +42,7 @@ class DemoGameRepository implements GameRepository {
   final _ledger = <LedgerEntry>[];
   final _people = <String, Player>{};
   final _notifs = <AppNotification>[];
+  final _teams = <String, Team>{};
 
   /// Reports sent from this device (the demo has no review queue yet).
   final reports = <(String, ReportReason)>[];
@@ -62,7 +64,7 @@ class DemoGameRepository implements GameRepository {
   static GamePlayer _p(
     String name,
     Position pos,
-    Team team, {
+    Side team, {
     int rel = 95,
     bool paid = false,
     bool confirmed = true,
@@ -82,7 +84,7 @@ class DemoGameRepository implements GameRepository {
     name: _me.name,
     handle: _me.handle,
     position: _me.positions.first,
-    team: Team.a,
+    team: Side.a,
     reliability: _me.reliability,
     isMe: true,
   );
@@ -161,17 +163,17 @@ class DemoGameRepository implements GameRepository {
     // My game tonight: I'm the booker.
     final mine = [
       _meAsPlayer.copyWith(paid: true),
-      _p('Yacine Kaci', Position.mid, Team.a, rel: 97, paid: true),
-      _p('Hakim Mansouri', Position.def, Team.a, rel: 91, paid: true),
-      _p('Bilal Tahar', Position.gk, Team.a, rel: 99),
-      _p('Walid Djebbar', Position.def, Team.a, rel: 78, confirmed: false),
-      _p('Karim', Position.fwd, Team.a, guest: true),
-      _p('Redha Khelifi', Position.gk, Team.b, rel: 93, paid: true),
-      _p('Karim Bouzid', Position.def, Team.b, rel: 88, paid: true),
-      _p('Nassim Hadj', Position.def, Team.b, rel: 95),
-      _p('Omar Saidi', Position.mid, Team.b, rel: 90, paid: true),
-      _p('Raouf Ghali', Position.mid, Team.b, rel: 96, paid: true),
-      _p('Ilyes Meziane', Position.fwd, Team.b, rel: 92),
+      _p('Yacine Kaci', Position.mid, Side.a, rel: 97, paid: true),
+      _p('Hakim Mansouri', Position.def, Side.a, rel: 91, paid: true),
+      _p('Bilal Tahar', Position.gk, Side.a, rel: 99),
+      _p('Walid Djebbar', Position.def, Side.a, rel: 78, confirmed: false),
+      _p('Karim', Position.fwd, Side.a, guest: true),
+      _p('Redha Khelifi', Position.gk, Side.b, rel: 93, paid: true),
+      _p('Karim Bouzid', Position.def, Side.b, rel: 88, paid: true),
+      _p('Nassim Hadj', Position.def, Side.b, rel: 95),
+      _p('Omar Saidi', Position.mid, Side.b, rel: 90, paid: true),
+      _p('Raouf Ghali', Position.mid, Side.b, rel: 96, paid: true),
+      _p('Ilyes Meziane', Position.fwd, Side.b, rel: 92),
     ];
     _add(
       Game(
@@ -185,7 +187,7 @@ class DemoGameRepository implements GameRepository {
             name: mine.first.name,
             handle: mine.first.handle,
             position: mine.first.position,
-            team: Team.a,
+            team: Side.a,
             reliability: mine.first.reliability,
             paid: true,
             isMe: true,
@@ -303,6 +305,7 @@ class DemoGameRepository implements GameRepository {
         goals: 0,
       ),
     ]);
+    _seedTeams();
   }
 
   static const _names = [
@@ -324,7 +327,7 @@ class DemoGameRepository implements GameRepository {
       _p(
         _names[i % _names.length],
         Position.playable[(i ~/ 2) % 4],
-        i.isEven ? Team.a : Team.b,
+        i.isEven ? Side.a : Side.b,
         rel: 85 + (i * 7) % 15,
         paid: i % 3 != 0,
       ),
@@ -342,7 +345,7 @@ class DemoGameRepository implements GameRepository {
             name: booker,
             handle: booker.toLowerCase().replaceAll(' ', '_'),
             position: Position.mid,
-            team: Team.a,
+            team: Side.a,
             isBooker: true,
           ),
           ..._filler(9),
@@ -452,6 +455,110 @@ class DemoGameRepository implements GameRepository {
   @override
   Future<void> removeFriend(String handle) =>
       _wait(() => _setFriend(handle, FriendStatus.none));
+
+  Player get _mePlayer => Player(
+    handle: _me.handle,
+    name: _me.name,
+    wilayaId: _me.wilayaId,
+    positions: _me.positions,
+    xp: _me.xp,
+    verified: _me.verified,
+    played: _me.played,
+  );
+
+  void _seedTeams() {
+    _teams['t1'] = Team(
+      id: 't1',
+      name: 'Harrach Lions',
+      perSide: 7,
+      captainHandle: _me.handle,
+      iAmCaptain: true,
+      members: [
+        _mePlayer,
+        for (final h in ['samy_lounis', 'adel_zitouni', 'nabil_ferhat'])
+          _person(h),
+      ],
+      usualWeekday: DateTime.tuesday,
+      usualHour: 21,
+      usualPitchId: 'harrach',
+      wins: 12,
+      draws: 3,
+      losses: 4,
+    );
+    _teams['t2'] = Team(
+      id: 't2',
+      name: 'Kouba Friday',
+      perSide: 5,
+      captainHandle: 'riad_mansouri',
+      members: [_person('riad_mansouri'), _mePlayer, _person('mehdi_saadi')],
+      wins: 5,
+      losses: 6,
+    );
+  }
+
+  Team _team(String id) => _teams[id] ?? (throw StateError('no team $id'));
+
+  @override
+  Future<List<Team>> myTeams() => _wait(() => _teams.values.toList());
+
+  @override
+  Future<Team> team(String id) => _wait(() => _team(id));
+
+  @override
+  Future<String> createTeam({required String name, required int perSide}) =>
+      _wait(() {
+        final id = 't${++_seq}';
+        _teams[id] = Team(
+          id: id,
+          name: name.trim(),
+          perSide: perSide,
+          captainHandle: _me.handle,
+          iAmCaptain: true,
+          members: [_mePlayer],
+        );
+        _changed();
+        return id;
+      });
+
+  @override
+  Future<void> addTeamMember(String teamId, String handle) => _wait(() {
+    final t = _team(teamId);
+    if (!t.iAmCaptain) throw StateError('captain only');
+    if (t.members.any((m) => m.handle == handle)) return;
+    _teams[teamId] = t.copyWith(members: [...t.members, _person(handle)]);
+    _changed();
+  });
+
+  @override
+  Future<void> removeTeamMember(String teamId, String handle) => _wait(() {
+    final t = _team(teamId);
+    if (!t.iAmCaptain && handle != _me.handle) throw StateError('not allowed');
+    if (handle == _me.handle) {
+      _teams.remove(teamId);
+    } else {
+      _teams[teamId] = t.copyWith(
+        members: t.members.where((m) => m.handle != handle).toList(),
+      );
+    }
+    _changed();
+  });
+
+  @override
+  Future<void> setUsualGame(
+    String teamId, {
+    required int weekday,
+    required int hour,
+    required String pitchId,
+  }) => _wait(() {
+    final t = _team(teamId);
+    if (!t.iAmCaptain) throw StateError('captain only');
+    _teams[teamId] = t.copyWith(
+      usualWeekday: weekday,
+      usualHour: hour,
+      usualPitchId: pitchId,
+    );
+    _changed();
+  });
 
   @override
   Future<void> reportPlayer(
@@ -650,7 +757,7 @@ class DemoGameRepository implements GameRepository {
             name: _me.name,
             handle: _me.handle,
             position: _me.positions.first,
-            team: Team.a,
+            team: Side.a,
             reliability: _me.reliability,
             isMe: true,
             isBooker: true,
@@ -667,7 +774,7 @@ class DemoGameRepository implements GameRepository {
   Future<void> joinGame(String gameId, Position position) => _wait(
     () => _update(gameId, (g) {
       if (g.full || g.me != null) return g;
-      final a = g.players.where((p) => p.team == Team.a).length;
+      final a = g.players.where((p) => p.team == Side.a).length;
       final b = g.players.length - a;
       return g.copyWith(
         players: [
@@ -676,7 +783,7 @@ class DemoGameRepository implements GameRepository {
             name: _me.name,
             handle: _me.handle,
             position: position,
-            team: a <= b ? Team.a : Team.b,
+            team: a <= b ? Side.a : Side.b,
             reliability: _me.reliability,
             isMe: true,
           ),

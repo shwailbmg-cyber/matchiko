@@ -8,7 +8,8 @@ import 'package:matchiko/shared/domain/profile.dart';
 part 'game.freezed.dart';
 part 'game.g.dart';
 
-enum Team { a, b }
+/// Which side of the pitch a player is on in a game.
+enum Side { a, b }
 
 @freezed
 abstract class GamePlayer with _$GamePlayer {
@@ -18,7 +19,7 @@ abstract class GamePlayer with _$GamePlayer {
     required String name,
     required String handle,
     required Position position,
-    required Team team,
+    required Side team,
     @Default(100) int reliability,
     @Default(false) bool paid,
     @Default(true) bool confirmed,

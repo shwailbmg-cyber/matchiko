@@ -15,6 +15,8 @@ abstract final class Routes {
   static const editProfile = '/edit-profile';
   static const pitches = '/pitches';
   static const friends = '/friends';
+  static const teams = '/teams';
+  static String team(String id) => '/team/$id';
   static String player(String handle, {String? game}) =>
       '/player/$handle${game == null ? '' : '?game=$game'}';
   static String pitch(String id) => '/pitch/$id';

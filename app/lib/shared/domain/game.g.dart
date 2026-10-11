@@ -10,7 +10,7 @@ _GamePlayer _$GamePlayerFromJson(Map<String, dynamic> json) => _GamePlayer(
   name: json['name'] as String,
   handle: json['handle'] as String,
   position: $enumDecode(_$PositionEnumMap, json['position']),
-  team: $enumDecode(_$TeamEnumMap, json['team']),
+  team: $enumDecode(_$SideEnumMap, json['team']),
   reliability: (json['reliability'] as num?)?.toInt() ?? 100,
   paid: json['paid'] as bool? ?? false,
   confirmed: json['confirmed'] as bool? ?? true,
@@ -24,7 +24,7 @@ Map<String, dynamic> _$GamePlayerToJson(_GamePlayer instance) =>
       'name': instance.name,
       'handle': instance.handle,
       'position': _$PositionEnumMap[instance.position]!,
-      'team': _$TeamEnumMap[instance.team]!,
+      'team': _$SideEnumMap[instance.team]!,
       'reliability': instance.reliability,
       'paid': instance.paid,
       'confirmed': instance.confirmed,
@@ -41,7 +41,7 @@ const _$PositionEnumMap = {
   Position.ref: 'ref',
 };
 
-const _$TeamEnumMap = {Team.a: 'a', Team.b: 'b'};
+const _$SideEnumMap = {Side.a: 'a', Side.b: 'b'};
 
 _Game _$GameFromJson(Map<String, dynamic> json) => _Game(
   id: json['id'] as String,
