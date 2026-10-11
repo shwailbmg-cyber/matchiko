@@ -416,43 +416,51 @@ class _Players extends StatelessWidget {
       child: Column(
         children: [
           for (final (i, p) in g.players.indexed)
-            Container(
-              decoration: const BoxDecoration(
-                border: Border(bottom: BorderSide(color: MkColors.line)),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-              child: Row(
-                children: [
-                  MkAvatar(p.initials, seed: i),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          p.isMe ? '${p.name} (${l.you})' : p.name,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14,
+            InkWell(
+              onTap: p.isMe || p.guest
+                  ? null
+                  : () => context.push(Routes.player(p.handle)),
+              child: Container(
+                decoration: const BoxDecoration(
+                  border: Border(bottom: BorderSide(color: MkColors.line)),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 10,
+                ),
+                child: Row(
+                  children: [
+                    MkAvatar(p.initials, seed: i),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            p.isMe ? '${p.name} (${l.you})' : p.name,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14,
+                            ),
                           ),
-                        ),
-                        Text(
-                          _note(l, p),
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: p.confirmed ? MkColors.sub : MkColors.sand,
+                          Text(
+                            _note(l, p),
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: p.confirmed ? MkColors.sub : MkColors.sand,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  _PaidChip(
-                    player: p,
-                    free: share.goalkeepersFree && p.position == Position.gk,
-                    editable: g.iAmBooker && !p.isBooker,
-                    onChanged: (v) => vm.setPaid(p.handle, v),
-                  ),
-                ],
+                    _PaidChip(
+                      player: p,
+                      free: share.goalkeepersFree && p.position == Position.gk,
+                      editable: g.iAmBooker && !p.isBooker,
+                      onChanged: (v) => vm.setPaid(p.handle, v),
+                    ),
+                  ],
+                ),
               ),
             ),
           if (g.waitlist > 0)

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:matchiko/core/router/routes.dart';
 import 'package:matchiko/core/widgets/mk_nav_bar.dart';
 import 'package:matchiko/features/auth/presentation/login_screen.dart';
+import 'package:matchiko/features/friends/presentation/friends_screen.dart';
 import 'package:matchiko/features/game/presentation/game_screen.dart';
 import 'package:matchiko/features/home/presentation/home_screen.dart';
 import 'package:matchiko/features/manager/presentation/players_screen.dart';
@@ -14,6 +15,7 @@ import 'package:matchiko/features/notifications/presentation/notifications_scree
 import 'package:matchiko/features/pitch/presentation/pitch_screen.dart';
 import 'package:matchiko/features/pitches/presentation/pitches_screen.dart';
 import 'package:matchiko/features/play/presentation/play_screen.dart';
+import 'package:matchiko/features/player/presentation/player_screen.dart';
 import 'package:matchiko/features/profile/presentation/profile_form_screen.dart';
 import 'package:matchiko/features/profile/presentation/profile_screen.dart';
 import 'package:matchiko/features/settings/presentation/settings_screen.dart';
@@ -73,6 +75,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(path: Routes.pitches, builder: (_, _) => const PitchesScreen()),
       GoRoute(path: Routes.wallet, builder: (_, _) => const WalletScreen()),
+      GoRoute(path: Routes.friends, builder: (_, _) => const FriendsScreen()),
+      GoRoute(
+        path: '/player/:handle',
+        builder: (_, s) => PlayerScreen(s.pathParameters['handle']!),
+      ),
       GoRoute(
         path: '/pitch/:id',
         builder: (_, s) => PitchScreen(s.pathParameters['id']!),

@@ -58,7 +58,7 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
 - [x] **S6** Pitch list with search and filters (format, price, lights,
       covered, showers) + favourites. (M2)
 - [x] **S7** Wallet: coins, XP, rank progress, history. (M5)
-- [ ] **S8** Public profile + friends (search by @handle, add, invite). (M3)
+- [x] **S8** Public profile + friends (search by @handle, add, invite). (M3)
 - [ ] **S9** Notifications center + report no-show / report player. (M3)
 - [ ] **S10** Teams: list, create, team page, recurring game. (M4)
 - [ ] **S11** Referee: apply, availability, jobs, earnings, match report. (M5)
@@ -82,4 +82,6 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
 - Communes (1,541): need an up-to-date dataset after decree n° 26-206
   moved communes into the 11 new wilayas; add a `communes` table then.
   Wilayas (69) are done.
+- Public reliability % and fair-play tags need a `public_player_stats`
+  RPC that doesn't expose raw no-show counts (with S18).
 - Profile photo upload waits for the Supabase avatars bucket (S18).

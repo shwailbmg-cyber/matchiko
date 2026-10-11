@@ -77,6 +77,8 @@ void main() {
       await open(t, Routes.editProfile);
       await open(t, Routes.pitches);
       await open(t, Routes.wallet);
+      await open(t, Routes.friends);
+      await open(t, Routes.player('samy_lounis'));
 
       await auth.signOut();
       await t.pumpAndSettle();

@@ -359,5 +359,18 @@
   "rVerified": "توثيق الحساب",
   "rNoShow": "غياب",
   "rCancel": "إلغاء حجز",
-  "rAdmin": "تعديل من Matchiko"
+  "rAdmin": "تعديل من Matchiko",
+  "findPlayers": "ابحث عن لاعب بالاسم أو @المعرّف",
+  "addFriend": "إضافة صديق",
+  "requestSent": "تم إرسال الطلب",
+  "acceptFriend": "قبول",
+  "decline": "رفض",
+  "friendsTag": "أصدقاء",
+  "friendRequests": "طلبات الصداقة",
+  "sentRequests": "طلبات مرسلة",
+  "noFriends": "لا أصدقاء بعد. ابحث عن لاعبين تعرفهم.",
+  "noPlayerFound": "لم يتم العثور على أي لاعب.",
+  "inviteSub": "تحصل على +100 قطعة عندما يلعب صديقك أول مباراة له.",
+  "inviteCopied": "تم نسخ رابط الدعوة",
+  "friendsTitle": "الأصدقاء"
 }

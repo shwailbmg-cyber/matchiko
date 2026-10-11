@@ -512,5 +512,18 @@
   "rVerified": "Account verified",
   "rNoShow": "No-show",
   "rCancel": "Cancelled a booking",
-  "rAdmin": "Change by Matchiko"
+  "rAdmin": "Change by Matchiko",
+  "findPlayers": "Find players by name or @handle",
+  "addFriend": "Add friend",
+  "requestSent": "Request sent",
+  "acceptFriend": "Accept",
+  "decline": "Decline",
+  "friendsTag": "Friends",
+  "friendRequests": "Friend requests",
+  "sentRequests": "Requests sent",
+  "noFriends": "No friends yet. Find players you know.",
+  "noPlayerFound": "No player found.",
+  "inviteSub": "You get +100 coins when a friend plays their first game.",
+  "inviteCopied": "Invite link copied",
+  "friendsTitle": "Friends"
 }

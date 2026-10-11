@@ -298,6 +298,37 @@ class ProfileScreen extends ConsumerWidget {
                     ],
                   ),
                 ),
+                const SizedBox(height: 12),
+                MkCard(
+                  onTap: () => context.push(Routes.friends),
+                  child: Row(
+                    children: [
+                      const Text('🤝', style: TextStyle(fontSize: 24)),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              l.friendsTitle,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                            Text(
+                              l.inviteSub,
+                              style: const TextStyle(
+                                color: MkColors.sub,
+                                fontSize: 12.5,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Icon(Icons.chevron_right, color: MkColors.sub),
+                    ],
+                  ),
+                ),
               ],
             );
           },

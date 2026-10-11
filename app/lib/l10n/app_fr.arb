@@ -359,5 +359,18 @@
   "rVerified": "Compte vérifié",
   "rNoShow": "Absence",
   "rCancel": "Réservation annulée",
-  "rAdmin": "Correction par Matchiko"
+  "rAdmin": "Correction par Matchiko",
+  "findPlayers": "Chercher un joueur par nom ou @pseudo",
+  "addFriend": "Ajouter",
+  "requestSent": "Demande envoyée",
+  "acceptFriend": "Accepter",
+  "decline": "Refuser",
+  "friendsTag": "Amis",
+  "friendRequests": "Demandes d’amis",
+  "sentRequests": "Demandes envoyées",
+  "noFriends": "Pas encore d’amis. Cherchez des joueurs que vous connaissez.",
+  "noPlayerFound": "Aucun joueur trouvé.",
+  "inviteSub": "Vous gagnez +100 pièces quand un ami joue son premier match.",
+  "inviteCopied": "Lien d’invitation copié",
+  "friendsTitle": "Amis"
 }

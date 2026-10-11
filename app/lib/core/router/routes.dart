@@ -14,6 +14,8 @@ abstract final class Routes {
   static const wallet = '/wallet';
   static const editProfile = '/edit-profile';
   static const pitches = '/pitches';
+  static const friends = '/friends';
+  static String player(String handle) => '/player/$handle';
   static String pitch(String id) => '/pitch/$id';
   static String game(String id) => '/game/$id';
 

@@ -4,6 +4,7 @@ import 'package:matchiko/shared/domain/booking_status.dart';
 import 'package:matchiko/shared/domain/game.dart';
 import 'package:matchiko/shared/domain/ledger_entry.dart';
 import 'package:matchiko/shared/domain/pitch.dart';
+import 'package:matchiko/shared/domain/player.dart';
 import 'package:matchiko/shared/domain/position.dart';
 import 'package:matchiko/shared/domain/profile.dart';
 import 'package:matchiko/shared/domain/game_repository.dart';
@@ -37,6 +38,7 @@ class DemoGameRepository implements GameRepository {
   final _taken = <String>{};
   final _favorites = <String>{'harrach'};
   final _ledger = <LedgerEntry>[];
+  final _people = <String, Player>{};
   int _seq = 100;
 
   final _changes = StreamController<int>.broadcast();
@@ -109,6 +111,7 @@ class DemoGameRepository implements GameRepository {
     ]) {
       _earn(r, xp, c, _at(-d, 22));
     }
+    _seedPeople();
     _pitches.addAll(const [
       Pitch(
         id: 'harrach',
@@ -365,6 +368,68 @@ class DemoGameRepository implements GameRepository {
 
   @override
   Future<Profile> me() => _wait(() => _me);
+
+  void _seedPeople() {
+    const wilayas = ['alger', 'blida', 'boumerdes', 'tipaza', 'alger', 'oran'];
+    for (final (i, name) in _names.indexed) {
+      final handle = name.toLowerCase().replaceAll(' ', '_');
+      _people[handle] = Player(
+        handle: handle,
+        name: name,
+        wilayaId: wilayas[i % wilayas.length],
+        positions: [Position.playable[(i ~/ 2) % 4]],
+        xp: 200 + i * 173 % 2400,
+        verified: i % 3 != 2,
+        played: 5 + i * 7 % 60,
+        friend: switch (i) {
+          0 || 1 || 3 => FriendStatus.friends,
+          4 => FriendStatus.incoming,
+          6 => FriendStatus.sent,
+          _ => FriendStatus.none,
+        },
+      );
+    }
+  }
+
+  Player _person(String handle) =>
+      _people[handle] ?? (throw StateError('no player @$handle'));
+
+  void _setFriend(String handle, FriendStatus s) {
+    _people[handle] = _person(handle).copyWith(friend: s);
+    _changed();
+  }
+
+  @override
+  Future<List<Player>> searchPlayers(String query) => _wait(() {
+    final q = query.trim().toLowerCase().replaceFirst('@', '');
+    if (q.isEmpty) return <Player>[];
+    return _people.values
+        .where((p) => p.handle.contains(q) || p.name.toLowerCase().contains(q))
+        .toList();
+  });
+
+  @override
+  Future<Player> player(String handle) => _wait(() => _person(handle));
+
+  @override
+  Future<List<Player>> friends() => _wait(
+    () => _people.values.where((p) => p.friend != FriendStatus.none).toList(),
+  );
+
+  @override
+  Future<void> addFriend(String handle) =>
+      _wait(() => _setFriend(handle, FriendStatus.sent));
+
+  @override
+  Future<void> acceptFriend(String handle) => _wait(() {
+    if (_person(handle).friend == FriendStatus.incoming) {
+      _setFriend(handle, FriendStatus.friends);
+    }
+  });
+
+  @override
+  Future<void> removeFriend(String handle) =>
+      _wait(() => _setFriend(handle, FriendStatus.none));
 
   @override
   Future<List<LedgerEntry>> walletHistory() =>
