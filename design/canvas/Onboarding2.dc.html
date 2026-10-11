@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Onboarding: positions and level</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Cairo:wght@400;600;700;800;900&amp;display=swap">
+<style>
+body{margin:0;background:#06110b}
+a{color:#3ddc84}a:hover{color:#7eeaae}
+button{font-family:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #06110b; color: #eaf5ee; font-family: Cairo, system-ui, sans-serif; padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 18px">
+
+<div style="display: flex; align-items: center; gap: 8px">
+<span style="flex: 1; height: 6px; border-radius: 3px; background: #3ddc84"></span>
+<span style="flex: 1; height: 6px; border-radius: 3px; background: #3ddc84"></span>
+<span style="font-size: 12px; font-weight: 800; color: #9dbfa9; margin-left: 6px">2 / 2</span>
+</div>
+
+<div>
+<h1 style="margin: 0; font-family: 'Barlow Condensed', Cairo, sans-serif; font-weight: 800; font-size: 40px; line-height: .95; text-transform: uppercase">How do you play?</h1>
+<div style="margin-top: 6px; color: #9dbfa9; font-size: 14px">We use this to find you the right games.</div>
+</div>
+
+<div style="display: flex; justify-content: space-between; align-items: baseline">
+<span style="font-size: 12px; font-weight: 800; color: #9dbfa9; text-transform: uppercase; letter-spacing: .9px">Positions</span>
+<span style="font-size: 11px; color: #9dbfa9">Tap in order of preference</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px">
+<sc-for list="{{positions}}" as="p" hint-placeholder-count="4">
+<button style="{{p.style}}"><span style="{{p.badge}}">{{p.order}}</span><span style="font-size: 24px">{{p.emoji}}</span><b style="font-size: 12px">{{p.name}}</b></button>
+</sc-for>
+</div>
+
+<span style="font-size: 12px; font-weight: 800; color: #9dbfa9; text-transform: uppercase; letter-spacing: .9px">Your level</span>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{levels}}" as="lv" hint-placeholder-count="4">
+<button style="{{lv.style}}"><span style="{{lv.radio}}"></span><span style="display: flex; flex-direction: column; text-align: left"><b style="font-size: 15px">{{lv.name}}</b><span style="font-size: 12px; color: #9dbfa9">{{lv.sub}}</span></span></button>
+</sc-for>
+</div>
+<div style="font-size: 12px; color: #9dbfa9">Other players' ratings will adjust it after your first games.</div>
+
+<button style="margin-top: auto; height: 56px; border-radius: 17px; border: 0; background: #3ddc84; color: #04200f; font-weight: 800; font-size: 16px">Start playing</button>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const pos = [['🧤', 'Keeper', 0], ['🛡️', 'Defender', 0], ['🎯', 'Midfield', 2], ['⚽', 'Forward', 1]];
+    const positions = pos.map(([emoji, name, order]) => ({
+      emoji, name, order: order || '',
+      style: 'position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 4px 10px;border-radius:16px;color:#eaf5ee;' + (order ? 'border:1px solid #3ddc84;background:rgba(61,220,132,.1)' : 'border:1px solid rgba(190,255,210,.09);background:#0e2016'),
+      badge: order ? 'position:absolute;top:6px;right:6px;width:18px;height:18px;border-radius:50%;background:#3ddc84;color:#04200f;font-size:11px;font-weight:900;display:grid;place-items:center' : 'display:none'
+    }));
+    const lv = [['Beginner', 'I play sometimes, just for fun', false], ['Casual', 'I play most weeks', true], ['Good', 'I played in a club or a school team', false], ['Competitive', 'I play to win, high level', false]];
+    const levels = lv.map(([name, sub, on]) => ({
+      name, sub,
+      style: 'display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;color:#eaf5ee;' + (on ? 'border:1px solid #3ddc84;background:rgba(61,220,132,.1)' : 'border:1px solid rgba(190,255,210,.09);background:#0e2016'),
+      radio: 'width:22px;height:22px;border-radius:50%;flex:none;box-sizing:border-box;' + (on ? 'border:7px solid #3ddc84' : 'border:2px solid rgba(190,255,210,.25)')
+    }));
+    return { positions, levels };
+  }
+}
+</script>
+</body>
+</html>

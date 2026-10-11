@@ -1,0 +1,25 @@
+{"v":3,"createdOnFiles":{"v":1,"at":"2026-10-10T10:00:00Z"},"title":"Matchiko missing screens","launch":{"view":"canvas"},"pages":[],
+"boards":{
+"Login.dc.html":{"x":0,"y":0,"w":390,"h":844,"title":"Login"},
+"Onboarding1.dc.html":{"x":470,"y":0,"w":390,"h":844,"title":"Onboarding 1 · About you"},
+"Onboarding2.dc.html":{"x":940,"y":0,"w":390,"h":844,"title":"Onboarding 2 · Positions & level"},
+"Main.dc.html":{"x":0,"y":1187,"w":390,"h":1480,"title":"Game page"},
+"ReportNoShow.dc.html":{"x":470,"y":1187,"w":390,"h":844,"title":"Report a no-show"},
+"Notifications.dc.html":{"x":940,"y":1187,"w":390,"h":844,"title":"Notifications"},
+"Profile.dc.html":{"x":0,"y":3010,"w":390,"h":1000,"title":"Public profile"},
+"Friends.dc.html":{"x":470,"y":3010,"w":390,"h":844,"title":"Friends"},
+"Team.dc.html":{"x":940,"y":3010,"w":390,"h":1000,"title":"Team page"},
+"Settings.dc.html":{"x":1410,"y":3010,"w":390,"h":900,"title":"Settings"},
+"ManagerCalendar.dc.html":{"x":0,"y":4353,"w":390,"h":1000,"title":"Manager · Week calendar"},
+"WalkIn.dc.html":{"x":470,"y":4353,"w":390,"h":844,"title":"Manager · Walk-in booking"},
+"Pitches.dc.html":{"x":940,"y":4353,"w":390,"h":1000,"title":"Manager · Pitches & prices"},
+"RefereeJobs.dc.html":{"x":1410,"y":4353,"w":390,"h":900,"title":"Referee · Jobs"}
+},
+"order":["Login.dc.html","Onboarding1.dc.html","Onboarding2.dc.html","Main.dc.html","ReportNoShow.dc.html","Notifications.dc.html","Profile.dc.html","Friends.dc.html","Team.dc.html","Settings.dc.html","ManagerCalendar.dc.html","WalkIn.dc.html","Pitches.dc.html","RefereeJobs.dc.html"],
+"notes":{
+"t1":{"x":0,"y":-280,"text":"Sign-up","kind":"title1","maxW":1330},
+"t2":{"x":0,"y":907,"text":"Games","kind":"title1","maxW":1330},
+"t3":{"x":0,"y":2730,"text":"Social & account","kind":"title1","maxW":1800},
+"t4":{"x":0,"y":4073,"text":"Manager & referee","kind":"title1","maxW":1800}
+},
+"designSystems":[]}

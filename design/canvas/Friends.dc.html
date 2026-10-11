@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Friends</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Cairo:wght@400;600;700;800;900&amp;display=swap">
+<style>
+body{margin:0;background:#06110b}
+a{color:#3ddc84}a:hover{color:#7eeaae}
+button,input{font-family:inherit}
+button{cursor:pointer}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #06110b; color: #eaf5ee; font-family: Cairo, system-ui, sans-serif; padding: 16px 20px 24px; display: flex; flex-direction: column; gap: 14px">
+<h1 style="margin: 0; font-family: 'Barlow Condensed', Cairo, sans-serif; font-weight: 800; font-size: 38px; text-transform: uppercase">Friends</h1>
+
+<label style="display: flex; align-items: center; gap: 10px; height: 46px; padding: 0 14px; border-radius: 14px; background: #0e2016; border: 1px solid rgba(190,255,210,.09); color: #9dbfa9">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+<span style="position: absolute; width: 1px; height: 1px; overflow: hidden">Search players</span>
+<input placeholder="Search by @handle or name" style="flex: 1; background: none; border: 0; outline: 0; color: #eaf5ee; font-size: 14px">
+</label>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+<button style="height: 48px; border-radius: 14px; border: 1px solid rgba(190,255,210,.18); background: #0e2016; color: #eaf5ee; font-weight: 700">From my contacts</button>
+<button style="height: 48px; border-radius: 14px; border: 0; background: #3ddc84; color: #04200f; font-weight: 800">Invite · +100 coins</button>
+</div>
+
+<div style="display: flex; justify-content: space-between; align-items: baseline"><span style="font-size: 12px; font-weight: 800; color: #9dbfa9; text-transform: uppercase; letter-spacing: .9px">Requests · 2</span></div>
+<div style="background: #0e2016; border: 1px solid rgba(190,255,210,.09); border-radius: 18px; overflow: hidden">
+<sc-for list="{{requests}}" as="f" hint-placeholder-count="2">
+<div style="display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid rgba(190,255,210,.08)">
+<span style="{{f.avatar}}">{{f.ini}}</span>
+<div style="flex: 1; min-width: 0"><b style="font-size: 14px">{{f.name}}</b><div style="font-size: 12px; color: #9dbfa9">{{f.sub}}</div></div>
+<button aria-label="Decline" style="width: 36px; height: 36px; border-radius: 11px; border: 1px solid rgba(190,255,210,.18); background: transparent; color: #9dbfa9; display: grid; place-items: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+<button style="height: 36px; padding: 0 14px; border-radius: 11px; border: 0; background: #3ddc84; color: #04200f; font-weight: 800; font-size: 13px">Accept</button>
+</div>
+</sc-for>
+</div>
+
+<span style="font-size: 12px; font-weight: 800; color: #9dbfa9; text-transform: uppercase; letter-spacing: .9px">My friends · 23</span>
+<div style="background: #0e2016; border: 1px solid rgba(190,255,210,.09); border-radius: 18px; overflow: hidden">
+<sc-for list="{{friends}}" as="f" hint-placeholder-count="5">
+<div style="display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid rgba(190,255,210,.08)">
+<span style="{{f.avatar}}">{{f.ini}}</span>
+<div style="flex: 1; min-width: 0"><b style="font-size: 14px">{{f.name}}</b><div style="font-size: 12px; color: {{f.subColor}}">{{f.sub}}</div></div>
+<span style="font-size: 12px">{{f.rank}}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const cols = ['#3ddc84', '#e9c46a', '#6cb4ee', '#ef7b5a', '#b39ddb', '#4dd0c8'];
+    const av = (i) => 'width:40px;height:40px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:800;font-size:14px;background:' + cols[i % 6] + '26;color:' + cols[i % 6];
+    const ini = (n) => n.split(' ').map(w => w[0]).join('').slice(0, 2);
+    const requests = [['Sofiane A', '@sofi_alg · 3 friends in common'], ['Anis R', '@anis_r · played with you 2 times']]
+      .map(([name, sub], i) => ({ name, sub, ini: ini(name), avatar: av(i + 2) }));
+    const friends = [
+      ['Yacine K', 'Playing tonight 21:00 · Kouba Five', '#3ddc84', '🥇'],
+      ['Hakim M', '🛡️ DEF · 91% reliable', '#9dbfa9', '🥈'],
+      ['Bilal T', '🧤 GK · 99% reliable', '#9dbfa9', '💎'],
+      ['Walid D', '🛡️ DEF · 78% reliable', '#9dbfa9', '🥉'],
+      ['Mehdi S', 'Looking for a game tomorrow', '#3ddc84', '🥈']
+    ].map(([name, sub, subColor, rank], i) => ({ name, sub, subColor, rank, ini: ini(name), avatar: av(i) }));
+    return { requests, friends };
+  }
+}
+</script>
+</body>
+</html>

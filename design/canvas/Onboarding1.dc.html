@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Onboarding: about you</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Cairo:wght@400;600;700;800;900&amp;display=swap">
+<style>
+body{margin:0;background:#06110b}
+a{color:#3ddc84}a:hover{color:#7eeaae}
+button{font-family:inherit;cursor:pointer}
+input,select{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #06110b; color: #eaf5ee; font-family: Cairo, system-ui, sans-serif; padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 18px">
+
+<div style="display: flex; align-items: center; gap: 8px">
+<span style="flex: 1; height: 6px; border-radius: 3px; background: #3ddc84"></span>
+<span style="flex: 1; height: 6px; border-radius: 3px; background: #15301f"></span>
+<span style="font-size: 12px; font-weight: 800; color: #9dbfa9; margin-left: 6px">1 / 2</span>
+</div>
+
+<div>
+<h1 style="margin: 0; font-family: 'Barlow Condensed', Cairo, sans-serif; font-weight: 800; font-size: 40px; line-height: .95; text-transform: uppercase">About you</h1>
+<div style="margin-top: 6px; color: #9dbfa9; font-size: 14px">Use your real name and photo. The manager checks them with your ID card.</div>
+</div>
+
+<div style="display: flex; align-items: center; gap: 16px">
+<button aria-label="Add a photo" style="width: 88px; height: 88px; border-radius: 50%; border: 2px dashed rgba(61,220,132,.5); background: #0e2016; color: #3ddc84; display: grid; place-items: center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></button>
+<div style="font-size: 13px; color: #9dbfa9; line-height: 1.5"><b style="color: #eaf5ee">Profile photo</b><br>A clear photo of your face</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="name" style="font-size: 12px; font-weight: 800; color: #9dbfa9; text-transform: uppercase; letter-spacing: .9px">Full name</label>
+<input id="name" value="Amine Benali" style="height: 52px; border-radius: 14px; background: #0e2016; border: 1px solid rgba(190,255,210,.18); padding: 0 14px; color: #eaf5ee; font-size: 16px">
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="wilaya" style="font-size: 12px; font-weight: 800; color: #9dbfa9; text-transform: uppercase; letter-spacing: .9px">Wilaya</label>
+<select id="wilaya" style="height: 52px; border-radius: 14px; background: #0e2016; border: 1px solid rgba(190,255,210,.18); padding: 0 12px; color: #eaf5ee; font-size: 15px"><option>16 · Alger</option></select>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="commune" style="font-size: 12px; font-weight: 800; color: #9dbfa9; text-transform: uppercase; letter-spacing: .9px">Commune</label>
+<select id="commune" style="height: 52px; border-radius: 14px; background: #0e2016; border: 1px solid rgba(190,255,210,.18); padding: 0 12px; color: #eaf5ee; font-size: 15px"><option>Kouba</option></select>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="ph" style="font-size: 12px; font-weight: 800; color: #9dbfa9; text-transform: uppercase; letter-spacing: .9px">Phone number</label>
+<div style="display: flex; align-items: center; height: 52px; border-radius: 14px; background: #0e2016; border: 1px solid rgba(190,255,210,.18); padding: 0 14px; gap: 10px; direction: ltr">
+<span style="font-weight: 700; font-size: 14px; padding-right: 10px; border-right: 1px solid rgba(190,255,210,.18)">+213</span>
+<input id="ph" value="555 12 34 56" style="flex: 1; background: none; border: 0; outline: 0; color: #eaf5ee; font-size: 18px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700">
+</div>
+<div style="font-size: 12px; color: #9dbfa9">Only managers of pitches you book can see it, to call you.</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="age" style="font-size: 12px; font-weight: 800; color: #9dbfa9; text-transform: uppercase; letter-spacing: .9px">Year of birth</label>
+<input id="age" value="2001" style="height: 52px; border-radius: 14px; background: #0e2016; border: 1px solid rgba(190,255,210,.18); padding: 0 14px; color: #eaf5ee; font-size: 16px">
+<div style="font-size: 12px; color: #9dbfa9">You must be 15 or older.</div>
+</div>
+
+<button style="margin-top: auto; height: 56px; border-radius: 17px; border: 0; background: #3ddc84; color: #04200f; font-weight: 800; font-size: 16px">Next</button>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

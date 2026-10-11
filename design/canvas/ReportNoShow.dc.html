@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Report a no-show</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Cairo:wght@400;600;700;800;900&amp;display=swap">
+<style>
+body{margin:0;background:#06110b}
+a{color:#3ddc84}a:hover{color:#7eeaae}
+button,textarea{font-family:inherit}
+button{cursor:pointer}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #020805; color: #eaf5ee; font-family: Cairo, system-ui, sans-serif; position: relative; overflow: hidden">
+<div style="position: absolute; inset: 0 0 auto 0; padding: 24px 20px; opacity: .35">
+<div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 40px; text-transform: uppercase">Tuesday 21:00</div>
+<div style="color: #9dbfa9">Complexe El Harrach · 7v7</div>
+</div>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; background: #0a1a10; border-top: 1px solid rgba(190,255,210,.18); border-radius: 28px 28px 0 0; padding: 10px 20px 28px; display: flex; flex-direction: column; gap: 14px">
+<span style="align-self: center; width: 40px; height: 5px; border-radius: 3px; background: rgba(190,255,210,.18); margin-bottom: 4px"></span>
+<h2 style="margin: 0; font-size: 20px; font-weight: 900">Who didn't come?</h2>
+<div style="font-size: 13px; color: #9dbfa9; line-height: 1.5">Only report players who were absent or came very late. The manager checks every report.</div>
+
+<div style="background: #0e2016; border: 1px solid rgba(190,255,210,.09); border-radius: 18px; overflow: hidden">
+<sc-for list="{{players}}" as="p" hint-placeholder-count="5">
+<label style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-bottom: 1px solid rgba(190,255,210,.08); cursor: pointer">
+<input type="checkbox" checked="{{p.checked}}" style="width: 22px; height: 22px; accent-color: #3ddc84">
+<span style="flex: 1; display: flex; flex-direction: column"><b style="font-size: 14px">{{p.name}}</b><span style="font-size: 12px; color: #9dbfa9">{{p.sub}}</span></span>
+</label>
+</sc-for>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="note" style="font-size: 12px; font-weight: 800; color: #9dbfa9; text-transform: uppercase; letter-spacing: .9px">Note (optional)</label>
+<textarea id="note" rows="2" style="border-radius: 14px; background: #0e2016; border: 1px solid rgba(190,255,210,.18); padding: 10px 14px; color: #eaf5ee; font-size: 14px; resize: none">Didn't answer his phone.</textarea>
+</div>
+
+<div style="display: flex; gap: 10px; padding: 12px 14px; border-radius: 14px; background: rgba(233,196,106,.08); border: 1px solid rgba(233,196,106,.22); color: #f1dca4; font-size: 12.5px; line-height: 1.5">A confirmed no-show costs 50 XP and 30 coins. Two no-shows mean 7 days without booking. The player can appeal within 48 h.</div>
+
+<button style="height: 56px; border-radius: 17px; border: 0; background: #3ddc84; color: #04200f; font-weight: 800; font-size: 16px">Send report</button>
+<button style="height: 44px; border-radius: 14px; border: 1px solid rgba(190,255,210,.18); background: transparent; color: #9dbfa9; font-weight: 700">Cancel</button>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const players = [
+      ['Walid D', '🛡️ DEF · did not confirm', true],
+      ['Yacine K', '🎯 MID', false],
+      ['Hakim M', '🛡️ DEF', false],
+      ['Bilal T', '🧤 GK', false]
+    ].map(([name, sub, checked]) => ({ name, sub, checked }));
+    return { players };
+  }
+}
+</script>
+</body>
+</html>

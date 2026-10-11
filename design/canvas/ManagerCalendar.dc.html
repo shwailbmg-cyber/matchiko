@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Manager week calendar</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Cairo:wght@400;600;700;800;900&amp;display=swap">
+<style>
+body{margin:0;background:#06110b}
+a{color:#3ddc84}a:hover{color:#7eeaae}
+button{font-family:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="width: 390px; height: 1000px; box-sizing: border-box; background: #06110b; color: #eaf5ee; font-family: Cairo, system-ui, sans-serif; padding: 16px 16px 24px; display: flex; flex-direction: column; gap: 12px; position: relative">
+<div style="display: flex; align-items: center; justify-content: space-between">
+<div><div style="font-size: 12px; color: #9dbfa9; font-weight: 700">Complexe El Harrach</div><h1 style="margin: 0; font-family: 'Barlow Condensed', Cairo, sans-serif; font-weight: 800; font-size: 34px; text-transform: uppercase">This week</h1></div>
+<div style="display: flex; gap: 6px">
+<button aria-label="Previous week" style="width: 44px; height: 44px; border-radius: 13px; background: #0e2016; border: 1px solid rgba(190,255,210,.12); color: #9dbfa9; display: grid; place-items: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+<button aria-label="Next week" style="width: 44px; height: 44px; border-radius: 13px; background: #0e2016; border: 1px solid rgba(190,255,210,.12); color: #9dbfa9; display: grid; place-items: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding: 4px; border-radius: 16px; background: #0e2016; border: 1px solid rgba(190,255,210,.09)">
+<button style="height: 40px; border-radius: 12px; border: 0; background: #3ddc84; color: #04200f; font-weight: 800">Terrain 1 · 7v7</button>
+<button style="height: 40px; border-radius: 12px; border: 0; background: transparent; color: #9dbfa9; font-weight: 800">Terrain 2 · 5v5</button>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 10px; font-size: 11.5px; color: #9dbfa9">
+<sc-for list="{{legend}}" as="l" hint-placeholder-count="5">
+<span style="display: inline-flex; align-items: center; gap: 5px"><i style="{{l.sw}}"></i>{{l.name}}</span>
+</sc-for>
+</div>
+
+<div style="display: grid; grid-template-columns: 40px repeat(7, minmax(0, 1fr)); gap: 3px">
+<span></span>
+<sc-for list="{{days}}" as="d" hint-placeholder-count="7">
+<div style="{{d.style}}"><span style="font-size: 10px; font-weight: 700">{{d.name}}</span><b style="font-family: 'Barlow Condensed', sans-serif; font-size: 16px">{{d.num}}</b></div>
+</sc-for>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="9">
+<span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 13px; color: #9dbfa9; padding-top: 10px">{{r.h}}</span>
+<sc-for list="{{r.cells}}" as="c" hint-placeholder-count="7">
+<div style="{{c.style}}">{{c.t}}</div>
+</sc-for>
+</sc-for>
+</div>
+
+<div style="background: #0e2016; border: 1px solid rgba(190,255,210,.09); border-radius: 16px; padding: 12px 14px; display: flex; justify-content: space-between; font-size: 13px">
+<span style="color: #9dbfa9">This week: <b style="color: #eaf5ee">41 of 63 slots booked</b></span><span style="color: #3ddc84; font-weight: 800">65%</span>
+</div>
+
+<button style="position: absolute; right: 20px; bottom: 24px; height: 56px; padding: 0 22px; border-radius: 17px; border: 0; background: #3ddc84; color: #04200f; font-weight: 800; font-size: 15px; box-shadow: 0 10px 28px rgba(61,220,132,.3)">+ Booking</button>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const K = {
+      app: ['#3ddc84', 'rgba(61,220,132,.18)', 'App'],
+      req: ['#e9c46a', 'rgba(233,196,106,.16)', 'Request'],
+      walk: ['#8cc8f5', 'rgba(108,180,238,.18)', 'Walk-in'],
+      sub: ['#c4b0f5', 'rgba(179,157,219,.2)', 'Weekly'],
+      block: ['#9dbfa9', 'rgba(157,191,169,.12)', 'Blocked']
+    };
+    const legend = Object.keys(K).map(k => ({ name: K[k][2], sw: 'width:11px;height:11px;border-radius:3px;display:inline-block;background:' + K[k][1] + ';border:1.5px solid ' + K[k][0] }));
+    const names = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+    const days = names.map((name, i) => ({ name, num: 10 + i, style: 'display:flex;flex-direction:column;align-items:center;padding:4px 0;border-radius:8px;' + (i === 0 ? 'background:#3ddc84;color:#04200f' : 'color:#9dbfa9') }));
+    const grid = {
+      '15': [0, 0, 'block', 'block', 0, 0, 0],
+      '16': [0, 'walk', 0, 0, 0, 'app', 'walk'],
+      '17': ['app', 0, 'walk', 0, 'req', 0, 'app'],
+      '18': ['app', 'app', 'req', 'sub', 0, 'walk', 'app'],
+      '19': ['walk', 'app', 'app', 'sub', 'app', 'app', 'app'],
+      '20': ['app', 'req', 'app', 'sub', 'walk', 'app', 'walk'],
+      '21': ['sub', 'app', 'walk', 'app', 'app', 'req', 'app'],
+      '22': ['app', 'walk', 0, 'req', 'app', 'app', 'sub'],
+      '23': [0, 0, 0, 'walk', 0, 'app', 'app']
+    };
+    const rows = Object.keys(grid).map(h => ({
+      h: h + ':00',
+      cells: grid[h].map(k => k
+        ? { t: '', style: 'height:38px;border-radius:7px;background:' + K[k][1] + ';border:1.5px solid ' + K[k][0] }
+        : { t: '', style: 'height:38px;border-radius:7px;border:1px dashed rgba(190,255,210,.16)' })
+    }));
+    return { legend, days, rows };
+  }
+}
+</script>
+</body>
+</html>
