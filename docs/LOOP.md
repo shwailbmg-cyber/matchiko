@@ -48,7 +48,7 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
 
 - [x] **S1** Skills: OWASP (`owasp-security`, `owasp-mobile-flutter`),
       `kiss-flutter`, this loop (`build-loop`).
-- [ ] **S2** Brand color: blue–magenta violet; pitch turf stays green.
+- [x] **S2** Brand color: blue–magenta violet; pitch turf stays green.
 - [ ] **S3** Architecture: feature-first + light clean architecture,
       Riverpod instead of provider, freezed + json_serializable models.
 - [ ] **S4** Security basics: session in `flutter_secure_storage`, release

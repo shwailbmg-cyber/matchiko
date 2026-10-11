@@ -155,7 +155,7 @@ class _Hero extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
               decoration: BoxDecoration(
-                color: MkColors.lime,
+                color: MkColors.primary,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
@@ -215,7 +215,7 @@ class _Features extends StatelessWidget {
                       icon,
                       size: 20,
                       color: pitch.features.contains(f)
-                          ? MkColors.lime
+                          ? MkColors.primary
                           : MkColors.faint,
                     ),
                     const SizedBox(height: 6),
@@ -259,8 +259,8 @@ class _Days extends StatelessWidget {
           child: Container(
             width: 54,
             decoration: BoxDecoration(
-              color: on ? MkColors.lime : MkColors.card,
-              border: Border.all(color: on ? MkColors.lime : MkColors.line),
+              color: on ? MkColors.primary : MkColors.card,
+              border: Border.all(color: on ? MkColors.primary : MkColors.line),
               borderRadius: BorderRadius.circular(15),
             ),
             child: Column(
@@ -317,7 +317,7 @@ class _Legend extends StatelessWidget {
     );
     return Row(
       children: [
-        item(l.free, MkColors.lime),
+        item(l.free, MkColors.primary),
         item(l.booked, MkColors.red),
         item(l.pending, MkColors.sand),
       ],
@@ -363,12 +363,12 @@ class _SlotButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (bg, border, fg) = selected
-        ? (MkColors.lime, MkColors.lime, MkColors.ink)
+        ? (MkColors.primary, MkColors.primary, MkColors.ink)
         : switch (slot.state) {
             SlotState.free => (
-              MkColors.lime.withValues(alpha: .07),
-              MkColors.lime.withValues(alpha: .32),
-              MkColors.lime,
+              MkColors.primary.withValues(alpha: .07),
+              MkColors.primary.withValues(alpha: .32),
+              MkColors.primary,
             ),
             SlotState.booked => (
               MkColors.red.withValues(alpha: .06),

@@ -71,7 +71,7 @@ class TodayScreen extends StatelessWidget {
                     child: _Stat(
                       '${vm.count(BookingStatus.guaranteed)}',
                       l.stGuaranteed,
-                      MkColors.lime,
+                      MkColors.primary,
                     ),
                   ),
                 ],
@@ -290,9 +290,9 @@ class ScanScreen extends StatelessWidget {
                   width: 260,
                   height: 260,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF020604),
+                    color: const Color(0xFF05040D),
                     borderRadius: BorderRadius.circular(28),
-                    border: Border.all(color: MkColors.lime, width: 3),
+                    border: Border.all(color: MkColors.primary, width: 3),
                   ),
                   child: const Icon(
                     Icons.qr_code_scanner,

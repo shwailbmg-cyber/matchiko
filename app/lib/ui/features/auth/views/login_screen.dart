@@ -157,11 +157,11 @@ class _Hero extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: MkColors.lime.withValues(alpha: .28)),
+        border: Border.all(color: MkColors.primary.withValues(alpha: .28)),
         gradient: const LinearGradient(
           begin: Alignment(-.2, -1),
           end: Alignment(.2, 1),
-          colors: [Color(0xFF1F7C47), Color(0xFF0D2E1B)],
+          colors: [MkColors.heroViolet, MkColors.heroDeep],
         ),
       ),
       child: Zellij(
@@ -178,7 +178,7 @@ class _Hero extends StatelessWidget {
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      color: MkColors.lime.withValues(alpha: .45),
+                      color: MkColors.primary.withValues(alpha: .45),
                       blurRadius: 30,
                       offset: const Offset(0, 10),
                     ),
@@ -255,7 +255,7 @@ class _Pill extends StatelessWidget {
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w800,
-              color: on ? MkColors.ink : const Color(0xFFB5D6C1),
+              color: on ? MkColors.ink : MkColors.tint2,
             ),
           ),
         ),

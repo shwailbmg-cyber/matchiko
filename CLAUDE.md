@@ -12,7 +12,9 @@ inventory), `docs/FEATURES.md` (feature catalogue with decisions),
 `docs/ROADMAP.md` (what's built, what's next). Rewards math:
 `docs/economy/REWARDS.md`.
 Design reference: `design/prototype/Matchiko.html` + `design/prototype/BRIEF.md`.
-Every screen should match the prototype (colors, spacing, copy).
+Every screen should match the prototype (spacing, copy). Colors: the brand is
+now electric violet (blue–magenta) from `MkColors`, replacing the prototype's
+green; only the football pitch stays green.
 
 ## Commands
 

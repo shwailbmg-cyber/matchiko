@@ -24,7 +24,7 @@ class Ticket extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         children: [
-          Text(k, style: const TextStyle(color: Color(0xFF4A6B57))),
+          Text(k, style: const TextStyle(color: Color(0xFF5A5480))),
           const Spacer(),
           Text(v, style: const TextStyle(fontWeight: FontWeight.w700)),
         ],
@@ -51,7 +51,7 @@ class Ticket extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w700,
-                color: Color(0xFF4A6B57),
+                color: Color(0xFF5A5480),
                 letterSpacing: 1,
               ),
             ),
@@ -65,7 +65,7 @@ class Ticket extends StatelessWidget {
                 letterSpacing: 2,
               ),
             ),
-            const Divider(height: 28, color: Color(0x2E04200F)),
+            const Divider(height: 28, color: Color(0x2E14072E)),
             kv(l.pitch, game.pitch.name(lang)),
             kv(
               l.when,

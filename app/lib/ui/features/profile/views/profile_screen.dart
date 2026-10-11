@@ -58,12 +58,12 @@ class ProfileScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(24),
                     border: Border.all(
-                      color: MkColors.lime.withValues(alpha: .22),
+                      color: MkColors.primary.withValues(alpha: .22),
                     ),
                     gradient: const LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      colors: [Color(0xFF17583A), Color(0xFF0D2819)],
+                      colors: [MkColors.heroViolet, MkColors.heroDeep],
                     ),
                   ),
                   child: Zellij(
@@ -90,7 +90,7 @@ class ProfileScreen extends StatelessWidget {
                                     Text(
                                       '@${me.handle}',
                                       style: const TextStyle(
-                                        color: Color(0xFFCDE7D6),
+                                        color: MkColors.tint,
                                       ),
                                     ),
                                     const SizedBox(height: 6),
@@ -138,7 +138,7 @@ class ProfileScreen extends StatelessWidget {
                                 child: _Tok(
                                   l.coins,
                                   '🪙 ${money(me.coins)}',
-                                  MkColors.lime,
+                                  MkColors.primary,
                                 ),
                               ),
                             ],
@@ -239,7 +239,7 @@ class ProfileScreen extends StatelessWidget {
                               fontFamily: MkFonts.display,
                               fontWeight: FontWeight.w700,
                               fontSize: 18,
-                              color: MkColors.lime,
+                              color: MkColors.primary,
                             ),
                           ),
                         ],
@@ -251,7 +251,7 @@ class ProfileScreen extends StatelessWidget {
                           value: me.reliability / 100,
                           minHeight: 8,
                           backgroundColor: MkColors.card2,
-                          color: MkColors.lime,
+                          color: MkColors.primary,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -295,7 +295,7 @@ class _Tok extends StatelessWidget {
           label,
           style: const TextStyle(
             fontSize: 11,
-            color: Color(0xFFB5D6C1),
+            color: MkColors.tint2,
             fontWeight: FontWeight.w700,
           ),
         ),

@@ -78,7 +78,7 @@ class _Form extends StatelessWidget {
                             Icon(
                               e.value.$1,
                               color: vm.mode == e.key
-                                  ? MkColors.lime
+                                  ? MkColors.primary
                                   : MkColors.sub,
                             ),
                             const SizedBox(height: 4),
@@ -142,7 +142,7 @@ class _Form extends StatelessWidget {
                                 end: -4,
                                 child: CircleAvatar(
                                   radius: 9,
-                                  backgroundColor: MkColors.lime,
+                                  backgroundColor: MkColors.primary,
                                   child: Text(
                                     '${vm.positions.indexOf(p) + 1}',
                                     style: const TextStyle(
@@ -283,8 +283,8 @@ class _Choice extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: on ? MkColors.lime.withValues(alpha: .1) : MkColors.card,
-          border: Border.all(color: on ? MkColors.lime : MkColors.line),
+          color: on ? MkColors.primary.withValues(alpha: .1) : MkColors.card,
+          border: Border.all(color: on ? MkColors.primary : MkColors.line),
           borderRadius: BorderRadius.circular(16),
         ),
         child: child,
@@ -332,7 +332,7 @@ class _Searching extends StatelessWidget {
                           ? Icons.check_circle
                           : Icons.radio_button_unchecked,
                       size: 22,
-                      color: i < vm.step ? MkColors.lime : MkColors.line2,
+                      color: i < vm.step ? MkColors.primary : MkColors.line2,
                     ),
                     const SizedBox(width: 12),
                     SizedBox(
@@ -392,7 +392,7 @@ class _PulseState extends State<_Pulse> with SingleTickerProviderStateMixin {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: MkColors.lime.withValues(alpha: .5 * (1 - t)),
+                    color: MkColors.primary.withValues(alpha: .5 * (1 - t)),
                     width: 1.5,
                   ),
                 ),
@@ -415,7 +415,7 @@ class _Found extends StatelessWidget {
     final lang = Localizations.localeOf(context).languageCode;
     final g = vm.offer!;
     final color = vm.secondsLeft > 15
-        ? MkColors.lime
+        ? MkColors.primary
         : vm.secondsLeft > 7
         ? MkColors.sand
         : MkColors.red;

@@ -112,11 +112,15 @@ class _Hero extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(26),
-        border: Border.all(color: MkColors.lime.withValues(alpha: .28)),
+        border: Border.all(color: MkColors.primary.withValues(alpha: .28)),
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF1F7C47), Color(0xFF155733), Color(0xFF0E3D23)],
+          colors: [
+            MkColors.heroBlue,
+            MkColors.heroViolet,
+            MkColors.heroMagenta,
+          ],
         ),
       ),
       child: Zellij(
@@ -138,7 +142,7 @@ class _Hero extends StatelessWidget {
                       width: 8,
                       height: 8,
                       decoration: const BoxDecoration(
-                        color: MkColors.lime,
+                        color: MkColors.primary,
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -148,7 +152,7 @@ class _Hero extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
-                        color: Color(0xFFBFF3D4),
+                        color: MkColors.tint,
                       ),
                     ),
                   ],
@@ -162,10 +166,14 @@ class _Hero extends StatelessWidget {
               const SizedBox(height: 10),
               Text(
                 l.playSub,
-                style: const TextStyle(color: Color(0xFFCDE7D6), height: 1.5),
+                style: const TextStyle(color: MkColors.tint, height: 1.5),
               ),
               const SizedBox(height: 20),
               FilledButton.icon(
+                style: FilledButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: MkColors.ink,
+                ),
                 onPressed: () => context.go(Routes.play),
                 icon: const Icon(Icons.bolt),
                 label: Text(l.playNow),
@@ -230,7 +238,7 @@ class _OpenGameCard extends StatelessWidget {
                       margin: const EdgeInsetsDirectional.only(end: 3),
                       decoration: BoxDecoration(
                         color: i < game.players.length
-                            ? MkColors.lime
+                            ? MkColors.primary
                             : MkColors.card2,
                         borderRadius: BorderRadius.circular(2),
                       ),

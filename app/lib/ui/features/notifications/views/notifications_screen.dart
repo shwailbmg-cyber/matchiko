@@ -14,7 +14,7 @@ class NotificationsScreen extends StatelessWidget {
     final l = AppLocalizations.of(context);
     final items = [
       ('?', MkColors.sand, l.nStillTitle, l.nStillBody),
-      ('+', MkColors.lime, l.nSpotTitle, l.nSpotBody),
+      ('+', MkColors.primary, l.nSpotTitle, l.nSpotBody),
       ('✓', MkColors.blue, l.nConfTitle, l.nConfBody),
       ('★', MkColors.sand, l.nRateTitle, l.nRateBody),
     ];

@@ -20,18 +20,18 @@ class _LogoPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     canvas.scale(size.width / 40);
-    final lime = Paint()..color = MkColors.lime;
+    final fill = Paint()..color = MkColors.primary;
     final square = RRect.fromRectAndRadius(
       const Rect.fromLTWH(8, 8, 24, 24),
       const Radius.circular(2.5),
     );
-    canvas.drawRRect(square, lime);
+    canvas.drawRRect(square, fill);
     canvas
       ..save()
       ..translate(20, 20)
       ..rotate(math.pi / 4)
       ..translate(-20, -20)
-      ..drawRRect(square, lime)
+      ..drawRRect(square, fill)
       ..restore();
     canvas.drawCircle(const Offset(20, 20), 8.6, Paint()..color = MkColors.bg);
     final ball = Path()
@@ -44,7 +44,7 @@ class _LogoPainter extends CustomPainter {
     canvas.drawPath(
       ball,
       Paint()
-        ..color = MkColors.lime
+        ..color = MkColors.primary
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1.5
         ..strokeJoin = StrokeJoin.round,
@@ -84,7 +84,7 @@ class MkLogo extends StatelessWidget {
             children: const [
               TextSpan(
                 text: 'ko',
-                style: TextStyle(color: MkColors.lime),
+                style: TextStyle(color: MkColors.primary),
               ),
             ],
           ),

@@ -23,7 +23,7 @@ TextStyle mkDisplay(BuildContext context, {double size = 40}) {
 ThemeData buildMkTheme() {
   const scheme = ColorScheme.dark(
     surface: MkColors.bg,
-    primary: MkColors.lime,
+    primary: MkColors.primary,
     onPrimary: MkColors.ink,
     secondary: MkColors.sand,
     error: MkColors.red,
@@ -52,7 +52,7 @@ ThemeData buildMkTheme() {
     ),
     filledButtonTheme: FilledButtonThemeData(
       style: FilledButton.styleFrom(
-        backgroundColor: MkColors.lime,
+        backgroundColor: MkColors.primary,
         foregroundColor: MkColors.ink,
         disabledBackgroundColor: MkColors.card2,
         disabledForegroundColor: MkColors.faint,
@@ -91,7 +91,7 @@ ThemeData buildMkTheme() {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(color: MkColors.lime),
+        borderSide: const BorderSide(color: MkColors.primary),
       ),
     ),
     bottomSheetTheme: const BottomSheetThemeData(

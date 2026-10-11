@@ -10,7 +10,7 @@ import '../theme/mk_theme.dart';
 /// Small shared pieces from the prototype's CSS (`.av`, `.tag`, `.pb`, `.rb`…).
 
 const _avatarColors = [
-  MkColors.lime,
+  MkColors.primary,
   MkColors.sand,
   Color(0xFF6CB4EE),
   MkColors.terra,
@@ -82,7 +82,7 @@ class MkCard extends StatelessWidget {
 }
 
 class MkTag extends StatelessWidget {
-  const MkTag(this.text, {super.key, this.color = MkColors.lime});
+  const MkTag(this.text, {super.key, this.color = MkColors.primary});
 
   final String text;
   final Color color;
@@ -166,7 +166,7 @@ class PositionBadge extends StatelessWidget {
   static const colors = {
     Position.gk: MkColors.sand,
     Position.def: Color(0xFF6CB4EE),
-    Position.mid: MkColors.lime,
+    Position.mid: MkColors.primary,
     Position.fwd: MkColors.terra,
     Position.ref: Color(0xFFF4D35E),
   };
@@ -262,7 +262,7 @@ class VerifiedBadge extends StatelessWidget {
 (String, Color) statusLabel(AppLocalizations l, BookingStatus s) => switch (s) {
   BookingStatus.requested => (l.stRequested, MkColors.sand),
   BookingStatus.confirmed => (l.stConfirmed, MkColors.blue),
-  BookingStatus.guaranteed => (l.stGuaranteed, MkColors.lime),
+  BookingStatus.guaranteed => (l.stGuaranteed, MkColors.primary),
   BookingStatus.completed => (l.played, MkColors.sub),
   BookingStatus.cancelled => (l.cancelled, MkColors.red),
   BookingStatus.noShow => (l.noshow, MkColors.red),
@@ -301,7 +301,7 @@ class StatusLadder extends StatelessWidget {
                 Expanded(
                   child: Container(
                     height: 2,
-                    color: i <= step ? MkColors.lime : MkColors.line2,
+                    color: i <= step ? MkColors.primary : MkColors.line2,
                   ),
                 ),
               Column(
@@ -311,9 +311,9 @@ class StatusLadder extends StatelessWidget {
                     height: 22,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: i <= step ? MkColors.lime : MkColors.card2,
+                      color: i <= step ? MkColors.primary : MkColors.card2,
                       border: Border.all(
-                        color: i <= step ? MkColors.lime : MkColors.line2,
+                        color: i <= step ? MkColors.primary : MkColors.line2,
                         width: 2,
                       ),
                     ),
@@ -384,8 +384,8 @@ class PitchTurf extends StatelessWidget {
 class _TurfPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final a = Paint()..color = MkColors.brand;
-    final b = Paint()..color = const Color(0xFF1D7542);
+    final a = Paint()..color = MkColors.turf;
+    final b = Paint()..color = MkColors.turf2;
     final w = size.width / 8;
     for (var i = 0; i < 8; i++) {
       canvas.drawRect(

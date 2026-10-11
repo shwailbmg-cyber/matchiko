@@ -212,7 +212,7 @@ class _UpcomingCard extends StatelessWidget {
               if (g.status != BookingStatus.requested)
                 IconButton.outlined(
                   tooltip: l.showQr,
-                  color: MkColors.lime,
+                  color: MkColors.primary,
                   onPressed: () => showTicket(context, g),
                   icon: const Icon(Icons.qr_code_2),
                 ),

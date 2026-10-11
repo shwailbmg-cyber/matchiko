@@ -81,7 +81,7 @@ class GameScreen extends StatelessWidget {
                     fontFamily: MkFonts.display,
                     fontWeight: FontWeight.w700,
                     fontSize: 20,
-                    color: MkColors.lime,
+                    color: MkColors.primary,
                   ),
                 ),
               ),
@@ -310,7 +310,7 @@ class _LineUp extends StatelessWidget {
               for (final p in ps) {
                 (byPos[p.position] ??= []).add(p);
               }
-              final color = team == Team.a ? MkColors.lime : MkColors.terra;
+              final color = team == Team.a ? MkColors.primary : MkColors.terra;
               byPos.forEach((pos, list) {
                 for (var i = 0; i < list.length; i++) {
                   final p = list[i];
@@ -372,7 +372,7 @@ class _TeamAverages extends StatelessWidget {
       children: [
         Text(
           '${l.yourTeam.toUpperCase()} · $a',
-          style: style.copyWith(color: MkColors.lime),
+          style: style.copyWith(color: MkColors.primary),
         ),
         const Spacer(),
         Text(
@@ -491,7 +491,7 @@ class _PaidChip extends StatelessWidget {
     final (text, color) = free
         ? (l.freeTag, MkColors.sub)
         : player.paid
-        ? (l.paidTag, MkColors.lime)
+        ? (l.paidTag, MkColors.primary)
         : (l.notPaid, MkColors.sand);
     final chip = MkTag(text, color: color);
     if (!editable || free) return chip;

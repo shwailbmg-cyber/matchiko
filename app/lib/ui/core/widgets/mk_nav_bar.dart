@@ -10,7 +10,7 @@ class MkNavItem {
   final IconData icon;
   final String label;
 
-  /// The center Play button: a lime rotated square raised above the bar.
+  /// The center Play button: a primary-color rotated square raised above the bar.
   final bool diamond;
 }
 
@@ -52,7 +52,7 @@ class MkNavBar extends StatelessWidget {
   }
 
   Widget _button(MkNavItem item, bool on, VoidCallback tap) {
-    final color = on ? MkColors.lime : MkColors.faint;
+    final color = on ? MkColors.primary : MkColors.faint;
     final label = Text(
       item.label,
       style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: color),
@@ -74,11 +74,11 @@ class MkNavBar extends StatelessWidget {
                         width: 50,
                         height: 50,
                         decoration: BoxDecoration(
-                          color: MkColors.lime,
+                          color: MkColors.primary,
                           borderRadius: BorderRadius.circular(15),
                           boxShadow: [
                             BoxShadow(
-                              color: MkColors.lime.withValues(alpha: .35),
+                              color: MkColors.primary.withValues(alpha: .35),
                               blurRadius: 24,
                               offset: const Offset(0, 8),
                             ),
