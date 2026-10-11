@@ -92,6 +92,7 @@ void main() {
       for (var i = 1; i < 4; i++) {
         await tab(t, i);
       }
+      await open(t, Routes.mVenue);
       expect(t.takeException(), isNull);
     });
   }

@@ -29,4 +29,5 @@ abstract final class Routes {
   static const mScan = '/m/scan';
   static const mPlayers = '/m/players';
   static const mCalendar = '/m/calendar';
+  static const mVenue = '/m/venue';
 }

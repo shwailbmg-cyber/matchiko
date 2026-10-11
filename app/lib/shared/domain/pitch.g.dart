@@ -19,6 +19,7 @@ _Pitch _$PitchFromJson(Map<String, dynamic> json) => _Pitch(
   features: (json['features'] as List<dynamic>)
       .map((e) => $enumDecode(_$FeatureEnumMap, e))
       .toSet(),
+  active: json['active'] as bool? ?? true,
 );
 
 Map<String, dynamic> _$PitchToJson(_Pitch instance) => <String, dynamic>{
@@ -32,6 +33,7 @@ Map<String, dynamic> _$PitchToJson(_Pitch instance) => <String, dynamic>{
   'max_per_side': instance.maxPerSide,
   'price_da': instance.priceDa,
   'features': instance.features.map((e) => _$FeatureEnumMap[e]!).toList(),
+  'active': instance.active,
 };
 
 const _$FeatureEnumMap = {

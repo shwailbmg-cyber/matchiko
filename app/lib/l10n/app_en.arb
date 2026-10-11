@@ -620,5 +620,16 @@
   "customerName": "Customer name",
   "customerPhone": "Phone (optional)",
   "freeThisHour": "Free this hour",
-  "slotTaken": "This hour is already taken."
+  "slotTaken": "This hour is already taken.",
+  "myVenue": "My venue",
+  "openingHours": "Opening hours",
+  "opensAt": "Opens at",
+  "closesAt": "Closes at",
+  "pitchesAndPrices": "Pitches and prices",
+  "pricePerHour": "Price per hour",
+  "priceInvalid": "Enter a price between 500 and 50 000 DA.",
+  "maxSize": "Largest game on this pitch",
+  "amenities": "Amenities",
+  "pitchVisible": "Players can book this pitch",
+  "pitchHidden": "Hidden from players"
 }

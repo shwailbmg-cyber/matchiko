@@ -8,6 +8,7 @@ import 'package:matchiko/shared/domain/position.dart';
 import 'package:matchiko/shared/domain/profile.dart';
 import 'package:matchiko/shared/domain/referee.dart';
 import 'package:matchiko/shared/domain/team.dart';
+import 'package:matchiko/shared/domain/venue.dart';
 
 /// Everything the screens read and do about pitches, games and the signed-in
 /// player. [changes] ticks when data changes (Realtime later), so the
@@ -142,8 +143,19 @@ abstract interface class GameRepository {
   Future<void> markNoShow(String gameId);
   Future<List<Profile>> verificationQueue();
 
-  /// Pitches at my venue.
+  /// My venue and its pitches.
+  Future<Venue> venue();
   Future<List<Pitch>> venuePitches();
+  Future<void> setVenueHours({required int openHour, required int closeHour});
+
+  /// Manager only (RLS); the server checks price > 0 and size 3–11.
+  Future<void> updatePitch(
+    String pitchId, {
+    required int priceDa,
+    required int maxPerSide,
+    required Set<Feature> features,
+    required bool active,
+  });
 
   /// Everything on [pitchId] for the 7 days from [from] (midnight).
   Future<List<CalendarEntry>> venueWeek(String pitchId, DateTime from);

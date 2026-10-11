@@ -426,5 +426,16 @@
   "customerName": "Nom du client",
   "customerPhone": "Téléphone (facultatif)",
   "freeThisHour": "Libérer ce créneau",
-  "slotTaken": "Ce créneau est déjà pris."
+  "slotTaken": "Ce créneau est déjà pris.",
+  "myVenue": "Mon stade",
+  "openingHours": "Horaires d’ouverture",
+  "opensAt": "Ouvre à",
+  "closesAt": "Ferme à",
+  "pitchesAndPrices": "Terrains et prix",
+  "pricePerHour": "Prix par heure",
+  "priceInvalid": "Entrez un prix entre 500 et 50 000 DA.",
+  "maxSize": "Plus grand match sur ce terrain",
+  "amenities": "Équipements",
+  "pitchVisible": "Les joueurs peuvent réserver ce terrain",
+  "pitchHidden": "Caché aux joueurs"
 }

@@ -51,6 +51,11 @@ class TodayScreen extends ConsumerWidget {
               ),
             ),
             IconButton(
+              tooltip: l.myVenue,
+              onPressed: () => context.push(Routes.mVenue),
+              icon: const Icon(Icons.storefront_outlined, color: MkColors.sub),
+            ),
+            IconButton(
               tooltip: l.settings,
               onPressed: () => context.push(Routes.settings),
               icon: const Icon(Icons.settings_outlined, color: MkColors.sub),

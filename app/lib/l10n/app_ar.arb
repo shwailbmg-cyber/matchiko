@@ -426,5 +426,16 @@
   "customerName": "اسم الزبون",
   "customerPhone": "الهاتف (اختياري)",
   "freeThisHour": "تحرير هذه الساعة",
-  "slotTaken": "هذه الساعة محجوزة."
+  "slotTaken": "هذه الساعة محجوزة.",
+  "myVenue": "ملعبي",
+  "openingHours": "أوقات العمل",
+  "opensAt": "يفتح على الساعة",
+  "closesAt": "يغلق على الساعة",
+  "pitchesAndPrices": "الملاعب والأسعار",
+  "pricePerHour": "السعر للساعة",
+  "priceInvalid": "أدخل سعرًا بين 500 و50 000 دج.",
+  "maxSize": "أكبر مباراة في هذا الملعب",
+  "amenities": "المرافق",
+  "pitchVisible": "يمكن للاعبين حجز هذا الملعب",
+  "pitchHidden": "مخفي عن اللاعبين"
 }

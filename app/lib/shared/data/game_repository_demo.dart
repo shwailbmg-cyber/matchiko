@@ -11,6 +11,7 @@ import 'package:matchiko/shared/domain/position.dart';
 import 'package:matchiko/shared/domain/profile.dart';
 import 'package:matchiko/shared/domain/referee.dart';
 import 'package:matchiko/shared/domain/team.dart';
+import 'package:matchiko/shared/domain/venue.dart';
 import 'package:matchiko/shared/domain/game_repository.dart';
 
 /// In-memory sample data, same as the Claude Design prototype. Used when the
@@ -55,6 +56,12 @@ class DemoGameRepository implements GameRepository {
 
   /// Blocks and walk-ins at the manager's venue (`pitch_blocks`).
   final _blocks = <String, (String pitchId, CalendarEntry entry)>{};
+  var _venue = const Venue(
+    id: 'v-harrach',
+    name: 'Complexe El Harrach',
+    openHour: 8,
+    closeHour: 24,
+  );
 
   /// Reports sent from this device (the demo has no review queue yet).
   final reports = <(String, ReportReason)>[];
@@ -791,8 +798,11 @@ class DemoGameRepository implements GameRepository {
     return _pitches
         .where(
           (p) =>
-              q.isEmpty ||
-              '${p.venue} ${p.venueAr} ${p.district}'.toLowerCase().contains(q),
+              p.active &&
+              (q.isEmpty ||
+                  '${p.venue} ${p.venueAr} ${p.district}'
+                      .toLowerCase()
+                      .contains(q)),
         )
         .toList();
   });
@@ -1026,7 +1036,39 @@ class DemoGameRepository implements GameRepository {
   );
 
   @override
+  Future<Venue> venue() => _wait(() => _venue);
+
+  @override
   Future<List<Pitch>> venuePitches() => _wait(() => [_pitches[0]]);
+
+  @override
+  Future<void> setVenueHours({required int openHour, required int closeHour}) =>
+      _wait(() {
+        if (closeHour <= openHour) throw ArgumentError('close before open');
+        _venue = _venue.copyWith(openHour: openHour, closeHour: closeHour);
+        _changed();
+      });
+
+  @override
+  Future<void> updatePitch(
+    String pitchId, {
+    required int priceDa,
+    required int maxPerSide,
+    required Set<Feature> features,
+    required bool active,
+  }) => _wait(() {
+    if (priceDa <= 0 || maxPerSide < 3 || maxPerSide > 11) {
+      throw ArgumentError('invalid pitch');
+    }
+    final i = _pitches.indexWhere((p) => p.id == pitchId);
+    _pitches[i] = _pitches[i].copyWith(
+      priceDa: priceDa,
+      maxPerSide: maxPerSide,
+      features: features,
+      active: active,
+    );
+    _changed();
+  });
 
   bool _slotTaken(String pitchId, DateTime t) =>
       _games.values.any(

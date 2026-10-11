@@ -17,7 +17,8 @@ T _$identity<T>(T value) => value;
 mixin _$Pitch {
 
  String get id; String get venue; String get venueAr; String get district; double get km; double get rating; int get reviews;/// Largest game the pitch fits (players per side).
- int get maxPerSide; int get priceDa; Set<Feature> get features;
+ int get maxPerSide; int get priceDa; Set<Feature> get features;/// Inactive pitches are hidden from players.
+ bool get active;
 /// Create a copy of Pitch
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -31,20 +32,20 @@ $PitchCopyWith<Pitch> get copyWith => _$PitchCopyWithImpl<Pitch>(this as Pitch, 
 @override
 bool operator ==(Object other) {
   final _this = this as Pitch;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Pitch&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.venue, _this.venue) || other.venue == _this.venue)&&(identical(other.venueAr, _this.venueAr) || other.venueAr == _this.venueAr)&&(identical(other.district, _this.district) || other.district == _this.district)&&(identical(other.km, _this.km) || other.km == _this.km)&&(identical(other.rating, _this.rating) || other.rating == _this.rating)&&(identical(other.reviews, _this.reviews) || other.reviews == _this.reviews)&&(identical(other.maxPerSide, _this.maxPerSide) || other.maxPerSide == _this.maxPerSide)&&(identical(other.priceDa, _this.priceDa) || other.priceDa == _this.priceDa)&&const DeepCollectionEquality().equals(other.features, _this.features));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Pitch&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.venue, _this.venue) || other.venue == _this.venue)&&(identical(other.venueAr, _this.venueAr) || other.venueAr == _this.venueAr)&&(identical(other.district, _this.district) || other.district == _this.district)&&(identical(other.km, _this.km) || other.km == _this.km)&&(identical(other.rating, _this.rating) || other.rating == _this.rating)&&(identical(other.reviews, _this.reviews) || other.reviews == _this.reviews)&&(identical(other.maxPerSide, _this.maxPerSide) || other.maxPerSide == _this.maxPerSide)&&(identical(other.priceDa, _this.priceDa) || other.priceDa == _this.priceDa)&&const DeepCollectionEquality().equals(other.features, _this.features)&&(identical(other.active, _this.active) || other.active == _this.active));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Pitch;
-  return Object.hash(runtimeType,_this.id,_this.venue,_this.venueAr,_this.district,_this.km,_this.rating,_this.reviews,_this.maxPerSide,_this.priceDa,const DeepCollectionEquality().hash(_this.features));
+  return Object.hash(runtimeType,_this.id,_this.venue,_this.venueAr,_this.district,_this.km,_this.rating,_this.reviews,_this.maxPerSide,_this.priceDa,const DeepCollectionEquality().hash(_this.features),_this.active);
 }
 
 @override
 String toString() {
   final _this = this as Pitch;
-  return 'Pitch(id: ${_this.id}, venue: ${_this.venue}, venueAr: ${_this.venueAr}, district: ${_this.district}, km: ${_this.km}, rating: ${_this.rating}, reviews: ${_this.reviews}, maxPerSide: ${_this.maxPerSide}, priceDa: ${_this.priceDa}, features: ${_this.features})';
+  return 'Pitch(id: ${_this.id}, venue: ${_this.venue}, venueAr: ${_this.venueAr}, district: ${_this.district}, km: ${_this.km}, rating: ${_this.rating}, reviews: ${_this.reviews}, maxPerSide: ${_this.maxPerSide}, priceDa: ${_this.priceDa}, features: ${_this.features}, active: ${_this.active})';
 }
 
 
@@ -55,7 +56,7 @@ abstract mixin class $PitchCopyWith<$Res>  {
   factory $PitchCopyWith(Pitch value, $Res Function(Pitch) _then) = _$PitchCopyWithImpl;
 @useResult
 $Res call({
- String id, String venue, String venueAr, String district, double km, double rating, int reviews, int maxPerSide, int priceDa, Set<Feature> features
+ String id, String venue, String venueAr, String district, double km, double rating, int reviews, int maxPerSide, int priceDa, Set<Feature> features, bool active
 });
 
 
@@ -72,7 +73,7 @@ class _$PitchCopyWithImpl<$Res>
 
 /// Create a copy of Pitch
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? venue = null,Object? venueAr = null,Object? district = null,Object? km = null,Object? rating = null,Object? reviews = null,Object? maxPerSide = null,Object? priceDa = null,Object? features = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? venue = null,Object? venueAr = null,Object? district = null,Object? km = null,Object? rating = null,Object? reviews = null,Object? maxPerSide = null,Object? priceDa = null,Object? features = null,Object? active = null,}) {
   return _then(Pitch(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,venue: null == venue ? _self.venue : venue // ignore: cast_nullable_to_non_nullable
@@ -84,7 +85,8 @@ as double,reviews: null == reviews ? _self.reviews : reviews // ignore: cast_nul
 as int,maxPerSide: null == maxPerSide ? _self.maxPerSide : maxPerSide // ignore: cast_nullable_to_non_nullable
 as int,priceDa: null == priceDa ? _self.priceDa : priceDa // ignore: cast_nullable_to_non_nullable
 as int,features: null == features ? _self.features : features // ignore: cast_nullable_to_non_nullable
-as Set<Feature>,
+as Set<Feature>,active: null == active ? _self.active : active // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -169,10 +171,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String venue,  String venueAr,  String district,  double km,  double rating,  int reviews,  int maxPerSide,  int priceDa,  Set<Feature> features)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String venue,  String venueAr,  String district,  double km,  double rating,  int reviews,  int maxPerSide,  int priceDa,  Set<Feature> features,  bool active)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Pitch() when $default != null:
-return $default(_that.id,_that.venue,_that.venueAr,_that.district,_that.km,_that.rating,_that.reviews,_that.maxPerSide,_that.priceDa,_that.features);case _:
+return $default(_that.id,_that.venue,_that.venueAr,_that.district,_that.km,_that.rating,_that.reviews,_that.maxPerSide,_that.priceDa,_that.features,_that.active);case _:
   return orElse();
 
 }
@@ -190,10 +192,10 @@ return $default(_that.id,_that.venue,_that.venueAr,_that.district,_that.km,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String venue,  String venueAr,  String district,  double km,  double rating,  int reviews,  int maxPerSide,  int priceDa,  Set<Feature> features)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String venue,  String venueAr,  String district,  double km,  double rating,  int reviews,  int maxPerSide,  int priceDa,  Set<Feature> features,  bool active)  $default,) {final _that = this;
 switch (_that) {
 case _Pitch():
-return $default(_that.id,_that.venue,_that.venueAr,_that.district,_that.km,_that.rating,_that.reviews,_that.maxPerSide,_that.priceDa,_that.features);case _:
+return $default(_that.id,_that.venue,_that.venueAr,_that.district,_that.km,_that.rating,_that.reviews,_that.maxPerSide,_that.priceDa,_that.features,_that.active);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -210,10 +212,10 @@ return $default(_that.id,_that.venue,_that.venueAr,_that.district,_that.km,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String venue,  String venueAr,  String district,  double km,  double rating,  int reviews,  int maxPerSide,  int priceDa,  Set<Feature> features)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String venue,  String venueAr,  String district,  double km,  double rating,  int reviews,  int maxPerSide,  int priceDa,  Set<Feature> features,  bool active)?  $default,) {final _that = this;
 switch (_that) {
 case _Pitch() when $default != null:
-return $default(_that.id,_that.venue,_that.venueAr,_that.district,_that.km,_that.rating,_that.reviews,_that.maxPerSide,_that.priceDa,_that.features);case _:
+return $default(_that.id,_that.venue,_that.venueAr,_that.district,_that.km,_that.rating,_that.reviews,_that.maxPerSide,_that.priceDa,_that.features,_that.active);case _:
   return null;
 
 }
@@ -225,7 +227,7 @@ return $default(_that.id,_that.venue,_that.venueAr,_that.district,_that.km,_that
 @JsonSerializable()
 
 class _Pitch extends Pitch {
-  const _Pitch({required this.id, required this.venue, required this.venueAr, required this.district, required this.km, required this.rating, required this.reviews, required this.maxPerSide, required this.priceDa, required  Set<Feature> features}): _features = features,super._();
+  const _Pitch({required this.id, required this.venue, required this.venueAr, required this.district, required this.km, required this.rating, required this.reviews, required this.maxPerSide, required this.priceDa, required  Set<Feature> features, this.active = true}): _features = features,super._();
   factory _Pitch.fromJson(Map<String, dynamic> json) => _$PitchFromJson(json);
 
 @override final  String id;
@@ -245,6 +247,8 @@ class _Pitch extends Pitch {
   return EqualUnmodifiableSetView(_features);
 }
 
+/// Inactive pitches are hidden from players.
+@override@JsonKey() final  bool active;
 
 /// Create a copy of Pitch
 /// with the given fields replaced by the non-null parameter values.
@@ -259,18 +263,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Pitch&&(identical(other.id, id) || other.id == id)&&(identical(other.venue, venue) || other.venue == venue)&&(identical(other.venueAr, venueAr) || other.venueAr == venueAr)&&(identical(other.district, district) || other.district == district)&&(identical(other.km, km) || other.km == km)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.reviews, reviews) || other.reviews == reviews)&&(identical(other.maxPerSide, maxPerSide) || other.maxPerSide == maxPerSide)&&(identical(other.priceDa, priceDa) || other.priceDa == priceDa)&&const DeepCollectionEquality().equals(other.features, _features));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Pitch&&(identical(other.id, id) || other.id == id)&&(identical(other.venue, venue) || other.venue == venue)&&(identical(other.venueAr, venueAr) || other.venueAr == venueAr)&&(identical(other.district, district) || other.district == district)&&(identical(other.km, km) || other.km == km)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.reviews, reviews) || other.reviews == reviews)&&(identical(other.maxPerSide, maxPerSide) || other.maxPerSide == maxPerSide)&&(identical(other.priceDa, priceDa) || other.priceDa == priceDa)&&const DeepCollectionEquality().equals(other.features, _features)&&(identical(other.active, active) || other.active == active));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,venue,venueAr,district,km,rating,reviews,maxPerSide,priceDa,const DeepCollectionEquality().hash(_features));
+    return Object.hash(runtimeType,id,venue,venueAr,district,km,rating,reviews,maxPerSide,priceDa,const DeepCollectionEquality().hash(_features),active);
 }
 
 @override
 String toString() {
-    return 'Pitch(id: $id, venue: $venue, venueAr: $venueAr, district: $district, km: $km, rating: $rating, reviews: $reviews, maxPerSide: $maxPerSide, priceDa: $priceDa, features: $features)';
+    return 'Pitch(id: $id, venue: $venue, venueAr: $venueAr, district: $district, km: $km, rating: $rating, reviews: $reviews, maxPerSide: $maxPerSide, priceDa: $priceDa, features: $features, active: $active)';
 }
 
 
@@ -281,7 +285,7 @@ abstract mixin class _$PitchCopyWith<$Res> implements $PitchCopyWith<$Res> {
   factory _$PitchCopyWith(_Pitch value, $Res Function(_Pitch) _then) = __$PitchCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String venue, String venueAr, String district, double km, double rating, int reviews, int maxPerSide, int priceDa, Set<Feature> features
+ String id, String venue, String venueAr, String district, double km, double rating, int reviews, int maxPerSide, int priceDa, Set<Feature> features, bool active
 });
 
 
@@ -298,7 +302,7 @@ class __$PitchCopyWithImpl<$Res>
 
 /// Create a copy of Pitch
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? venue = null,Object? venueAr = null,Object? district = null,Object? km = null,Object? rating = null,Object? reviews = null,Object? maxPerSide = null,Object? priceDa = null,Object? features = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? venue = null,Object? venueAr = null,Object? district = null,Object? km = null,Object? rating = null,Object? reviews = null,Object? maxPerSide = null,Object? priceDa = null,Object? features = null,Object? active = null,}) {
   return _then(_Pitch(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,venue: null == venue ? _self.venue : venue // ignore: cast_nullable_to_non_nullable
@@ -310,7 +314,8 @@ as double,reviews: null == reviews ? _self.reviews : reviews // ignore: cast_nul
 as int,maxPerSide: null == maxPerSide ? _self.maxPerSide : maxPerSide // ignore: cast_nullable_to_non_nullable
 as int,priceDa: null == priceDa ? _self.priceDa : priceDa // ignore: cast_nullable_to_non_nullable
 as int,features: null == features ? _self._features : features // ignore: cast_nullable_to_non_nullable
-as Set<Feature>,
+as Set<Feature>,active: null == active ? _self.active : active // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

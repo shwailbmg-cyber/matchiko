@@ -24,6 +24,9 @@ abstract class Pitch with _$Pitch {
     required int maxPerSide,
     required int priceDa,
     required Set<Feature> features,
+
+    /// Inactive pitches are hidden from players.
+    @Default(true) bool active,
   }) = _Pitch;
 
   factory Pitch.fromJson(Map<String, dynamic> json) => _$PitchFromJson(json);

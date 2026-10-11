@@ -63,7 +63,7 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
 - [x] **S10** Teams: list, create, team page, recurring game. (M4)
 - [x] **S11** Referee: apply, availability, jobs, earnings, match report. (M5)
 - [x] **S12** Manager calendar: week view, block slot, walk-in booking. (M3)
-- [ ] **S13** Manager venue: pitches and prices, opening hours. (M3)
+- [x] **S13** Manager venue: pitches and prices, opening hours. (M3)
 - [ ] **S14** Manager scan modes (booking, verification, check-in) +
       players tab (referee applications, no-show reports). (M3)
 - [ ] **S15** Manager reports (cash expected vs received, occupancy) +
@@ -84,4 +84,7 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
   Wilayas (69) are done.
 - Public reliability % and fair-play tags need a `public_player_stats`
   RPC that doesn't expose raw no-show counts (with S18).
+- Opening hours are shown and used by the calendar; `request_booking`
+  does not reject hours outside them yet (managers simply don't confirm).
+  Peak / off-peak prices need a pricing change in `request_booking`.
 - Profile photo upload waits for the Supabase avatars bucket (S18).
