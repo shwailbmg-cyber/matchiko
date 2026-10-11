@@ -33,7 +33,7 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
           cache: true
-      - run: flutter pub get
+      - run: flutter pub get && flutter gen-l10n
       - run: dart format --set-exit-if-changed -o none lib test
       - run: flutter analyze
       - run: flutter test
@@ -63,7 +63,7 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
           cache: true
-      - run: flutter pub get
+      - run: flutter pub get && flutter gen-l10n
       # No Supabase config: the build runs in demo mode on sample data.
       - run: flutter build web --release --base-href "/${{ github.event.repository.name }}/"
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
@@ -105,7 +105,7 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
           cache: true
-      - run: flutter pub get
+      - run: flutter pub get && flutter gen-l10n
       # Demo mode, signed with the debug key: fine for testers, never for the store.
       - run: flutter build apk --release
       - run: mv build/app/outputs/flutter-apk/app-release.apk build/matchiko-demo.apk
