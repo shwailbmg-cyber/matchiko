@@ -1,4 +1,5 @@
 import 'package:matchiko/shared/domain/game.dart';
+import 'package:matchiko/shared/domain/ledger_entry.dart';
 import 'package:matchiko/shared/domain/pitch.dart';
 import 'package:matchiko/shared/domain/position.dart';
 import 'package:matchiko/shared/domain/profile.dart';
@@ -28,6 +29,9 @@ abstract interface class GameRepository {
   Future<List<Pitch>> pitches({String query = ''});
   Future<Pitch> pitch(String id);
   Future<List<Slot>> slots(String pitchId, DateTime day);
+
+  /// My XP and coin changes, newest first.
+  Future<List<LedgerEntry>> walletHistory();
 
   /// Ids of the pitches I marked with a heart (`favorite_pitches`).
   Future<Set<String>> favoritePitchIds();

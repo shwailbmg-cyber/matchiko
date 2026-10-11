@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:matchiko/shared/domain/booking_status.dart';
 import 'package:matchiko/shared/domain/game.dart';
+import 'package:matchiko/shared/domain/ledger_entry.dart';
 import 'package:matchiko/shared/domain/pitch.dart';
 import 'package:matchiko/shared/domain/position.dart';
 import 'package:matchiko/shared/domain/profile.dart';
@@ -35,6 +36,7 @@ class DemoGameRepository implements GameRepository {
   final _queue = <Profile>[];
   final _taken = <String>{};
   final _favorites = <String>{'harrach'};
+  final _ledger = <LedgerEntry>[];
   int _seq = 100;
 
   final _changes = StreamController<int>.broadcast();
@@ -95,6 +97,18 @@ class DemoGameRepository implements GameRepository {
       level: Level.good,
       phone: '+213555123456',
     );
+    for (final (d, r, xp, c) in [
+      (12, RewardReason.verified, 100, 200),
+      (9, RewardReason.showUp, 30, 20),
+      (9, RewardReason.win, 15, 30),
+      (6, RewardReason.showUp, 30, 20),
+      (6, RewardReason.goal, 10, 30),
+      (5, RewardReason.rateGame, 5, 10),
+      (2, RewardReason.showUp, 30, 20),
+      (2, RewardReason.mvp, 25, 30),
+    ]) {
+      _earn(r, xp, c, _at(-d, 22));
+    }
     _pitches.addAll(const [
       Pitch(
         id: 'harrach',
@@ -353,6 +367,14 @@ class DemoGameRepository implements GameRepository {
   Future<Profile> me() => _wait(() => _me);
 
   @override
+  Future<List<LedgerEntry>> walletHistory() =>
+      _wait(() => _ledger.reversed.toList());
+
+  void _earn(RewardReason r, int xp, int coins, DateTime at) => _ledger.add(
+    LedgerEntry(reason: r, xpDelta: xp, coinsDelta: coins, createdAt: at),
+  );
+
+  @override
   Future<Set<String>> favoritePitchIds() => _wait(() => {..._favorites});
 
   @override
@@ -530,6 +552,7 @@ class DemoGameRepository implements GameRepository {
   Future<void> cancelBooking(String gameId) => _wait(() {
     _update(gameId, (g) => g.copyWith(status: BookingStatus.cancelled));
     // Server rule: a booker cancelling costs −20 XP / −10 coins.
+    _earn(RewardReason.cancellation, -20, -10, _clock());
     _me = _me.copyWith(
       xp: (_me.xp - 20).clamp(0, 1 << 30),
       coins: (_me.coins - 10).clamp(0, 1 << 30),

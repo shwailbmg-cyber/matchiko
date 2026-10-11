@@ -57,7 +57,7 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
       edit profile. (M1)
 - [x] **S6** Pitch list with search and filters (format, price, lights,
       covered, showers) + favourites. (M2)
-- [ ] **S7** Wallet: coins, XP, rank progress, history. (M5)
+- [x] **S7** Wallet: coins, XP, rank progress, history. (M5)
 - [ ] **S8** Public profile + friends (search by @handle, add, invite). (M3)
 - [ ] **S9** Notifications center + report no-show / report player. (M3)
 - [ ] **S10** Teams: list, create, team page, recurring game. (M4)

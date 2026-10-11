@@ -345,5 +345,19 @@
   "noPitchMatch": "لا يوجد ملعب يطابق هذه الفلاتر.",
   "clearFilters": "مسح الفلاتر",
   "addFavorite": "أضف إلى المفضلة",
-  "removeFavorite": "أزل من المفضلة"
+  "removeFavorite": "أزل من المفضلة",
+  "noActivity": "لا يوجد نشاط بعد.",
+  "rShowUp": "لعب مباراة محجوزة",
+  "rFirstGame": "مكافأة أول مباراة",
+  "rRate": "تقييم مباراة",
+  "rReferee": "تحكيم مباراة",
+  "rWin": "فوز",
+  "rGoal": "هدف",
+  "rMvp": "أفضل لاعب في المباراة",
+  "rPayOnline": "دفع إلكتروني",
+  "rInvite": "دعوة صديق",
+  "rVerified": "توثيق الحساب",
+  "rNoShow": "غياب",
+  "rCancel": "إلغاء حجز",
+  "rAdmin": "تعديل من Matchiko"
 }

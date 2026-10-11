@@ -149,14 +149,24 @@ class ProfileScreen extends ConsumerWidget {
                           Row(
                             children: [
                               Expanded(
-                                child: _Tok(l.xp, money(me.xp), MkColors.sand),
+                                child: InkWell(
+                                  onTap: () => context.push(Routes.wallet),
+                                  child: _Tok(
+                                    l.xp,
+                                    money(me.xp),
+                                    MkColors.sand,
+                                  ),
+                                ),
                               ),
                               const SizedBox(width: 8),
                               Expanded(
-                                child: _Tok(
-                                  l.coins,
-                                  '🪙 ${money(me.coins)}',
-                                  MkColors.primary,
+                                child: InkWell(
+                                  onTap: () => context.push(Routes.wallet),
+                                  child: _Tok(
+                                    l.coins,
+                                    '🪙 ${money(me.coins)}',
+                                    MkColors.primary,
+                                  ),
                                 ),
                               ),
                             ],

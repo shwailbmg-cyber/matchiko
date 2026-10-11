@@ -17,6 +17,7 @@ import 'package:matchiko/features/play/presentation/play_screen.dart';
 import 'package:matchiko/features/profile/presentation/profile_form_screen.dart';
 import 'package:matchiko/features/profile/presentation/profile_screen.dart';
 import 'package:matchiko/features/settings/presentation/settings_screen.dart';
+import 'package:matchiko/features/wallet/presentation/wallet_screen.dart';
 import 'package:matchiko/l10n/gen/app_localizations.dart';
 import 'package:matchiko/shared/domain/auth_repository.dart';
 import 'package:matchiko/shared/domain/profile.dart';
@@ -71,6 +72,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (_, _) => const NotificationsScreen(),
       ),
       GoRoute(path: Routes.pitches, builder: (_, _) => const PitchesScreen()),
+      GoRoute(path: Routes.wallet, builder: (_, _) => const WalletScreen()),
       GoRoute(
         path: '/pitch/:id',
         builder: (_, s) => PitchScreen(s.pathParameters['id']!),

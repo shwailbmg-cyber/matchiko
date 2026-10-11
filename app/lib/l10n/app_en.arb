@@ -498,5 +498,19 @@
   "noPitchMatch": "No pitch matches these filters.",
   "clearFilters": "Clear filters",
   "addFavorite": "Add to favourites",
-  "removeFavorite": "Remove from favourites"
+  "removeFavorite": "Remove from favourites",
+  "noActivity": "No activity yet.",
+  "rShowUp": "Played a booked game",
+  "rFirstGame": "First game bonus",
+  "rRate": "Rated a game",
+  "rReferee": "Refereed a game",
+  "rWin": "Win",
+  "rGoal": "Goal",
+  "rMvp": "Player of the match",
+  "rPayOnline": "Paid online",
+  "rInvite": "Friend invited",
+  "rVerified": "Account verified",
+  "rNoShow": "No-show",
+  "rCancel": "Cancelled a booking",
+  "rAdmin": "Change by Matchiko"
 }

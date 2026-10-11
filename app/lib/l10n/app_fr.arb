@@ -345,5 +345,19 @@
   "noPitchMatch": "Aucun terrain ne correspond à ces filtres.",
   "clearFilters": "Effacer les filtres",
   "addFavorite": "Ajouter aux favoris",
-  "removeFavorite": "Retirer des favoris"
+  "removeFavorite": "Retirer des favoris",
+  "noActivity": "Aucune activité pour le moment.",
+  "rShowUp": "Match réservé joué",
+  "rFirstGame": "Bonus premier match",
+  "rRate": "Match noté",
+  "rReferee": "Match arbitré",
+  "rWin": "Victoire",
+  "rGoal": "But",
+  "rMvp": "Joueur du match",
+  "rPayOnline": "Paiement en ligne",
+  "rInvite": "Ami invité",
+  "rVerified": "Compte vérifié",
+  "rNoShow": "Absence",
+  "rCancel": "Réservation annulée",
+  "rAdmin": "Correction par Matchiko"
 }
