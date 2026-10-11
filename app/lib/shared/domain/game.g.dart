@@ -17,6 +17,7 @@ _GamePlayer _$GamePlayerFromJson(Map<String, dynamic> json) => _GamePlayer(
   guest: json['guest'] as bool? ?? false,
   isMe: json['is_me'] as bool? ?? false,
   isBooker: json['is_booker'] as bool? ?? false,
+  attended: json['attended'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$GamePlayerToJson(_GamePlayer instance) =>
@@ -31,6 +32,7 @@ Map<String, dynamic> _$GamePlayerToJson(_GamePlayer instance) =>
       'guest': instance.guest,
       'is_me': instance.isMe,
       'is_booker': instance.isBooker,
+      'attended': instance.attended,
     };
 
 const _$PositionEnumMap = {

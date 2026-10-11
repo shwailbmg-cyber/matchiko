@@ -17,7 +17,8 @@ T _$identity<T>(T value) => value;
 mixin _$GamePlayer {
 
  String get name; String get handle; Position get position; Side get team; int get reliability; bool get paid; bool get confirmed;/// Added by the booker, has no account.
- bool get guest; bool get isMe; bool get isBooker;
+ bool get guest; bool get isMe; bool get isBooker;/// Checked in by the manager on arrival.
+ bool get attended;
 /// Create a copy of GamePlayer
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -31,20 +32,20 @@ $GamePlayerCopyWith<GamePlayer> get copyWith => _$GamePlayerCopyWithImpl<GamePla
 @override
 bool operator ==(Object other) {
   final _this = this as GamePlayer;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GamePlayer&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.handle, _this.handle) || other.handle == _this.handle)&&(identical(other.position, _this.position) || other.position == _this.position)&&(identical(other.team, _this.team) || other.team == _this.team)&&(identical(other.reliability, _this.reliability) || other.reliability == _this.reliability)&&(identical(other.paid, _this.paid) || other.paid == _this.paid)&&(identical(other.confirmed, _this.confirmed) || other.confirmed == _this.confirmed)&&(identical(other.guest, _this.guest) || other.guest == _this.guest)&&(identical(other.isMe, _this.isMe) || other.isMe == _this.isMe)&&(identical(other.isBooker, _this.isBooker) || other.isBooker == _this.isBooker));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GamePlayer&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.handle, _this.handle) || other.handle == _this.handle)&&(identical(other.position, _this.position) || other.position == _this.position)&&(identical(other.team, _this.team) || other.team == _this.team)&&(identical(other.reliability, _this.reliability) || other.reliability == _this.reliability)&&(identical(other.paid, _this.paid) || other.paid == _this.paid)&&(identical(other.confirmed, _this.confirmed) || other.confirmed == _this.confirmed)&&(identical(other.guest, _this.guest) || other.guest == _this.guest)&&(identical(other.isMe, _this.isMe) || other.isMe == _this.isMe)&&(identical(other.isBooker, _this.isBooker) || other.isBooker == _this.isBooker)&&(identical(other.attended, _this.attended) || other.attended == _this.attended));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as GamePlayer;
-  return Object.hash(runtimeType,_this.name,_this.handle,_this.position,_this.team,_this.reliability,_this.paid,_this.confirmed,_this.guest,_this.isMe,_this.isBooker);
+  return Object.hash(runtimeType,_this.name,_this.handle,_this.position,_this.team,_this.reliability,_this.paid,_this.confirmed,_this.guest,_this.isMe,_this.isBooker,_this.attended);
 }
 
 @override
 String toString() {
   final _this = this as GamePlayer;
-  return 'GamePlayer(name: ${_this.name}, handle: ${_this.handle}, position: ${_this.position}, team: ${_this.team}, reliability: ${_this.reliability}, paid: ${_this.paid}, confirmed: ${_this.confirmed}, guest: ${_this.guest}, isMe: ${_this.isMe}, isBooker: ${_this.isBooker})';
+  return 'GamePlayer(name: ${_this.name}, handle: ${_this.handle}, position: ${_this.position}, team: ${_this.team}, reliability: ${_this.reliability}, paid: ${_this.paid}, confirmed: ${_this.confirmed}, guest: ${_this.guest}, isMe: ${_this.isMe}, isBooker: ${_this.isBooker}, attended: ${_this.attended})';
 }
 
 
@@ -55,7 +56,7 @@ abstract mixin class $GamePlayerCopyWith<$Res>  {
   factory $GamePlayerCopyWith(GamePlayer value, $Res Function(GamePlayer) _then) = _$GamePlayerCopyWithImpl;
 @useResult
 $Res call({
- String name, String handle, Position position, Side team, int reliability, bool paid, bool confirmed, bool guest, bool isMe, bool isBooker
+ String name, String handle, Position position, Side team, int reliability, bool paid, bool confirmed, bool guest, bool isMe, bool isBooker, bool attended
 });
 
 
@@ -72,7 +73,7 @@ class _$GamePlayerCopyWithImpl<$Res>
 
 /// Create a copy of GamePlayer
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? handle = null,Object? position = null,Object? team = null,Object? reliability = null,Object? paid = null,Object? confirmed = null,Object? guest = null,Object? isMe = null,Object? isBooker = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? handle = null,Object? position = null,Object? team = null,Object? reliability = null,Object? paid = null,Object? confirmed = null,Object? guest = null,Object? isMe = null,Object? isBooker = null,Object? attended = null,}) {
   return _then(GamePlayer(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,handle: null == handle ? _self.handle : handle // ignore: cast_nullable_to_non_nullable
@@ -84,6 +85,7 @@ as bool,confirmed: null == confirmed ? _self.confirmed : confirmed // ignore: ca
 as bool,guest: null == guest ? _self.guest : guest // ignore: cast_nullable_to_non_nullable
 as bool,isMe: null == isMe ? _self.isMe : isMe // ignore: cast_nullable_to_non_nullable
 as bool,isBooker: null == isBooker ? _self.isBooker : isBooker // ignore: cast_nullable_to_non_nullable
+as bool,attended: null == attended ? _self.attended : attended // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }
@@ -169,10 +171,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  String handle,  Position position,  Side team,  int reliability,  bool paid,  bool confirmed,  bool guest,  bool isMe,  bool isBooker)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  String handle,  Position position,  Side team,  int reliability,  bool paid,  bool confirmed,  bool guest,  bool isMe,  bool isBooker,  bool attended)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _GamePlayer() when $default != null:
-return $default(_that.name,_that.handle,_that.position,_that.team,_that.reliability,_that.paid,_that.confirmed,_that.guest,_that.isMe,_that.isBooker);case _:
+return $default(_that.name,_that.handle,_that.position,_that.team,_that.reliability,_that.paid,_that.confirmed,_that.guest,_that.isMe,_that.isBooker,_that.attended);case _:
   return orElse();
 
 }
@@ -190,10 +192,10 @@ return $default(_that.name,_that.handle,_that.position,_that.team,_that.reliabil
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  String handle,  Position position,  Side team,  int reliability,  bool paid,  bool confirmed,  bool guest,  bool isMe,  bool isBooker)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  String handle,  Position position,  Side team,  int reliability,  bool paid,  bool confirmed,  bool guest,  bool isMe,  bool isBooker,  bool attended)  $default,) {final _that = this;
 switch (_that) {
 case _GamePlayer():
-return $default(_that.name,_that.handle,_that.position,_that.team,_that.reliability,_that.paid,_that.confirmed,_that.guest,_that.isMe,_that.isBooker);case _:
+return $default(_that.name,_that.handle,_that.position,_that.team,_that.reliability,_that.paid,_that.confirmed,_that.guest,_that.isMe,_that.isBooker,_that.attended);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -210,10 +212,10 @@ return $default(_that.name,_that.handle,_that.position,_that.team,_that.reliabil
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  String handle,  Position position,  Side team,  int reliability,  bool paid,  bool confirmed,  bool guest,  bool isMe,  bool isBooker)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  String handle,  Position position,  Side team,  int reliability,  bool paid,  bool confirmed,  bool guest,  bool isMe,  bool isBooker,  bool attended)?  $default,) {final _that = this;
 switch (_that) {
 case _GamePlayer() when $default != null:
-return $default(_that.name,_that.handle,_that.position,_that.team,_that.reliability,_that.paid,_that.confirmed,_that.guest,_that.isMe,_that.isBooker);case _:
+return $default(_that.name,_that.handle,_that.position,_that.team,_that.reliability,_that.paid,_that.confirmed,_that.guest,_that.isMe,_that.isBooker,_that.attended);case _:
   return null;
 
 }
@@ -225,7 +227,7 @@ return $default(_that.name,_that.handle,_that.position,_that.team,_that.reliabil
 @JsonSerializable()
 
 class _GamePlayer extends GamePlayer {
-  const _GamePlayer({required this.name, required this.handle, required this.position, required this.team, this.reliability = 100, this.paid = false, this.confirmed = true, this.guest = false, this.isMe = false, this.isBooker = false}): super._();
+  const _GamePlayer({required this.name, required this.handle, required this.position, required this.team, this.reliability = 100, this.paid = false, this.confirmed = true, this.guest = false, this.isMe = false, this.isBooker = false, this.attended = false}): super._();
   factory _GamePlayer.fromJson(Map<String, dynamic> json) => _$GamePlayerFromJson(json);
 
 @override final  String name;
@@ -239,6 +241,8 @@ class _GamePlayer extends GamePlayer {
 @override@JsonKey() final  bool guest;
 @override@JsonKey() final  bool isMe;
 @override@JsonKey() final  bool isBooker;
+/// Checked in by the manager on arrival.
+@override@JsonKey() final  bool attended;
 
 /// Create a copy of GamePlayer
 /// with the given fields replaced by the non-null parameter values.
@@ -253,18 +257,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _GamePlayer&&(identical(other.name, name) || other.name == name)&&(identical(other.handle, handle) || other.handle == handle)&&(identical(other.position, position) || other.position == position)&&(identical(other.team, team) || other.team == team)&&(identical(other.reliability, reliability) || other.reliability == reliability)&&(identical(other.paid, paid) || other.paid == paid)&&(identical(other.confirmed, confirmed) || other.confirmed == confirmed)&&(identical(other.guest, guest) || other.guest == guest)&&(identical(other.isMe, isMe) || other.isMe == isMe)&&(identical(other.isBooker, isBooker) || other.isBooker == isBooker));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _GamePlayer&&(identical(other.name, name) || other.name == name)&&(identical(other.handle, handle) || other.handle == handle)&&(identical(other.position, position) || other.position == position)&&(identical(other.team, team) || other.team == team)&&(identical(other.reliability, reliability) || other.reliability == reliability)&&(identical(other.paid, paid) || other.paid == paid)&&(identical(other.confirmed, confirmed) || other.confirmed == confirmed)&&(identical(other.guest, guest) || other.guest == guest)&&(identical(other.isMe, isMe) || other.isMe == isMe)&&(identical(other.isBooker, isBooker) || other.isBooker == isBooker)&&(identical(other.attended, attended) || other.attended == attended));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,name,handle,position,team,reliability,paid,confirmed,guest,isMe,isBooker);
+    return Object.hash(runtimeType,name,handle,position,team,reliability,paid,confirmed,guest,isMe,isBooker,attended);
 }
 
 @override
 String toString() {
-    return 'GamePlayer(name: $name, handle: $handle, position: $position, team: $team, reliability: $reliability, paid: $paid, confirmed: $confirmed, guest: $guest, isMe: $isMe, isBooker: $isBooker)';
+    return 'GamePlayer(name: $name, handle: $handle, position: $position, team: $team, reliability: $reliability, paid: $paid, confirmed: $confirmed, guest: $guest, isMe: $isMe, isBooker: $isBooker, attended: $attended)';
 }
 
 
@@ -275,7 +279,7 @@ abstract mixin class _$GamePlayerCopyWith<$Res> implements $GamePlayerCopyWith<$
   factory _$GamePlayerCopyWith(_GamePlayer value, $Res Function(_GamePlayer) _then) = __$GamePlayerCopyWithImpl;
 @override @useResult
 $Res call({
- String name, String handle, Position position, Side team, int reliability, bool paid, bool confirmed, bool guest, bool isMe, bool isBooker
+ String name, String handle, Position position, Side team, int reliability, bool paid, bool confirmed, bool guest, bool isMe, bool isBooker, bool attended
 });
 
 
@@ -292,7 +296,7 @@ class __$GamePlayerCopyWithImpl<$Res>
 
 /// Create a copy of GamePlayer
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? handle = null,Object? position = null,Object? team = null,Object? reliability = null,Object? paid = null,Object? confirmed = null,Object? guest = null,Object? isMe = null,Object? isBooker = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? handle = null,Object? position = null,Object? team = null,Object? reliability = null,Object? paid = null,Object? confirmed = null,Object? guest = null,Object? isMe = null,Object? isBooker = null,Object? attended = null,}) {
   return _then(_GamePlayer(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,handle: null == handle ? _self.handle : handle // ignore: cast_nullable_to_non_nullable
@@ -304,6 +308,7 @@ as bool,confirmed: null == confirmed ? _self.confirmed : confirmed // ignore: ca
 as bool,guest: null == guest ? _self.guest : guest // ignore: cast_nullable_to_non_nullable
 as bool,isMe: null == isMe ? _self.isMe : isMe // ignore: cast_nullable_to_non_nullable
 as bool,isBooker: null == isBooker ? _self.isBooker : isBooker // ignore: cast_nullable_to_non_nullable
+as bool,attended: null == attended ? _self.attended : attended // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }

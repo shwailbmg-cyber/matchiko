@@ -9,6 +9,7 @@ import 'package:matchiko/shared/domain/profile.dart';
 import 'package:matchiko/shared/domain/referee.dart';
 import 'package:matchiko/shared/domain/team.dart';
 import 'package:matchiko/shared/domain/venue.dart';
+import 'package:matchiko/shared/domain/venue_review.dart';
 
 /// Everything the screens read and do about pitches, games and the signed-in
 /// player. [changes] ticks when data changes (Realtime later), so the
@@ -142,6 +143,19 @@ abstract interface class GameRepository {
   Future<Game> scanBooking(String code);
   Future<void> markNoShow(String gameId);
   Future<List<Profile>> verificationQueue();
+
+  /// Pending referee requests at my venue (approve after checking ID).
+  Future<List<RefApplication>> refereeApplications();
+  Future<void> decideRefereeApplication(String id, {required bool approve});
+
+  /// Open reports about games at my venue.
+  Future<List<VenueReport>> venueReports();
+
+  /// Accepting a no-show applies the penalty (`review_player_report`).
+  Future<void> reviewReport(int id, {required bool accept});
+
+  /// Marks a player as arrived (their QR shows the @handle).
+  Future<void> checkInPlayer(String gameId, String handle);
 
   /// My venue and its pitches.
   Future<Venue> venue();

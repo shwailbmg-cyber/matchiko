@@ -437,5 +437,16 @@
   "maxSize": "أكبر مباراة في هذا الملعب",
   "amenities": "المرافق",
   "pitchVisible": "يمكن للاعبين حجز هذا الملعب",
-  "pitchHidden": "مخفي عن اللاعبين"
+  "pitchHidden": "مخفي عن اللاعبين",
+  "scanBooking": "الحجز",
+  "scanVerify": "الهوية",
+  "scanCheckIn": "الوصول",
+  "scanVerifyHint": "امسح رمز التحقق الخاص باللاعب، ثم تحقق من بطاقة هويته.",
+  "arrivedCount": "وصل {n} من أصل {total} لاعبين",
+  "arrived": "وصل {name}",
+  "refRequests": "طلبات التحكيم",
+  "reportsToReview": "بلاغات للمراجعة",
+  "reportedBy": "أبلغ عنه {name}",
+  "acceptReport": "تأكيد",
+  "rejectReport": "غير صحيح"
 }

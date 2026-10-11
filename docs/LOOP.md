@@ -64,7 +64,7 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
 - [x] **S11** Referee: apply, availability, jobs, earnings, match report. (M5)
 - [x] **S12** Manager calendar: week view, block slot, walk-in booking. (M3)
 - [x] **S13** Manager venue: pitches and prices, opening hours. (M3)
-- [ ] **S14** Manager scan modes (booking, verification, check-in) +
+- [x] **S14** Manager scan modes (booking, verification, check-in) +
       players tab (referee applications, no-show reports). (M3)
 - [ ] **S15** Manager reports (cash expected vs received, occupancy) +
       staff. (M6)
@@ -87,4 +87,6 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
 - Opening hours are shown and used by the calendar; `request_booking`
   does not reject hours outside them yet (managers simply don't confirm).
   Peak / off-peak prices need a pricing change in `request_booking`.
+- QR codes are drawn placeholders and scans are simulated: add a real
+  QR encoder and `mobile_scanner` (camera) with S18.
 - Profile photo upload waits for the Supabase avatars bucket (S18).

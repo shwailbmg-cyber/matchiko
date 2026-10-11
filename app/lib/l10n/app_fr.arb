@@ -437,5 +437,16 @@
   "maxSize": "Plus grand match sur ce terrain",
   "amenities": "Équipements",
   "pitchVisible": "Les joueurs peuvent réserver ce terrain",
-  "pitchHidden": "Caché aux joueurs"
+  "pitchHidden": "Caché aux joueurs",
+  "scanBooking": "Réservation",
+  "scanVerify": "Identité",
+  "scanCheckIn": "Arrivée",
+  "scanVerifyHint": "Scannez le QR de vérification du joueur, puis vérifiez sa carte d’identité.",
+  "arrivedCount": "{n} joueurs arrivés sur {total}",
+  "arrived": "{name} est arrivé",
+  "refRequests": "Demandes d’arbitre",
+  "reportsToReview": "Signalements à vérifier",
+  "reportedBy": "Signalé par {name}",
+  "acceptReport": "Confirmer",
+  "rejectReport": "Pas vrai"
 }

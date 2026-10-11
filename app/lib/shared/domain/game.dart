@@ -28,6 +28,9 @@ abstract class GamePlayer with _$GamePlayer {
     @Default(false) bool guest,
     @Default(false) bool isMe,
     @Default(false) bool isBooker,
+
+    /// Checked in by the manager on arrival.
+    @Default(false) bool attended,
   }) = _GamePlayer;
 
   factory GamePlayer.fromJson(Map<String, dynamic> json) =>

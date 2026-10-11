@@ -41,10 +41,7 @@ class Ticket extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            CustomPaint(
-              size: const Size.square(176),
-              painter: _QrPainter(game.code),
-            ),
+            QrCode(game.code),
             const SizedBox(height: 14),
             Text(
               l.code.toUpperCase(),
@@ -89,6 +86,19 @@ Future<void> showTicket(BuildContext context, Game game) =>
         child: Ticket(game),
       ),
     );
+
+/// QR-looking code drawn from [data]. Placeholder until a real QR
+/// encoder and the camera scanner land (LOOP.md notes).
+class QrCode extends StatelessWidget {
+  const QrCode(this.data, {super.key, this.size = 176});
+
+  final String data;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) =>
+      CustomPaint(size: Size.square(size), painter: _QrPainter(data));
+}
 
 class _QrPainter extends CustomPainter {
   _QrPainter(this.seed);

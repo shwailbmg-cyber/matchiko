@@ -631,5 +631,40 @@
   "maxSize": "Largest game on this pitch",
   "amenities": "Amenities",
   "pitchVisible": "Players can book this pitch",
-  "pitchHidden": "Hidden from players"
+  "pitchHidden": "Hidden from players",
+  "scanBooking": "Booking",
+  "scanVerify": "ID check",
+  "scanCheckIn": "Arrival",
+  "scanVerifyHint": "Scan the player’s verification QR, then check their ID card.",
+  "arrivedCount": "{n} of {total} players arrived",
+  "@arrivedCount": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "arrived": "{name} arrived",
+  "@arrived": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "refRequests": "Referee requests",
+  "reportsToReview": "Reports to check",
+  "reportedBy": "Reported by {name}",
+  "@reportedBy": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "acceptReport": "Confirm",
+  "rejectReport": "Not true"
 }

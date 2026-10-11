@@ -12,6 +12,7 @@ import 'package:matchiko/shared/domain/profile.dart';
 import 'package:matchiko/shared/domain/referee.dart';
 import 'package:matchiko/shared/domain/team.dart';
 import 'package:matchiko/shared/domain/venue.dart';
+import 'package:matchiko/shared/domain/venue_review.dart';
 import 'package:matchiko/shared/domain/game_repository.dart';
 
 /// In-memory sample data, same as the Claude Design prototype. Used when the
@@ -56,6 +57,8 @@ class DemoGameRepository implements GameRepository {
 
   /// Blocks and walk-ins at the manager's venue (`pitch_blocks`).
   final _blocks = <String, (String pitchId, CalendarEntry entry)>{};
+  final _refApps = <RefApplication>[];
+  final _venueReports = <VenueReport>[];
   var _venue = const Venue(
     id: 'v-harrach',
     name: 'Complexe El Harrach',
@@ -90,7 +93,10 @@ class DemoGameRepository implements GameRepository {
     bool guest = false,
   }) => GamePlayer(
     name: name,
-    handle: name.toLowerCase().replaceAll(' ', '_'),
+    handle: name
+        .toLowerCase()
+        .replaceAll(' ', '_')
+        .replaceAll(RegExp('[^a-z0-9_]'), ''),
     position: pos,
     team: team,
     reliability: rel,
@@ -326,6 +332,7 @@ class DemoGameRepository implements GameRepository {
     ]);
     _seedTeams();
     _seedJobs();
+    _seedReviews();
     _blocks['b1'] = (
       'harrach',
       CalendarEntry(
@@ -361,10 +368,14 @@ class DemoGameRepository implements GameRepository {
     'Raouf Ghali',
   ];
 
+  /// Sample players with unique names (and so unique handles).
   List<GamePlayer> _filler(int n) => [
     for (var i = 0; i < n; i++)
       _p(
-        _names[i % _names.length],
+        i < _names.length
+            ? _names[i]
+            : '${_names[i % _names.length].split(' ').first} '
+                  '${const ['Haddad', 'Belkacem', 'Ziani'][i ~/ _names.length - 1]}',
         Position.playable[(i ~/ 2) % 4],
         i.isEven ? Side.a : Side.b,
         rel: 85 + (i * 7) % 15,
@@ -387,7 +398,7 @@ class DemoGameRepository implements GameRepository {
             team: Side.a,
             isBooker: true,
           ),
-          ..._filler(9),
+          ..._filler(10).where((p) => p.name != booker).take(9),
         ],
         code: 'MTK-$id'.toUpperCase(),
       );
@@ -1034,6 +1045,58 @@ class DemoGameRepository implements GameRepository {
           : g,
     ),
   );
+
+  void _seedReviews() {
+    _refApps.add(RefApplication(id: 'ra1', player: _person('chouaib_benali')));
+    _venueReports.add(
+      VenueReport(
+        id: 1,
+        reporterName: 'Yacine Kaci',
+        reported: _person('walid_djebbar'),
+        reason: ReportReason.noShow,
+        note: 'Said he was coming, never came.',
+        gameStartsAt: _at(-2, 21),
+      ),
+    );
+  }
+
+  @override
+  Future<List<RefApplication>> refereeApplications() =>
+      _wait(() => List.of(_refApps));
+
+  @override
+  Future<void> decideRefereeApplication(String id, {required bool approve}) =>
+      _wait(() {
+        _refApps.removeWhere((a) => a.id == id);
+        _changed();
+      });
+
+  @override
+  Future<List<VenueReport>> venueReports() =>
+      _wait(() => List.of(_venueReports));
+
+  @override
+  Future<void> reviewReport(int id, {required bool accept}) => _wait(() {
+    _venueReports.removeWhere((r) => r.id == id);
+    _changed();
+  });
+
+  @override
+  Future<void> checkInPlayer(String gameId, String handle) => _wait(() {
+    final g = _games[gameId];
+    if (g == null || !g.players.any((p) => p.handle == handle)) {
+      throw StateError('player not in this game');
+    }
+    _update(
+      gameId,
+      (g) => g.copyWith(
+        players: [
+          for (final p in g.players)
+            p.handle == handle ? p.copyWith(attended: true) : p,
+        ],
+      ),
+    );
+  });
 
   @override
   Future<Venue> venue() => _wait(() => _venue);
