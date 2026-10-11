@@ -5,6 +5,9 @@ import 'package:matchiko/shared/domain/rank.dart';
 part 'profile.freezed.dart';
 part 'profile.g.dart';
 
+/// Self-rated level (`profiles.level`), used to balance teams early on.
+enum Level { beginner, casual, good, competitive }
+
 @freezed
 abstract class Profile with _$Profile {
   const Profile._();
@@ -21,6 +24,13 @@ abstract class Profile with _$Profile {
     required int wins,
     required int goals,
     @Default(false) bool isReferee,
+
+    /// `cities.id` of the player's wilaya.
+    String? wilayaId,
+    Level? level,
+
+    /// E.164 (+2135…); private, see `get_my_profile`.
+    String? phone,
   }) = _Profile;
 
   factory Profile.fromJson(Map<String, dynamic> json) =>
@@ -29,6 +39,13 @@ abstract class Profile with _$Profile {
   Rank get rank => Rank.fromXp(xp);
 
   String get initials => initialsOf(name);
+
+  /// Onboarding is done once these are set (photo is optional).
+  bool get onboarded =>
+      name.trim().length >= 2 &&
+      wilayaId != null &&
+      level != null &&
+      phone != null;
 }
 
 /// First letters of the first two words ("Amine Bensaid" → "AB").

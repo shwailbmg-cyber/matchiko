@@ -20,6 +20,9 @@ _Profile _$ProfileFromJson(Map<String, dynamic> json) => _Profile(
   wins: (json['wins'] as num).toInt(),
   goals: (json['goals'] as num).toInt(),
   isReferee: json['is_referee'] as bool? ?? false,
+  wilayaId: json['wilaya_id'] as String?,
+  level: $enumDecodeNullable(_$LevelEnumMap, json['level']),
+  phone: json['phone'] as String?,
 );
 
 Map<String, dynamic> _$ProfileToJson(_Profile instance) => <String, dynamic>{
@@ -34,6 +37,9 @@ Map<String, dynamic> _$ProfileToJson(_Profile instance) => <String, dynamic>{
   'wins': instance.wins,
   'goals': instance.goals,
   'is_referee': instance.isReferee,
+  'wilaya_id': instance.wilayaId,
+  'level': _$LevelEnumMap[instance.level],
+  'phone': instance.phone,
 };
 
 const _$PositionEnumMap = {
@@ -42,4 +48,11 @@ const _$PositionEnumMap = {
   Position.mid: 'mid',
   Position.fwd: 'fwd',
   Position.ref: 'ref',
+};
+
+const _$LevelEnumMap = {
+  Level.beginner: 'beginner',
+  Level.casual: 'casual',
+  Level.good: 'good',
+  Level.competitive: 'competitive',
 };

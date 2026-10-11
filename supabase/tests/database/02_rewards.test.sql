@@ -8,7 +8,7 @@ insert into auth.users (id, phone) values
   ('00000000-0000-0000-0000-0000000000a3', '213555000003');
 
 select is((select count(*)::int from public.reward_rules), 13, 'every reward reason has a rule');
-select is((select count(*)::int from public.cities), 6, 'cities ship with the migrations');
+select is((select count(*)::int from public.cities), 69, 'the 69 wilayas ship with the migrations');
 
 -- Two past games at the manager's venue: a1 plays both, a3 skips the first.
 insert into public.bookings (id, pitch_id, booker_id, starts_at, ends_at, total_da) values

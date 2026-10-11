@@ -13,10 +13,12 @@ import 'package:matchiko/features/matches/presentation/matches_screen.dart';
 import 'package:matchiko/features/notifications/presentation/notifications_screen.dart';
 import 'package:matchiko/features/pitch/presentation/pitch_screen.dart';
 import 'package:matchiko/features/play/presentation/play_screen.dart';
+import 'package:matchiko/features/profile/presentation/profile_form_screen.dart';
 import 'package:matchiko/features/profile/presentation/profile_screen.dart';
 import 'package:matchiko/features/settings/presentation/settings_screen.dart';
 import 'package:matchiko/l10n/gen/app_localizations.dart';
 import 'package:matchiko/shared/domain/auth_repository.dart';
+import 'package:matchiko/shared/domain/profile.dart';
 import 'package:matchiko/shared/domain/user_role.dart';
 import 'package:matchiko/shared/providers.dart';
 
@@ -24,10 +26,16 @@ export 'package:matchiko/core/router/routes.dart';
 
 /// Sends people to the area their server-side role allows. This is UX only:
 /// the database refuses manager actions from players either way.
-String? _redirect(SessionUser? user, GoRouterState state) {
+/// Players with an unfinished profile go to onboarding first.
+String? _redirect(SessionUser? user, Profile? me, GoRouterState state) {
   final loc = state.matchedLocation;
   if (user == null) return loc == Routes.login ? null : Routes.login;
   final manager = user.role == UserRole.manager;
+  if (!manager && me != null) {
+    final welcome = loc == Routes.onboarding;
+    if (!me.onboarded && !welcome) return Routes.onboarding;
+    if (me.onboarded && welcome) return Routes.home;
+  }
   final inManagerArea = loc.startsWith('/m/');
   final shared = loc == Routes.settings || loc == Routes.notifications;
   if (loc == Routes.login || (!shared && manager != inManagerArea)) {
@@ -40,13 +48,23 @@ final routerProvider = Provider<GoRouter>((ref) {
   final auth = ref.watch(authRepositoryProvider);
   final refresh = ValueNotifier(0);
   ref.listen(sessionProvider, (_, _) => refresh.value++);
+  ref.listen(meProvider, (_, _) => refresh.value++);
   final router = GoRouter(
     initialLocation: Routes.home,
     refreshListenable: refresh,
-    redirect: (_, state) => _redirect(auth.currentUser, state),
+    redirect: (_, state) =>
+        _redirect(auth.currentUser, ref.read(meProvider).value, state),
     routes: [
       GoRoute(path: Routes.login, builder: (_, _) => const LoginScreen()),
       GoRoute(path: Routes.settings, builder: (_, _) => const SettingsScreen()),
+      GoRoute(
+        path: Routes.onboarding,
+        builder: (_, _) => const ProfileFormScreen(onboarding: true),
+      ),
+      GoRoute(
+        path: Routes.editProfile,
+        builder: (_, _) => const ProfileFormScreen(onboarding: false),
+      ),
       GoRoute(
         path: Routes.notifications,
         builder: (_, _) => const NotificationsScreen(),

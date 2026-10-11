@@ -154,12 +154,16 @@ class _Hero extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    Text(
-                      l.live(live.toString()),
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700,
-                        color: MkColors.tint,
+                    Flexible(
+                      child: Text(
+                        l.live(live.toString()),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: MkColors.tint,
+                        ),
                       ),
                     ),
                   ],

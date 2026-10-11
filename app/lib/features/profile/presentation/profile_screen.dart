@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:matchiko/shared/domain/position.dart';
 import 'package:matchiko/shared/domain/rank.dart';
+import 'package:matchiko/shared/domain/wilaya.dart';
 import 'package:matchiko/l10n/gen/app_localizations.dart';
 import 'package:matchiko/core/router/routes.dart';
 import 'package:matchiko/core/format.dart';
@@ -40,6 +41,14 @@ class ProfileScreen extends ConsumerWidget {
                       child: MkTitle(l.navProfile),
                     ),
                     const Spacer(),
+                    IconButton(
+                      tooltip: l.editProfile,
+                      onPressed: () => context.push(Routes.editProfile),
+                      icon: const Icon(
+                        Icons.edit_outlined,
+                        color: MkColors.sub,
+                      ),
+                    ),
                     IconButton(
                       tooltip: l.settings,
                       onPressed: () => context.push(Routes.settings),
@@ -86,7 +95,13 @@ class ProfileScreen extends ConsumerWidget {
                                       ),
                                     ),
                                     Text(
-                                      '@${me.handle}',
+                                      [
+                                        '@${me.handle}',
+                                        ?Wilaya.byId(me.wilayaId)?.name(
+                                          Localizations.localeOf(context)
+                                              .languageCode,
+                                        ),
+                                      ].join(' · '),
                                       style: const TextStyle(
                                         color: MkColors.tint,
                                       ),

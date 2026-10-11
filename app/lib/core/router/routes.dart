@@ -1,5 +1,6 @@
 abstract final class Routes {
   static const login = '/login';
+  static const onboarding = '/welcome';
 
   // Player area (bottom nav).
   static const home = '/home';
@@ -11,6 +12,7 @@ abstract final class Routes {
   static const settings = '/settings';
   static const notifications = '/notifications';
   static const wallet = '/wallet';
+  static const editProfile = '/edit-profile';
   static String pitch(String id) => '/pitch/$id';
   static String game(String id) => '/game/$id';
 

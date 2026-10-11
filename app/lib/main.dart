@@ -40,7 +40,10 @@ Future<void> main() async {
         // Games run on sample data in both modes until the Supabase
         // repository lands (LOOP.md S18). The database enforces the rules.
         gameRepositoryProvider.overrideWithValue(
-          DemoGameRepository(latency: const Duration(milliseconds: 300)),
+          DemoGameRepository(
+            latency: const Duration(milliseconds: 300),
+            onboarded: false,
+          ),
         ),
         settingsRepositoryProvider.overrideWithValue(settings),
         savedLanguageProvider.overrideWithValue(savedLanguage),

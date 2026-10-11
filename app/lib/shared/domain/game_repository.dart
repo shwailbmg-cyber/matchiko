@@ -15,6 +15,16 @@ abstract interface class GameRepository {
   Stream<int> get changes;
 
   Future<Profile> me();
+
+  /// Onboarding and "Edit profile". The server checks every field again
+  /// (handle, phone format, positions 1–4, level values).
+  Future<void> updateProfile({
+    required String name,
+    required String wilayaId,
+    required List<Position> positions,
+    required Level level,
+    required String phone,
+  });
   Future<List<Pitch>> pitches({String query = ''});
   Future<Pitch> pitch(String id);
   Future<List<Slot>> slots(String pitchId, DateTime day);

@@ -451,5 +451,38 @@
   "nConfTitle": "Booking confirmed",
   "nConfBody": "The manager confirmed your booking.",
   "nRateTitle": "Rate your last game",
-  "nRateBody": "Rating gives you 10 coins."
+  "nRateBody": "Rating gives you 10 coins.",
+  "onbTitle": "Welcome to Matchiko",
+  "onbSub": "Three quick steps and you can play.",
+  "onbStep": "Step {n} of 3",
+  "@onbStep": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "yourName": "Your name",
+  "namePh": "First and last name",
+  "nameInvalid": "Enter your name (2 to 60 letters).",
+  "yourWilaya": "Your wilaya",
+  "pickWilaya": "Choose your wilaya",
+  "searchWilaya": "Search by name or number",
+  "yourPositions": "Your positions, in order of preference",
+  "yourLevel": "Your level",
+  "levelBeginner": "Beginner",
+  "levelCasual": "Casual",
+  "levelGood": "Good",
+  "levelCompetitive": "Competitive",
+  "yourPhone": "Your phone number",
+  "phoneSub": "The stadium manager calls this number to confirm your booking. Only managers of your bookings can see it.",
+  "phonePh": "0555 12 34 56",
+  "phoneInvalid": "Enter an Algerian mobile number (05, 06 or 07).",
+  "next": "Next",
+  "back": "Back",
+  "letsPlay": "Let's play",
+  "editProfile": "Edit profile",
+  "save": "Save",
+  "saved": "Saved",
+  "pickLevel": "Choose your level"
 }

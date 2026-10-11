@@ -10,9 +10,17 @@ import 'package:matchiko/shared/domain/game_repository.dart';
 /// In-memory sample data, same as the Claude Design prototype. Used when the
 /// app is built without Supabase config (demo builds, tests).
 class DemoGameRepository implements GameRepository {
-  DemoGameRepository({DateTime Function()? clock, this.latency = Duration.zero})
-    : _clock = clock ?? DateTime.now {
+  /// [onboarded] false starts with an unfinished profile, so testers see
+  /// the onboarding after the first sign-in.
+  DemoGameRepository({
+    DateTime Function()? clock,
+    this.latency = Duration.zero,
+    bool onboarded = true,
+  }) : _clock = clock ?? DateTime.now {
     _seed();
+    if (!onboarded) {
+      _me = _me.copyWith(wilayaId: null, level: null, phone: null);
+    }
   }
 
   final DateTime Function() _clock;
@@ -82,6 +90,9 @@ class DemoGameRepository implements GameRepository {
       wins: 28,
       goals: 31,
       isReferee: true,
+      wilayaId: 'alger',
+      level: Level.good,
+      phone: '+213555123456',
     );
     _pitches.addAll(const [
       Pitch(
@@ -339,6 +350,24 @@ class DemoGameRepository implements GameRepository {
 
   @override
   Future<Profile> me() => _wait(() => _me);
+
+  @override
+  Future<void> updateProfile({
+    required String name,
+    required String wilayaId,
+    required List<Position> positions,
+    required Level level,
+    required String phone,
+  }) => _wait(() {
+    _me = _me.copyWith(
+      name: name.trim(),
+      wilayaId: wilayaId,
+      positions: positions,
+      level: level,
+      phone: phone,
+    );
+    _changed();
+  });
 
   @override
   Future<List<Pitch>> pitches({String query = ''}) => _wait(() {

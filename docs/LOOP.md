@@ -53,7 +53,7 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
       Riverpod instead of provider, freezed + json_serializable models.
 - [x] **S4** Security basics: session in `flutter_secure_storage`, release
       hardening (obfuscate, `allowBackup=false`, cleartext off).
-- [ ] **S5** Splash + onboarding (name, city, positions, level, phone) +
+- [x] **S5** Splash + onboarding (name, city, positions, level, phone) +
       edit profile. (M1)
 - [ ] **S6** Pitch list with search and filters (format, price, lights,
       covered, showers) + favourites. (M2)
@@ -79,3 +79,7 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
 - Dio is not added: every backend call goes through `supabase_flutter`.
   Add Dio only when we call a non-Supabase HTTP API.
 - Map view (S6) waits for a map package decision (cost and licence).
+- Communes (1,541): need an up-to-date dataset after decree n° 26-206
+  moved communes into the 11 new wilayas; add a `communes` table then.
+  Wilayas (69) are done.
+- Profile photo upload waits for the Supabase avatars bucket (S18).
