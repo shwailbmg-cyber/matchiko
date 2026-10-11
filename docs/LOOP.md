@@ -51,7 +51,7 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
 - [x] **S2** Brand color: blue–magenta violet; pitch turf stays green.
 - [x] **S3** Architecture: feature-first + light clean architecture,
       Riverpod instead of provider, freezed + json_serializable models.
-- [ ] **S4** Security basics: session in `flutter_secure_storage`, release
+- [x] **S4** Security basics: session in `flutter_secure_storage`, release
       hardening (obfuscate, `allowBackup=false`, cleartext off).
 - [ ] **S5** Splash + onboarding (name, city, positions, level, phone) +
       edit profile. (M1)

@@ -59,7 +59,7 @@ SQL functions) or in Edge Functions, never only in Dart.**
 
 ## Flutter app checklist (OWASP MASVS)
 
-- [ ] **Storage**: session tokens in `flutter_secure_storage` (supabase_flutter's default local storage is OK for the session; nothing else sensitive in `shared_preferences`). No PII in logs (`debugPrint` stripped from release).
+- [ ] **Storage**: the Supabase session lives in `flutter_secure_storage` (`SecureSessionStorage`, passed to `Supabase.initialize`); `shared_preferences` only for non-sensitive prefs (language). No PII in logs (`debugPrint` stripped from release).
 - [ ] **Crypto/keys**: only the Supabase URL and publishable (anon) key ship in the app. Nothing that grants more than RLS allows.
 - [ ] **Auth**: Google (`signInWithIdToken`) or email code via Supabase Auth; handle `AuthException`; sign out clears Google + Supabase sessions; no "role" chosen on the client that the server trusts. Phone numbers stay private (`get_my_profile`, `booking_contact` only).
 - [ ] **Network**: HTTPS only (`android:usesCleartextTraffic="false"`, no ATS exceptions).

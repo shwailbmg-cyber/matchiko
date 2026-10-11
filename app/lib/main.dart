@@ -6,6 +6,7 @@ import 'package:matchiko/core/settings/locale_controller.dart';
 import 'package:matchiko/core/settings/settings_repository.dart';
 import 'package:matchiko/features/auth/data/auth_repository_demo.dart';
 import 'package:matchiko/features/auth/data/auth_repository_supabase.dart';
+import 'package:matchiko/features/auth/data/secure_session_storage.dart';
 import 'package:matchiko/shared/data/game_repository_demo.dart';
 import 'package:matchiko/shared/domain/auth_repository.dart';
 import 'package:matchiko/shared/providers.dart';
@@ -20,6 +21,9 @@ Future<void> main() async {
     await Supabase.initialize(
       url: Env.supabaseUrl,
       publishableKey: Env.supabasePublishableKey,
+      authOptions: const FlutterAuthClientOptions(
+        localStorage: SecureSessionStorage(),
+      ),
     );
     auth = SupabaseAuthRepository(Supabase.instance.client);
   } else {
