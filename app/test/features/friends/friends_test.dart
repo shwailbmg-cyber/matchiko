@@ -17,9 +17,7 @@ void main() {
     await t.pumpAndSettle();
     await t.tap(find.text('Profile'));
     await t.pumpAndSettle();
-    await t.scrollUntilVisible(find.text('Friends'), 300);
-    await t.drag(find.byType(Scrollable).first, const Offset(0, -300));
-    await t.pumpAndSettle();
+    await scrollTo(t, find.text('Friends'));
     await t.tap(find.text('Friends'));
     await t.pumpAndSettle();
 

@@ -78,7 +78,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: Routes.friends, builder: (_, _) => const FriendsScreen()),
       GoRoute(
         path: '/player/:handle',
-        builder: (_, s) => PlayerScreen(s.pathParameters['handle']!),
+        builder: (_, s) => PlayerScreen(
+          s.pathParameters['handle']!,
+          gameId: s.uri.queryParameters['game'],
+        ),
       ),
       GoRoute(
         path: '/pitch/:id',

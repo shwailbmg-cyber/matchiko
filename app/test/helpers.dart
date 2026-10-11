@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:matchiko/app.dart';
 import 'package:matchiko/core/settings/locale_controller.dart';
@@ -33,3 +34,12 @@ Widget testApp({
   ],
   child: const MatchikoApp(),
 );
+
+/// Scrolls the main list until [f] is comfortably on screen (not under the
+/// nav bar or the screen edge).
+Future<void> scrollTo(WidgetTester t, Finder f) async {
+  final list = find.byType(Scrollable).first;
+  await t.scrollUntilVisible(f, 200, scrollable: list);
+  await Scrollable.ensureVisible(t.element(f), alignment: .5);
+  await t.pumpAndSettle();
+}

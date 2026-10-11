@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:matchiko/shared/domain/app_notification.dart';
 import 'package:matchiko/shared/domain/auth_repository.dart';
 import 'package:matchiko/shared/domain/game_repository.dart';
 import 'package:matchiko/shared/domain/profile.dart';
@@ -23,6 +24,18 @@ GameRepository watchGames(Ref ref) {
 
 final meProvider = FutureProvider.autoDispose<Profile>(
   (ref) => watchGames(ref).me(),
+);
+
+/// My notifications, newest first.
+final notificationsProvider = FutureProvider.autoDispose<List<AppNotification>>(
+  (ref) => watchGames(ref).notifications(),
+);
+
+/// Unread count for the bell badge.
+final unreadCountProvider = Provider.autoDispose<int>(
+  (ref) =>
+      ref.watch(notificationsProvider).value?.where((n) => n.unread).length ??
+      0,
 );
 
 /// Ids of my favourite pitches.

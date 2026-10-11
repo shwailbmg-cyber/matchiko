@@ -15,13 +15,7 @@ void main() {
     await t.tap(find.text('Player'));
     await t.pumpAndSettle();
 
-    await t.scrollUntilVisible(
-      find.text('See all'),
-      200,
-      scrollable: find.byType(Scrollable).first,
-    );
-    await t.drag(find.byType(Scrollable).first, const Offset(0, -200));
-    await t.pumpAndSettle();
+    await scrollTo(t, find.text('See all'));
     await t.tap(find.text('See all'));
     await t.pumpAndSettle();
     expect(find.text('All pitches'), findsOneWidget);

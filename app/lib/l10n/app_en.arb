@@ -445,9 +445,9 @@
   "noGameYet": "No game right now",
   "noGameYetSub": "We'll notify you when a game near you needs players like you.",
   "nStillTitle": "Still coming tonight?",
-  "nStillBody": "Please confirm your game at 21:00.",
+  "nStillBody": "Please confirm your game at {time}.",
   "nSpotTitle": "1 spot near you",
-  "nSpotBody": "Kouba Five, 22:00, needs a midfielder.",
+  "nSpotBody": "{pitch}, {time}, needs players.",
   "nConfTitle": "Booking confirmed",
   "nConfBody": "The manager confirmed your booking.",
   "nRateTitle": "Rate your last game",
@@ -525,5 +525,41 @@
   "noPlayerFound": "No player found.",
   "inviteSub": "You get +100 coins when a friend plays their first game.",
   "inviteCopied": "Invite link copied",
-  "friendsTitle": "Friends"
+  "friendsTitle": "Friends",
+  "@nStillBody": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@nSpotBody": {
+    "placeholders": {
+      "pitch": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "nFriendTitle": "New friend request",
+  "nFriendBody": "{name} wants to add you.",
+  "@nFriendBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "noNotifs": "No notifications yet.",
+  "report": "Report",
+  "reportTitle": "Report this player",
+  "reportSub": "A stadium manager or the Matchiko team checks every report before anything happens.",
+  "rsNoShow": "Did not come to the game",
+  "rsLate": "Came very late",
+  "rsRude": "Rude or insulting",
+  "rsUnsafe": "Dangerous play or violence",
+  "rsOther": "Something else",
+  "reportNote": "Add details (optional)"
 }

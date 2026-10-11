@@ -12,6 +12,7 @@ import 'package:matchiko/core/widgets/logo_mark.dart';
 import 'package:matchiko/core/widgets/mk_widgets.dart';
 import 'package:matchiko/core/widgets/zellij.dart';
 import 'package:matchiko/features/home/presentation/providers.dart';
+import 'package:matchiko/shared/providers.dart';
 import 'package:matchiko/shared/widgets/pitch_row.dart';
 
 /// `SC.home` in the prototype: hero with the live counter, games missing
@@ -47,9 +48,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     IconButton(
                       tooltip: l.notifs,
                       onPressed: () => context.push(Routes.notifications),
-                      icon: const Icon(
-                        Icons.notifications_none,
-                        color: MkColors.sub,
+                      icon: Badge(
+                        isLabelVisible: ref.watch(unreadCountProvider) > 0,
+                        label: Text('${ref.watch(unreadCountProvider)}'),
+                        backgroundColor: MkColors.terra,
+                        child: const Icon(
+                          Icons.notifications_none,
+                          color: MkColors.sub,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 4),

@@ -1,3 +1,4 @@
+import 'package:matchiko/shared/domain/app_notification.dart';
 import 'package:matchiko/shared/domain/game.dart';
 import 'package:matchiko/shared/domain/ledger_entry.dart';
 import 'package:matchiko/shared/domain/pitch.dart';
@@ -43,6 +44,20 @@ abstract interface class GameRepository {
 
   /// Cancels a request, declines one, or removes a friend.
   Future<void> removeFriend(String handle);
+
+  /// About a game both of us played, or about behaviour in general.
+  /// A no-show report needs [gameId]. Checked by RLS on `player_reports`.
+  Future<void> reportPlayer(
+    String handle, {
+    String? gameId,
+    required ReportReason reason,
+    String note = '',
+  });
+
+  // ── Notifications ────────────────────────────────────────────────────
+  /// Newest first.
+  Future<List<AppNotification>> notifications();
+  Future<void> markNotificationsRead();
 
   /// My XP and coin changes, newest first.
   Future<List<LedgerEntry>> walletHistory();

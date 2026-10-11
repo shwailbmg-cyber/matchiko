@@ -78,7 +78,7 @@ void main() {
       await open(t, Routes.pitches);
       await open(t, Routes.wallet);
       await open(t, Routes.friends);
-      await open(t, Routes.player('samy_lounis'));
+      await open(t, Routes.player('samy_lounis', game: 'g1'));
 
       await auth.signOut();
       await t.pumpAndSettle();

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:matchiko/shared/domain/booking_status.dart';
+import 'package:matchiko/shared/domain/app_notification.dart';
 import 'package:matchiko/shared/domain/game.dart';
 import 'package:matchiko/shared/domain/ledger_entry.dart';
 import 'package:matchiko/shared/domain/pitch.dart';
@@ -39,6 +40,10 @@ class DemoGameRepository implements GameRepository {
   final _favorites = <String>{'harrach'};
   final _ledger = <LedgerEntry>[];
   final _people = <String, Player>{};
+  final _notifs = <AppNotification>[];
+
+  /// Reports sent from this device (the demo has no review queue yet).
+  final reports = <(String, ReportReason)>[];
   int _seq = 100;
 
   final _changes = StreamController<int>.broadcast();
@@ -112,6 +117,7 @@ class DemoGameRepository implements GameRepository {
       _earn(r, xp, c, _at(-d, 22));
     }
     _seedPeople();
+    _seedNotifications();
     _pitches.addAll(const [
       Pitch(
         id: 'harrach',
@@ -391,8 +397,24 @@ class DemoGameRepository implements GameRepository {
     }
   }
 
-  Player _person(String handle) =>
-      _people[handle] ?? (throw StateError('no player @$handle'));
+  /// Directory entry, or one built from a line-up so every row opens.
+  Player _person(String handle) {
+    final known = _people[handle];
+    if (known != null) return known;
+    final gp = [..._games.values, ..._past]
+        .expand((g) => g.players)
+        .where((p) => p.handle == handle && !p.guest)
+        .firstOrNull;
+    if (gp == null) throw StateError('no player @$handle');
+    return _people[handle] = Player(
+      handle: handle,
+      name: gp.name,
+      positions: [gp.position],
+      xp: 300 + handle.length * 97,
+      verified: true,
+      played: 10 + handle.length,
+    );
+  }
 
   void _setFriend(String handle, FriendStatus s) {
     _people[handle] = _person(handle).copyWith(friend: s);
@@ -430,6 +452,71 @@ class DemoGameRepository implements GameRepository {
   @override
   Future<void> removeFriend(String handle) =>
       _wait(() => _setFriend(handle, FriendStatus.none));
+
+  @override
+  Future<void> reportPlayer(
+    String handle, {
+    String? gameId,
+    required ReportReason reason,
+    String note = '',
+  }) => _wait(() {
+    if (reason == ReportReason.noShow && gameId == null) {
+      throw ArgumentError('a no-show report needs a game');
+    }
+    reports.add((handle, reason));
+  });
+
+  void _seedNotifications() {
+    final n = _clock();
+    _notifs.addAll([
+      AppNotification(
+        id: 1,
+        kind: NotificationKind.stillComing,
+        payload: {'game_id': 'g1', 'time': '21:00'},
+        createdAt: n.subtract(const Duration(minutes: 20)),
+      ),
+      AppNotification(
+        id: 2,
+        kind: NotificationKind.friendRequest,
+        payload: {'handle': 'farid_ouali', 'name': 'Farid Ouali'},
+        createdAt: n.subtract(const Duration(hours: 2)),
+      ),
+      AppNotification(
+        id: 3,
+        kind: NotificationKind.spotOpen,
+        payload: {'game_id': 'o1', 'pitch': 'Kouba Five', 'time': '22:00'},
+        createdAt: n.subtract(const Duration(hours: 5)),
+      ),
+      AppNotification(
+        id: 4,
+        kind: NotificationKind.bookingConfirmed,
+        payload: {'game_id': 'g1'},
+        createdAt: n.subtract(const Duration(days: 1)),
+        readAt: n.subtract(const Duration(hours: 20)),
+      ),
+      AppNotification(
+        id: 5,
+        kind: NotificationKind.rateGame,
+        payload: {'game_id': 'p1'},
+        createdAt: n.subtract(const Duration(days: 2)),
+        readAt: n.subtract(const Duration(days: 1)),
+      ),
+    ]);
+  }
+
+  @override
+  Future<List<AppNotification>> notifications() =>
+      _wait(() => List.of(_notifs));
+
+  @override
+  Future<void> markNotificationsRead() => _wait(() {
+    if (!_notifs.any((x) => x.unread)) return;
+    final now = _clock();
+    for (var i = 0; i < _notifs.length; i++) {
+      _notifs[i] = _notifs[i].copyWith(readAt: _notifs[i].readAt ?? now);
+    }
+    _changed();
+  });
 
   @override
   Future<List<LedgerEntry>> walletHistory() =>

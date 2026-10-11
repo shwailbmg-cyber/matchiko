@@ -5,6 +5,7 @@ import 'package:matchiko/core/theme/mk_theme.dart';
 import 'package:matchiko/core/widgets/mk_widgets.dart';
 import 'package:matchiko/core/widgets/zellij.dart';
 import 'package:matchiko/l10n/gen/app_localizations.dart';
+import 'package:matchiko/features/player/presentation/report_sheet.dart';
 import 'package:matchiko/shared/domain/player.dart';
 import 'package:matchiko/shared/domain/wilaya.dart';
 import 'package:matchiko/shared/providers.dart';
@@ -17,9 +18,12 @@ final _playerProvider = FutureProvider.autoDispose.family<Player, String>(
 
 /// Another player's public profile: rank, positions, games, friend button.
 class PlayerScreen extends ConsumerWidget {
-  const PlayerScreen(this.handle, {super.key});
+  const PlayerScreen(this.handle, {super.key, this.gameId});
 
   final String handle;
+
+  /// Set when opened from a game: allows a no-show report.
+  final String? gameId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -91,6 +95,14 @@ class PlayerScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             FriendButton(p),
+            const SizedBox(height: 8),
+            TextButton.icon(
+              style: TextButton.styleFrom(foregroundColor: MkColors.red),
+              onPressed: () =>
+                  showReportSheet(context, handle: p.handle, gameId: gameId),
+              icon: const Icon(Icons.flag_outlined, size: 18),
+              label: Text(l.report),
+            ),
           ],
         ),
       ),

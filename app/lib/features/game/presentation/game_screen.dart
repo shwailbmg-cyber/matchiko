@@ -419,7 +419,7 @@ class _Players extends StatelessWidget {
             InkWell(
               onTap: p.isMe || p.guest
                   ? null
-                  : () => context.push(Routes.player(p.handle)),
+                  : () => context.push(Routes.player(p.handle, game: g.id)),
               child: Container(
                 decoration: const BoxDecoration(
                   border: Border(bottom: BorderSide(color: MkColors.line)),
