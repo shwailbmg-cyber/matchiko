@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:matchiko/app.dart';
 import 'package:matchiko/data/repositories/auth_repository.dart';
+import 'package:matchiko/data/repositories/game_repository.dart';
+import 'package:matchiko/data/repositories/game_repository_demo.dart';
 import 'package:matchiko/data/repositories/settings_repository.dart';
 import 'package:matchiko/domain/models/user_role.dart';
 import 'package:matchiko/ui/features/auth/view_models/session_view_model.dart';
@@ -49,6 +51,9 @@ class _FakeAuth implements AuthRepository {
 Widget _app(AuthRepository auth) => MultiProvider(
   providers: [
     Provider<AuthRepository>.value(value: auth),
+    ChangeNotifierProvider<GameRepository>(
+      create: (_) => DemoGameRepository(latency: Duration.zero),
+    ),
     ChangeNotifierProvider(create: (_) => SessionViewModel(auth)),
     ChangeNotifierProvider(
       create: (_) =>
@@ -85,7 +90,7 @@ void main() {
     await tester.enterText(find.byType(TextField), '123456');
     await tester.tap(find.text('Verify'));
     await tester.pumpAndSettle();
-    expect(find.text('SC.home'), findsOneWidget);
+    expect(find.text('Ready to play tonight?'.toUpperCase()), findsOneWidget);
   });
 
   testWidgets('Google button shows when configured', (tester) async {

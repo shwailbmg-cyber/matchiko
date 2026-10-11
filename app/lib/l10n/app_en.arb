@@ -317,7 +317,7 @@
   "idCheck": "ID check",
   "chkName": "Name matches ID card",
   "chkPhoto": "Photo matches face",
-  "chkAge": "Age 16+",
+  "chkAge": "Age 15+",
   "reject": "Reject",
   "verify": "Verify",
   "approve": "Approve",
@@ -354,5 +354,102 @@
   "continueWithGoogle": "Continue with Google",
   "orEmail": "or get a code by email",
   "emailLabel": "Email",
-  "changeEmail": "Use another email"
+  "changeEmail": "Use another email",
+  "cancelled": "Cancelled",
+  "retry": "Try again",
+  "gameSize": "Game size",
+  "competitive": "competitive",
+  "casual": "casual",
+  "whosComing": "Who's coming",
+  "linkCopied": "Invite copied. Paste it in WhatsApp.",
+  "joinAs": "Join as",
+  "cancelBooking": "Cancel booking",
+  "cancelWarn": "Cancelling costs 20 XP and 10 coins and lowers your reliability. Continue?",
+  "keepBooking": "Keep it",
+  "youConfirmed": "You're coming",
+  "stillComing": "Still coming?",
+  "gameIn": "Game in {t}",
+  "@gameIn": {
+    "placeholders": {
+      "t": {
+        "type": "String"
+      }
+    }
+  },
+  "stillComingSub": "Please confirm. If you don't answer, the booker and the manager will see it.",
+  "cantCome": "I can't come",
+  "yesComing": "Yes, I'm coming",
+  "waitlistN": "{n} on the waitlist",
+  "@waitlistN": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "guestTag": "guest",
+  "notConfirmed": "not confirmed yet",
+  "reliable": "{n}% reliable",
+  "@reliable": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "freeTag": "Free",
+  "paidTag": "Paid",
+  "notPaid": "Not paid",
+  "eachPays": "Each player pays",
+  "payersN": "{n} players pay",
+  "@payersN": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "gkFree": "goalkeepers play free",
+  "bookerAdds": "You add {a} DA",
+  "@bookerAdds": {
+    "placeholders": {
+      "a": {
+        "type": "String"
+      }
+    }
+  },
+  "bookerExtra": "You keep {a} DA extra",
+  "@bookerExtra": {
+    "placeholders": {
+      "a": {
+        "type": "String"
+      }
+    }
+  },
+  "paidYou": "Paid you: {n} of {m}",
+  "@paidYou": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      },
+      "m": {
+        "type": "String"
+      }
+    }
+  },
+  "openToOthers": "Open to other players",
+  "openToOthersSub": "Free spots show in \"Games missing players\"",
+  "changeSize": "Change size",
+  "shareGame": "Share",
+  "noGames": "No games yet.",
+  "noGameYet": "No game right now",
+  "noGameYetSub": "We'll notify you when a game near you needs players like you.",
+  "nStillTitle": "Still coming tonight?",
+  "nStillBody": "Please confirm your game at 21:00.",
+  "nSpotTitle": "1 spot near you",
+  "nSpotBody": "Kouba Five, 22:00, needs a midfielder.",
+  "nConfTitle": "Booking confirmed",
+  "nConfBody": "The manager confirmed your booking.",
+  "nRateTitle": "Rate your last game",
+  "nRateBody": "Rating gives you 10 coins."
 }

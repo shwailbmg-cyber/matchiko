@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:matchiko/app.dart';
 import 'package:matchiko/data/repositories/auth_repository.dart';
 import 'package:matchiko/data/repositories/auth_repository_demo.dart';
+import 'package:matchiko/data/repositories/game_repository.dart';
+import 'package:matchiko/data/repositories/game_repository_demo.dart';
 import 'package:matchiko/data/repositories/settings_repository.dart';
 import 'package:matchiko/ui/features/auth/view_models/session_view_model.dart';
 import 'package:matchiko/ui/features/settings/view_models/settings_view_model.dart';
@@ -16,6 +18,9 @@ Widget _app() {
   return MultiProvider(
     providers: [
       Provider<AuthRepository>.value(value: auth),
+      ChangeNotifierProvider<GameRepository>(
+        create: (_) => DemoGameRepository(latency: Duration.zero),
+      ),
       ChangeNotifierProvider(create: (_) => SessionViewModel(auth)),
       ChangeNotifierProvider(
         create: (_) =>
@@ -40,11 +45,11 @@ void main() {
     await tester.tap(find.text('Player'));
     await tester.pumpAndSettle();
     expect(find.text('Play'), findsOneWidget);
-    expect(find.text('SC.home'), findsOneWidget);
+    expect(find.text('Ready to play tonight?'.toUpperCase()), findsOneWidget);
 
     await tester.tap(find.text('Matches'));
     await tester.pumpAndSettle();
-    expect(find.text('SC.matches'), findsOneWidget);
+    expect(find.text('Upcoming'), findsOneWidget);
 
     // Log out from settings, then come back as a manager.
     await tester.tap(find.text('Profile'));
@@ -56,7 +61,7 @@ void main() {
 
     await tester.tap(find.text('Stadium manager'));
     await tester.pumpAndSettle();
-    expect(find.text('SC.mtoday'), findsOneWidget);
+    expect(find.text('To confirm'), findsOneWidget);
     expect(find.text('Play'), findsNothing);
   });
 

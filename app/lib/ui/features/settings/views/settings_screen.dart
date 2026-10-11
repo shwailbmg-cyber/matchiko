@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../data/repositories/game_repository.dart';
+import '../../../../data/repositories/game_repository_demo.dart';
 import '../../../../l10n/gen/app_localizations.dart';
 import '../../../core/theme/mk_colors.dart';
 import '../../auth/view_models/session_view_model.dart';
@@ -59,6 +61,22 @@ class SettingsScreen extends StatelessWidget {
               ),
             ),
           ),
+          if (context.watch<GameRepository>()
+              case final DemoGameRepository demo)
+            FutureBuilder(
+              future: demo.me(),
+              builder: (context, snap) => Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: Card(
+                  child: SwitchListTile(
+                    title: Text('${l.demo} · ${l.demoVerified}'),
+                    subtitle: Text(l.demoVerifiedSub),
+                    value: snap.data?.verified ?? true,
+                    onChanged: demo.setVerified,
+                  ),
+                ),
+              ),
+            ),
           const SizedBox(height: 24),
           OutlinedButton(
             style: OutlinedButton.styleFrom(
