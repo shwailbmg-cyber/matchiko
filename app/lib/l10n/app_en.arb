@@ -666,5 +666,36 @@
     }
   },
   "acceptReport": "Confirm",
-  "rejectReport": "Not true"
+  "rejectReport": "Not true",
+  "reports": "Reports",
+  "thisWeek": "This week",
+  "thisMonth": "This month",
+  "last30": "30 days",
+  "cashExpected": "Cash expected",
+  "cashToCollect": "{amount} still to collect at the pitch.",
+  "@cashToCollect": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "occupancy": "Occupancy",
+  "hoursBooked": "{booked} of {open} open hours booked",
+  "@hoursBooked": {
+    "placeholders": {
+      "booked": {
+        "type": "String"
+      },
+      "open": {
+        "type": "String"
+      }
+    }
+  },
+  "staff": "Staff",
+  "staffHandle": "@handle of a verified player",
+  "addStaff": "Add",
+  "removeStaff": "Remove from staff",
+  "staffSub": "Staff can confirm bookings, scan and verify players at this venue.",
+  "staffNotFound": "No verified player with this @handle."
 }

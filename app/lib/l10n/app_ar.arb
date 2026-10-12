@@ -448,5 +448,19 @@
   "reportsToReview": "بلاغات للمراجعة",
   "reportedBy": "أبلغ عنه {name}",
   "acceptReport": "تأكيد",
-  "rejectReport": "غير صحيح"
+  "rejectReport": "غير صحيح",
+  "reports": "التقارير",
+  "thisWeek": "هذا الأسبوع",
+  "thisMonth": "هذا الشهر",
+  "last30": "30 يومًا",
+  "cashExpected": "المبلغ المنتظر",
+  "cashToCollect": "{amount} لم يُحصَّل بعد في الملعب.",
+  "occupancy": "نسبة الإشغال",
+  "hoursBooked": "{booked} ساعة محجوزة من أصل {open} ساعة عمل",
+  "staff": "الطاقم",
+  "staffHandle": "@معرّف لاعب موثق",
+  "addStaff": "إضافة",
+  "removeStaff": "إزالة من الطاقم",
+  "staffSub": "يمكن للطاقم تأكيد الحجوزات والمسح وتوثيق اللاعبين في هذا الملعب.",
+  "staffNotFound": "لا يوجد لاعب موثق بهذا المعرّف."
 }

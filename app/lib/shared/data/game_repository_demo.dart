@@ -12,6 +12,7 @@ import 'package:matchiko/shared/domain/profile.dart';
 import 'package:matchiko/shared/domain/referee.dart';
 import 'package:matchiko/shared/domain/team.dart';
 import 'package:matchiko/shared/domain/venue.dart';
+import 'package:matchiko/shared/domain/venue_stats.dart';
 import 'package:matchiko/shared/domain/venue_review.dart';
 import 'package:matchiko/shared/domain/game_repository.dart';
 
@@ -58,6 +59,10 @@ class DemoGameRepository implements GameRepository {
   /// Blocks and walk-ins at the manager's venue (`pitch_blocks`).
   final _blocks = <String, (String pitchId, CalendarEntry entry)>{};
   final _refApps = <RefApplication>[];
+  final _staff = <StaffMember>[
+    const StaffMember(handle: 'mourad_k', name: 'Mourad Khelil', isMe: true),
+    const StaffMember(handle: 'lina_desk', name: 'Lina Aït Ali'),
+  ];
   final _venueReports = <VenueReport>[];
   var _venue = const Venue(
     id: 'v-harrach',
@@ -1096,6 +1101,74 @@ class DemoGameRepository implements GameRepository {
         ],
       ),
     );
+  });
+
+  @override
+  Future<VenueStats> venueStats(DateTime from, DateTime to) => _wait(() {
+    final mine = {for (final p in _pitches.take(1)) p.id};
+    final games = _games.values.where(
+      (g) =>
+          mine.contains(g.pitch.id) &&
+          !g.startsAt.isBefore(from) &&
+          g.startsAt.isBefore(to),
+    );
+    int count(BookingStatus s) => games.where((g) => g.status == s).length;
+    int cash(Set<BookingStatus> ss) => games
+        .where((g) => ss.contains(g.status))
+        .fold(0, (a, g) => a + g.pitch.priceDa);
+    final walkIns = _blocks.values.where(
+      (b) =>
+          mine.contains(b.$1) &&
+          b.$2.kind == CalendarKind.walkIn &&
+          !b.$2.startsAt.isBefore(from) &&
+          b.$2.startsAt.isBefore(to),
+    );
+    final days = to.difference(from).inDays.clamp(1, 93);
+    final live = games.where(
+      (g) =>
+          g.status != BookingStatus.cancelled &&
+          g.status != BookingStatus.noShow,
+    );
+    return VenueStats(
+      bookings: games.length,
+      requested: count(BookingStatus.requested),
+      confirmed: count(BookingStatus.confirmed),
+      guaranteed: count(BookingStatus.guaranteed),
+      completed: count(BookingStatus.completed),
+      cancelled: count(BookingStatus.cancelled),
+      noShows: count(BookingStatus.noShow),
+      walkIns: walkIns.length,
+      cashExpectedDa: cash({
+        BookingStatus.confirmed,
+        BookingStatus.guaranteed,
+        BookingStatus.completed,
+      }),
+      cashReceivedDa: cash({BookingStatus.guaranteed, BookingStatus.completed}),
+      bookedHours: live.length + walkIns.length,
+      openHours: (_venue.closeHour - _venue.openHour) * days,
+    );
+  });
+
+  @override
+  Future<List<StaffMember>> venueStaff() => _wait(() => List.of(_staff));
+
+  @override
+  Future<void> addStaff(String handle) => _wait(() {
+    final h = handle.trim().toLowerCase().replaceFirst('@', '');
+    final p = _people[h];
+    if (p == null || !p.verified) {
+      throw StateError('no verified player with that handle');
+    }
+    if (_staff.any((s) => s.handle == h)) return;
+    _staff.add(StaffMember(handle: h, name: p.name));
+    _changed();
+  });
+
+  @override
+  Future<void> removeStaff(String handle) => _wait(() {
+    if (_staff.length <= 1) throw StateError('a venue needs a manager');
+    _staff.removeWhere((s) => s.handle == handle);
+    _changed();
   });
 
   @override

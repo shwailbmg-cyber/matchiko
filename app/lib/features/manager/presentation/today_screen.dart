@@ -40,15 +40,16 @@ class TodayScreen extends ConsumerWidget {
       children: [
         Row(
           children: [
-            const MkLogo(),
-            Expanded(
+            const Expanded(
               child: Align(
-                alignment: AlignmentDirectional.centerEnd,
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: MkTag('🏟️ ${l.manager}', color: MkColors.sand),
-                ),
+                alignment: AlignmentDirectional.centerStart,
+                child: FittedBox(fit: BoxFit.scaleDown, child: MkLogo()),
               ),
+            ),
+            IconButton(
+              tooltip: l.reports,
+              onPressed: () => context.push(Routes.mReports),
+              icon: const Icon(Icons.bar_chart, color: MkColors.sub),
             ),
             IconButton(
               tooltip: l.myVenue,

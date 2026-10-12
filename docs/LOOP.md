@@ -66,7 +66,7 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
 - [x] **S13** Manager venue: pitches and prices, opening hours. (M3)
 - [x] **S14** Manager scan modes (booking, verification, check-in) +
       players tab (referee applications, no-show reports). (M3)
-- [ ] **S15** Manager reports (cash expected vs received, occupancy) +
+- [x] **S15** Manager reports (cash expected vs received, occupancy) +
       staff. (M6)
 - [ ] **S16** Settings complete: notifications, privacy, blocked users,
       help, terms/privacy, delete account. (M1)

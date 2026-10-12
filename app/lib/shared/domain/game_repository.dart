@@ -9,6 +9,7 @@ import 'package:matchiko/shared/domain/profile.dart';
 import 'package:matchiko/shared/domain/referee.dart';
 import 'package:matchiko/shared/domain/team.dart';
 import 'package:matchiko/shared/domain/venue.dart';
+import 'package:matchiko/shared/domain/venue_stats.dart';
 import 'package:matchiko/shared/domain/venue_review.dart';
 
 /// Everything the screens read and do about pitches, games and the signed-in
@@ -156,6 +157,16 @@ abstract interface class GameRepository {
 
   /// Marks a player as arrived (their QR shows the @handle).
   Future<void> checkInPlayer(String gameId, String handle);
+
+  /// Bookings, cash and occupancy at my venue for [from]..[to].
+  Future<VenueStats> venueStats(DateTime from, DateTime to);
+  Future<List<StaffMember>> venueStaff();
+
+  /// Adds a verified player as manager of my venue.
+  Future<void> addStaff(String handle);
+
+  /// A venue always keeps at least one manager.
+  Future<void> removeStaff(String handle);
 
   /// My venue and its pitches.
   Future<Venue> venue();

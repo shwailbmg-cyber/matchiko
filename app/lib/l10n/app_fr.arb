@@ -448,5 +448,19 @@
   "reportsToReview": "Signalements à vérifier",
   "reportedBy": "Signalé par {name}",
   "acceptReport": "Confirmer",
-  "rejectReport": "Pas vrai"
+  "rejectReport": "Pas vrai",
+  "reports": "Rapports",
+  "thisWeek": "Cette semaine",
+  "thisMonth": "Ce mois",
+  "last30": "30 jours",
+  "cashExpected": "Espèces attendues",
+  "cashToCollect": "{amount} encore à encaisser sur place.",
+  "occupancy": "Taux d’occupation",
+  "hoursBooked": "{booked} heures réservées sur {open} heures d’ouverture",
+  "staff": "Équipe",
+  "staffHandle": "@pseudo d’un joueur vérifié",
+  "addStaff": "Ajouter",
+  "removeStaff": "Retirer de l’équipe",
+  "staffSub": "L’équipe peut confirmer les réservations, scanner et vérifier les joueurs dans ce stade.",
+  "staffNotFound": "Aucun joueur vérifié avec ce @pseudo."
 }

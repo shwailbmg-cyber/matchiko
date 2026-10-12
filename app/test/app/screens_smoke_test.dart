@@ -93,6 +93,7 @@ void main() {
         await tab(t, i);
       }
       await open(t, Routes.mVenue);
+      await open(t, Routes.mReports);
       expect(t.takeException(), isNull);
     });
   }

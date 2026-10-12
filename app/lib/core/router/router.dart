@@ -9,6 +9,7 @@ import 'package:matchiko/features/game/presentation/game_screen.dart';
 import 'package:matchiko/features/home/presentation/home_screen.dart';
 import 'package:matchiko/features/manager/presentation/calendar_screen.dart';
 import 'package:matchiko/features/manager/presentation/players_screen.dart';
+import 'package:matchiko/features/manager/presentation/reports_screen.dart';
 import 'package:matchiko/features/manager/presentation/scan_screen.dart';
 import 'package:matchiko/features/manager/presentation/today_screen.dart';
 import 'package:matchiko/features/manager/presentation/venue_screen.dart';
@@ -85,6 +86,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: Routes.teams, builder: (_, _) => const TeamsScreen()),
       GoRoute(path: Routes.referee, builder: (_, _) => const RefereeScreen()),
       GoRoute(path: Routes.mVenue, builder: (_, _) => const VenueScreen()),
+      GoRoute(path: Routes.mReports, builder: (_, _) => const ReportsScreen()),
       GoRoute(
         path: '/referee/report/:id',
         builder: (_, s) => MatchReportScreen(s.pathParameters['id']!),
