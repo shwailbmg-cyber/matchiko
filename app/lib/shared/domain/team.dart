@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:matchiko/shared/domain/player.dart';
 
 part 'team.freezed.dart';
+part 'team.g.dart';
 
 /// A team: captain, members, size and its usual weekly game.
 @freezed
@@ -24,6 +25,8 @@ abstract class Team with _$Team {
     @Default(0) int draws,
     @Default(0) int losses,
   }) = _Team;
+
+  factory Team.fromJson(Map<String, dynamic> json) => _$TeamFromJson(json);
 
   bool get hasUsualGame => usualWeekday != null && usualHour != null;
 

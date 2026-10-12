@@ -75,7 +75,7 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
       `confirmed`, RPCs returning games as JSON (`my_games`, `game_detail`,
       `open_games`), booker tools (`set_player_paid`, `set_game_open`,
       `confirm_coming`). pgTAP.
-- [ ] **S18b** `SupabaseGameRepository` for player screens (profile,
+- [x] **S18b** `SupabaseGameRepository` for player screens (profile,
       pitches, slots, games, booking, favourites, wallet, notifications,
       friends, teams, settings) + JSON mapping tests. Used when
       `env/dev.json` is set.

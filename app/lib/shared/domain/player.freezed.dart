@@ -12,6 +12,7 @@ part of 'player.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$Player {
 
@@ -22,6 +23,8 @@ mixin _$Player {
 @pragma('vm:prefer-inline')
 $PlayerCopyWith<Player> get copyWith => _$PlayerCopyWithImpl<Player>(this as Player, _$identity);
 
+  /// Serializes this Player to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -30,7 +33,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is Player&&(identical(other.handle, _this.handle) || other.handle == _this.handle)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.wilayaId, _this.wilayaId) || other.wilayaId == _this.wilayaId)&&const DeepCollectionEquality().equals(other.positions, _this.positions)&&(identical(other.xp, _this.xp) || other.xp == _this.xp)&&(identical(other.verified, _this.verified) || other.verified == _this.verified)&&(identical(other.played, _this.played) || other.played == _this.played)&&(identical(other.friend, _this.friend) || other.friend == _this.friend));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Player;
@@ -216,11 +219,11 @@ return $default(_that.handle,_that.name,_that.wilayaId,_that.positions,_that.xp,
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _Player extends Player {
   const _Player({required this.handle, required this.name, this.wilayaId,  List<Position> positions = const <Position>[], this.xp = 0, this.verified = false, this.played = 0, this.friend = FriendStatus.none}): _positions = positions,super._();
-  
+  factory _Player.fromJson(Map<String, dynamic> json) => _$PlayerFromJson(json);
 
 @override final  String handle;
 @override final  String name;
@@ -243,14 +246,17 @@ class _Player extends Player {
 @pragma('vm:prefer-inline')
 _$PlayerCopyWith<_Player> get copyWith => __$PlayerCopyWithImpl<_Player>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$PlayerToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
     return identical(this, other) || (other.runtimeType == runtimeType&&other is _Player&&(identical(other.handle, handle) || other.handle == handle)&&(identical(other.name, name) || other.name == name)&&(identical(other.wilayaId, wilayaId) || other.wilayaId == wilayaId)&&const DeepCollectionEquality().equals(other.positions, _positions)&&(identical(other.xp, xp) || other.xp == xp)&&(identical(other.verified, verified) || other.verified == verified)&&(identical(other.played, played) || other.played == played)&&(identical(other.friend, friend) || other.friend == friend));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
     return Object.hash(runtimeType,handle,name,wilayaId,const DeepCollectionEquality().hash(_positions),xp,verified,played,friend);

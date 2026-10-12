@@ -12,6 +12,7 @@ part of 'team.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$Team {
 
@@ -23,6 +24,8 @@ mixin _$Team {
 @pragma('vm:prefer-inline')
 $TeamCopyWith<Team> get copyWith => _$TeamCopyWithImpl<Team>(this as Team, _$identity);
 
+  /// Serializes this Team to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -31,7 +34,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is Team&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.perSide, _this.perSide) || other.perSide == _this.perSide)&&(identical(other.captainHandle, _this.captainHandle) || other.captainHandle == _this.captainHandle)&&const DeepCollectionEquality().equals(other.members, _this.members)&&(identical(other.iAmCaptain, _this.iAmCaptain) || other.iAmCaptain == _this.iAmCaptain)&&(identical(other.usualWeekday, _this.usualWeekday) || other.usualWeekday == _this.usualWeekday)&&(identical(other.usualHour, _this.usualHour) || other.usualHour == _this.usualHour)&&(identical(other.usualPitchId, _this.usualPitchId) || other.usualPitchId == _this.usualPitchId)&&(identical(other.wins, _this.wins) || other.wins == _this.wins)&&(identical(other.draws, _this.draws) || other.draws == _this.draws)&&(identical(other.losses, _this.losses) || other.losses == _this.losses));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Team;
@@ -221,11 +224,11 @@ return $default(_that.id,_that.name,_that.perSide,_that.captainHandle,_that.memb
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _Team extends Team {
   const _Team({required this.id, required this.name, required this.perSide, required this.captainHandle,  List<Player> members = const <Player>[], this.iAmCaptain = false, this.usualWeekday, this.usualHour, this.usualPitchId, this.wins = 0, this.draws = 0, this.losses = 0}): _members = members,super._();
-  
+  factory _Team.fromJson(Map<String, dynamic> json) => _$TeamFromJson(json);
 
 @override final  String id;
 @override final  String name;
@@ -253,14 +256,17 @@ class _Team extends Team {
 @pragma('vm:prefer-inline')
 _$TeamCopyWith<_Team> get copyWith => __$TeamCopyWithImpl<_Team>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$TeamToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
     return identical(this, other) || (other.runtimeType == runtimeType&&other is _Team&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.perSide, perSide) || other.perSide == perSide)&&(identical(other.captainHandle, captainHandle) || other.captainHandle == captainHandle)&&const DeepCollectionEquality().equals(other.members, _members)&&(identical(other.iAmCaptain, iAmCaptain) || other.iAmCaptain == iAmCaptain)&&(identical(other.usualWeekday, usualWeekday) || other.usualWeekday == usualWeekday)&&(identical(other.usualHour, usualHour) || other.usualHour == usualHour)&&(identical(other.usualPitchId, usualPitchId) || other.usualPitchId == usualPitchId)&&(identical(other.wins, wins) || other.wins == wins)&&(identical(other.draws, draws) || other.draws == draws)&&(identical(other.losses, losses) || other.losses == losses));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
     return Object.hash(runtimeType,id,name,perSide,captainHandle,const DeepCollectionEquality().hash(_members),iAmCaptain,usualWeekday,usualHour,usualPitchId,wins,draws,losses);

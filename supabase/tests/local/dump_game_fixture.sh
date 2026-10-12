@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Regenerates app/test/fixtures/game_json.json from real public.game_json()
-# output, so the Dart contract test follows the SQL. Plain Postgres, as root
+# Regenerates app/test/fixtures/*.json from real RPC output (game, pitch,
+# player, team), so the Dart contract tests follow the SQL. Plain Postgres, as root
 # or as a user who can run `runuser -u postgres`.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
@@ -19,9 +19,17 @@ for f in "$ROOT"/migrations/*.sql; do "${PSQL[@]}" -f "$f" >/dev/null; done
 "${PSQL[@]}" >/dev/null <<'SQL'
 select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);
 select public.request_booking('00000000-0000-0000-0000-00000000b001', timestamptz '2026-10-20 20:00:00+00');
+insert into public.teams (name, captain_id, per_side) values ('Harrach Lions', auth.uid(), 7);
+insert into public.team_members (team_id, user_id)
+  select id, auth.uid() from public.teams where name = 'Harrach Lions';
 SQL
-"${PSQL[@]}" -c "select set_config('request.jwt.claims', '{\"sub\":\"00000000-0000-0000-0000-0000000000a1\",\"role\":\"authenticated\"}', false) is null" \
-  -c "select jsonb_set(jsonb_set(g, '{id}', '\"00000000-0000-0000-0000-0000000000d1\"'), '{code}', '\"e310ff9e1a1697049459495fbb481be8\"') from public.my_games() g limit 1" \
-  | tail -n 1 | python3 -c "import json,sys; print(json.dumps(json.loads(sys.stdin.read()), ensure_ascii=False, indent=2))" \
-  > "$ROOT/../app/test/fixtures/game_json.json"
-echo "wrote app/test/fixtures/game_json.json"
+OUT="$ROOT/../app/test/fixtures"
+dump() { # name, sql (run as player a1)
+  "${PSQL[@]}" -c "select set_config('request.jwt.claims', '{\"sub\":\"00000000-0000-0000-0000-0000000000a1\",\"role\":\"authenticated\"}', false) is null" -c "$2" \
+    | tail -n 1 | python3 -c "import json,sys; print(json.dumps(json.loads(sys.stdin.read()), ensure_ascii=False, indent=2))" > "$OUT/$1.json"
+  echo "wrote app/test/fixtures/$1.json"
+}
+dump game_json "select jsonb_set(jsonb_set(g, '{id}', '\"00000000-0000-0000-0000-0000000000d1\"'), '{code}', '\"e310ff9e1a1697049459495fbb481be8\"') from public.my_games() g limit 1"
+dump pitch_json "select p from public.list_pitches() p limit 1"
+dump player_json "select public.get_player((select handle from public.profiles where id = '00000000-0000-0000-0000-0000000000a2'))"
+dump team_json "select jsonb_set(t, '{id}', '\"00000000-0000-0000-0000-0000000000e1\"') from public.my_teams() t limit 1"

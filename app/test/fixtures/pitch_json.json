@@ -1,0 +1,17 @@
+{
+  "id": "00000000-0000-0000-0000-00000000b001",
+  "km": 0,
+  "venue": "Complexe El Harrach",
+  "active": true,
+  "rating": 0,
+  "reviews": 0,
+  "district": "El Harrach",
+  "features": [
+    "light",
+    "ball",
+    "roof"
+  ],
+  "price_da": 2500,
+  "venue_ar": "مركب الحراش",
+  "max_per_side": 7
+}

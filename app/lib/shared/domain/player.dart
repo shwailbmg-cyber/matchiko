@@ -4,6 +4,7 @@ import 'package:matchiko/shared/domain/profile.dart';
 import 'package:matchiko/shared/domain/rank.dart';
 
 part 'player.freezed.dart';
+part 'player.g.dart';
 
 /// My friendship with another player, from my side.
 enum FriendStatus { none, sent, incoming, friends }
@@ -24,6 +25,8 @@ abstract class Player with _$Player {
     @Default(0) int played,
     @Default(FriendStatus.none) FriendStatus friend,
   }) = _Player;
+
+  factory Player.fromJson(Map<String, dynamic> json) => _$PlayerFromJson(json);
 
   Rank get rank => Rank.fromXp(xp);
   String get initials => initialsOf(name);

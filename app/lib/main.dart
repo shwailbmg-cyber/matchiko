@@ -11,7 +11,9 @@ import 'package:matchiko/features/auth/data/auth_repository_demo.dart';
 import 'package:matchiko/features/auth/data/auth_repository_supabase.dart';
 import 'package:matchiko/features/auth/data/secure_session_storage.dart';
 import 'package:matchiko/shared/data/game_repository_demo.dart';
+import 'package:matchiko/shared/data/game_repository_supabase.dart';
 import 'package:matchiko/shared/domain/auth_repository.dart';
+import 'package:matchiko/shared/domain/game_repository.dart';
 import 'package:matchiko/shared/providers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -26,6 +28,7 @@ Future<void> main() async {
   };
 
   final AuthRepository auth;
+  final GameRepository games;
   if (Env.hasSupabase) {
     await Supabase.initialize(
       url: Env.supabaseUrl,
@@ -35,8 +38,13 @@ Future<void> main() async {
       ),
     );
     auth = SupabaseAuthRepository(Supabase.instance.client);
+    games = SupabaseGameRepository(Supabase.instance.client);
   } else {
     auth = DemoAuthRepository();
+    games = DemoGameRepository(
+      latency: const Duration(milliseconds: 300),
+      onboarded: false,
+    );
   }
 
   final settings = SettingsRepository(SharedPreferencesAsync());
@@ -46,14 +54,7 @@ Future<void> main() async {
     ProviderScope(
       overrides: [
         authRepositoryProvider.overrideWithValue(auth),
-        // Games run on sample data in both modes until the Supabase
-        // repository lands (LOOP.md S18). The database enforces the rules.
-        gameRepositoryProvider.overrideWithValue(
-          DemoGameRepository(
-            latency: const Duration(milliseconds: 300),
-            onboarded: false,
-          ),
-        ),
+        gameRepositoryProvider.overrideWithValue(games),
         settingsRepositoryProvider.overrideWithValue(settings),
         savedLanguageProvider.overrideWithValue(savedLanguage),
       ],
