@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:matchiko/core/push/push.dart';
 import 'package:go_router/go_router.dart';
 import 'package:matchiko/core/router/routes.dart';
 import 'package:matchiko/core/settings/locale_controller.dart';
@@ -161,7 +162,10 @@ class SettingsScreen extends ConsumerWidget {
               foregroundColor: MkColors.red,
               side: BorderSide(color: MkColors.red.withValues(alpha: .3)),
             ),
-            onPressed: () => ref.read(authRepositoryProvider).signOut(),
+            onPressed: () async {
+              await Push.forget(ref.read(gameRepositoryProvider));
+              await ref.read(authRepositoryProvider).signOut();
+            },
             child: Text(l.logout),
           ),
           TextButton(

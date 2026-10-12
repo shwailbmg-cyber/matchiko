@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:matchiko/app.dart';
 import 'package:matchiko/core/env.dart';
 import 'package:matchiko/core/errors.dart';
+import 'package:matchiko/core/push/push.dart';
 import 'package:matchiko/core/settings/locale_controller.dart';
 import 'package:matchiko/core/settings/settings_repository.dart';
 import 'package:matchiko/features/auth/data/auth_repository_demo.dart';
@@ -46,6 +47,8 @@ Future<void> main() async {
       onboarded: false,
     );
   }
+
+  await Push.init();
 
   final settings = SettingsRepository(SharedPreferencesAsync());
   final savedLanguage = await settings.loadLanguage();

@@ -601,6 +601,14 @@ class SupabaseGameRepository implements GameRepository {
   );
 
   @override
+  Future<void> registerPushToken(String token, String platform) =>
+      _rpc('register_push_token', {'p_token': token, 'p_platform': platform});
+
+  @override
+  Future<void> unregisterPushToken(String token) =>
+      _rpc('unregister_push_token', {'p_token': token});
+
+  @override
   Future<Game> bookingByQr(String token) async => Game.fromJson(
     await _rpc('booking_by_qr', {'p_token': token}) as Map<String, dynamic>,
   );

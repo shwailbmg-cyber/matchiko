@@ -82,7 +82,7 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
 - [x] **S18c** Supabase repository for manager and referee screens.
 - [x] **S19** Real QR codes and camera scanning (`mobile_scanner`),
       booking QR from `booking_tickets`.
-- [ ] **S20** Push notifications (FCM via an Edge Function) for "Still
+- [x] **S20** Push notifications (FCM via an Edge Function) for "Still
       coming?", spots near you, confirmations.
 - [x] **S21** Server matchmaking (`find_matches()` + offers), replacing
       the demo `findGame`.
@@ -111,6 +111,9 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
   "Type the code" is the fallback; "Simulate scan" is demo-only.
 - Terms of use and the full privacy policy need a legal review (your
   call); the app shows a plain-language "Your data" summary meanwhile.
+- Push (S20): server triggers + `push` Edge Function + app token
+  registration are built; going live needs your Firebase project and the
+  webhook (docs/PUSH.md). Web push needs a service worker (later).
 - Matchmaking v1 (`find_match`) scores open games in my wilaya for the
   next 7 days (position 40, time 20, level 15, friend 5) and skips games
   with blocked players. Not yet: distance, the server-side 30 s offer

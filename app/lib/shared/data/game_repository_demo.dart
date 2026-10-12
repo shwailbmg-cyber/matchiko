@@ -1084,6 +1084,17 @@ class DemoGameRepository implements GameRepository {
     ),
   );
 
+  /// Push tokens registered on this fake backend (for tests).
+  final pushTokens = <String>{};
+
+  @override
+  Future<void> registerPushToken(String token, String platform) =>
+      _wait(() => pushTokens.add(token));
+
+  @override
+  Future<void> unregisterPushToken(String token) =>
+      _wait(() => pushTokens.remove(token));
+
   @override
   Future<Game> bookingByQr(String token) => _wait(
     () => _games.values.firstWhere(

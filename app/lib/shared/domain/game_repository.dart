@@ -155,6 +155,10 @@ abstract interface class GameRepository {
   Future<List<Game>> venueToday();
   Future<void> confirmBooking(String gameId);
 
+  /// This device's push token (FCM), kept while the user is signed in.
+  Future<void> registerPushToken(String token, String platform);
+  Future<void> unregisterPushToken(String token);
+
   /// The booking a ticket QR token belongs to (manager's venue only).
   Future<Game> bookingByQr(String token);
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:matchiko/core/errors.dart';
+import 'package:matchiko/core/push/push.dart';
 import 'package:matchiko/core/router/router.dart';
 import 'package:matchiko/core/settings/locale_controller.dart';
 import 'package:matchiko/core/theme/mk_theme.dart';
@@ -13,6 +14,7 @@ class MatchikoApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(pushProvider);
     return MaterialApp.router(
       title: 'Matchiko',
       debugShowCheckedModeBanner: false,
