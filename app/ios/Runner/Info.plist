@@ -4,6 +4,10 @@
 <dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Matchiko uses the camera to scan booking and player QR codes.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Matchiko uses your photos only when you choose a profile picture.</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>

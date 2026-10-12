@@ -16,19 +16,22 @@ abstract final class Env {
   );
 
   /// Firebase Cloud Messaging (push). Public client values from the
-  /// Firebase console; empty → no push.
-  static const firebaseApiKey = String.fromEnvironment('FIREBASE_API_KEY');
-  static const firebaseAppId = String.fromEnvironment('FIREBASE_APP_ID');
+  /// Firebase console (one Android app and one iOS app in the same
+  /// project); empty → no push on that platform. See docs/PUSH.md.
   static const firebaseSenderId = String.fromEnvironment('FIREBASE_SENDER_ID');
   static const firebaseProjectId = String.fromEnvironment(
     'FIREBASE_PROJECT_ID',
   );
-
-  static bool get hasFirebase =>
-      firebaseApiKey.isNotEmpty &&
-      firebaseAppId.isNotEmpty &&
-      firebaseSenderId.isNotEmpty &&
-      firebaseProjectId.isNotEmpty;
+  static const firebaseAndroidApiKey = String.fromEnvironment(
+    'FIREBASE_ANDROID_API_KEY',
+  );
+  static const firebaseAndroidAppId = String.fromEnvironment(
+    'FIREBASE_ANDROID_APP_ID',
+  );
+  static const firebaseIosApiKey = String.fromEnvironment(
+    'FIREBASE_IOS_API_KEY',
+  );
+  static const firebaseIosAppId = String.fromEnvironment('FIREBASE_IOS_APP_ID');
 
   /// Public URL of a profile photo path from the server (`<id>/avatar.jpg?v=…`).
   static String? avatarUrl(String? path) =>

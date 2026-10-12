@@ -14,19 +14,29 @@ import 'package:matchiko/shared/providers.dart';
 /// device's token on the server. Off without Firebase config, and on the
 /// web (no service worker yet).
 abstract final class Push {
-  static bool get enabled => Env.hasFirebase && !kIsWeb;
+  static bool get _ios => defaultTargetPlatform == TargetPlatform.iOS;
+  static String get _platform => _ios ? 'ios' : 'android';
+  static String get _apiKey =>
+      _ios ? Env.firebaseIosApiKey : Env.firebaseAndroidApiKey;
+  static String get _appId =>
+      _ios ? Env.firebaseIosAppId : Env.firebaseAndroidAppId;
 
-  static String get _platform =>
-      defaultTargetPlatform == TargetPlatform.iOS ? 'ios' : 'android';
+  static bool get enabled =>
+      !kIsWeb &&
+      Env.firebaseProjectId.isNotEmpty &&
+      Env.firebaseSenderId.isNotEmpty &&
+      _apiKey.isNotEmpty &&
+      _appId.isNotEmpty;
 
   static Future<void> init() async {
     if (!enabled) return;
     await Firebase.initializeApp(
-      options: const FirebaseOptions(
-        apiKey: Env.firebaseApiKey,
-        appId: Env.firebaseAppId,
+      options: FirebaseOptions(
+        apiKey: _apiKey,
+        appId: _appId,
         messagingSenderId: Env.firebaseSenderId,
         projectId: Env.firebaseProjectId,
+        iosBundleId: 'dz.bmgdev.matchiko',
       ),
     );
   }
