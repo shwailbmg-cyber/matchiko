@@ -5,6 +5,7 @@ import 'package:matchiko/shared/domain/app_notification.dart';
 import 'package:matchiko/shared/domain/calendar_entry.dart';
 import 'package:matchiko/shared/domain/game.dart';
 import 'package:matchiko/shared/domain/ledger_entry.dart';
+import 'package:matchiko/shared/domain/my_settings.dart';
 import 'package:matchiko/shared/domain/pitch.dart';
 import 'package:matchiko/shared/domain/player.dart';
 import 'package:matchiko/shared/domain/position.dart';
@@ -59,6 +60,12 @@ class DemoGameRepository implements GameRepository {
   /// Blocks and walk-ins at the manager's venue (`pitch_blocks`).
   final _blocks = <String, (String pitchId, CalendarEntry entry)>{};
   final _refApps = <RefApplication>[];
+  var _settings = const MySettings();
+  final _blocked = <String>{};
+
+  /// Messages sent with "Report a problem" (the demo keeps them here).
+  final supportMessages = <String>[];
+  bool deleted = false;
   final _staff = <StaffMember>[
     const StaffMember(handle: 'mourad_k', name: 'Mourad Khelil', isMe: true),
     const StaffMember(handle: 'lina_desk', name: 'Lina Aït Ali'),
@@ -705,6 +712,52 @@ class DemoGameRepository implements GameRepository {
       usualPitchId: pitchId,
     );
     _changed();
+  });
+
+  @override
+  Future<MySettings> mySettings() => _wait(() => _settings);
+
+  @override
+  Future<void> updateSettings(MySettings settings) => _wait(() {
+    _settings = settings;
+    _changed();
+  });
+
+  @override
+  Future<List<Player>> blockedPlayers() =>
+      _wait(() => [for (final h in _blocked) _person(h)]);
+
+  @override
+  Future<void> block(String handle) => _wait(() {
+    _blocked.add(handle);
+    _people[handle] = _person(handle).copyWith(friend: FriendStatus.none);
+    _changed();
+  });
+
+  @override
+  Future<void> unblock(String handle) => _wait(() {
+    _blocked.remove(handle);
+    _changed();
+  });
+
+  @override
+  Future<void> sendSupportMessage(String message) => _wait(() {
+    final m = message.trim();
+    if (m.length < 5 || m.length > 2000) throw ArgumentError('length');
+    supportMessages.add(m);
+  });
+
+  @override
+  Future<void> deleteMyAccount() => _wait(() {
+    final upcoming = _games.values.any(
+      (g) =>
+          g.iAmBooker &&
+          g.startsAt.isAfter(_clock()) &&
+          (g.status == BookingStatus.confirmed ||
+              g.status == BookingStatus.guaranteed),
+    );
+    if (upcoming) throw StateError('cancel your upcoming bookings first');
+    deleted = true;
   });
 
   @override

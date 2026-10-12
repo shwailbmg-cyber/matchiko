@@ -2,6 +2,7 @@ import 'package:matchiko/shared/domain/app_notification.dart';
 import 'package:matchiko/shared/domain/calendar_entry.dart';
 import 'package:matchiko/shared/domain/game.dart';
 import 'package:matchiko/shared/domain/ledger_entry.dart';
+import 'package:matchiko/shared/domain/my_settings.dart';
 import 'package:matchiko/shared/domain/pitch.dart';
 import 'package:matchiko/shared/domain/player.dart';
 import 'package:matchiko/shared/domain/position.dart';
@@ -87,6 +88,20 @@ abstract interface class GameRepository {
     required int hour,
     required String pitchId,
   });
+
+  // ── Settings and safety ──────────────────────────────────────────────
+  Future<MySettings> mySettings();
+  Future<void> updateSettings(MySettings settings);
+  Future<List<Player>> blockedPlayers();
+
+  /// Blocking also ends a friendship and stops friend requests.
+  Future<void> block(String handle);
+  Future<void> unblock(String handle);
+  Future<void> sendSupportMessage(String message);
+
+  /// Refused while I have upcoming confirmed bookings or am the only
+  /// manager of a venue. Sign out afterwards.
+  Future<void> deleteMyAccount();
 
   /// About a game both of us played, or about behaviour in general.
   /// A no-show report needs [gameId]. Checked by RLS on `player_reports`.

@@ -96,12 +96,32 @@ class PlayerScreen extends ConsumerWidget {
             const SizedBox(height: 16),
             FriendButton(p),
             const SizedBox(height: 8),
-            TextButton.icon(
-              style: TextButton.styleFrom(foregroundColor: MkColors.red),
-              onPressed: () =>
-                  showReportSheet(context, handle: p.handle, gameId: gameId),
-              icon: const Icon(Icons.flag_outlined, size: 18),
-              label: Text(l.report),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton.icon(
+                  style: TextButton.styleFrom(foregroundColor: MkColors.red),
+                  onPressed: () => showReportSheet(
+                    context,
+                    handle: p.handle,
+                    gameId: gameId,
+                  ),
+                  icon: const Icon(Icons.flag_outlined, size: 18),
+                  label: Text(l.report),
+                ),
+                TextButton.icon(
+                  style: TextButton.styleFrom(foregroundColor: MkColors.sub),
+                  onPressed: () async {
+                    final messenger = ScaffoldMessenger.of(context);
+                    await ref.read(gameRepositoryProvider).block(p.handle);
+                    messenger.showSnackBar(
+                      SnackBar(content: Text(l.blockedDone)),
+                    );
+                  },
+                  icon: const Icon(Icons.block, size: 18),
+                  label: Text(l.block),
+                ),
+              ],
             ),
           ],
         ),

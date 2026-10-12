@@ -68,7 +68,7 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
       players tab (referee applications, no-show reports). (M3)
 - [x] **S15** Manager reports (cash expected vs received, occupancy) +
       staff. (M6)
-- [ ] **S16** Settings complete: notifications, privacy, blocked users,
+- [x] **S16** Settings complete: notifications, privacy, blocked users,
       help, terms/privacy, delete account. (M1)
 - [ ] **S17** Empty / error / offline states on every screen.
 - [ ] **S18** Supabase repositories: profile, pitches/slots, bookings,
@@ -89,4 +89,6 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
   Peak / off-peak prices need a pricing change in `request_booking`.
 - QR codes are drawn placeholders and scans are simulated: add a real
   QR encoder and `mobile_scanner` (camera) with S18.
+- Terms of use and the full privacy policy need a legal review (your
+  call); the app shows a plain-language "Your data" summary meanwhile.
 - Profile photo upload waits for the Supabase avatars bucket (S18).

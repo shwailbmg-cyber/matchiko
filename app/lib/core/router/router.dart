@@ -23,6 +23,7 @@ import 'package:matchiko/features/profile/presentation/profile_form_screen.dart'
 import 'package:matchiko/features/profile/presentation/profile_screen.dart';
 import 'package:matchiko/features/referee/presentation/match_report_screen.dart';
 import 'package:matchiko/features/referee/presentation/referee_screen.dart';
+import 'package:matchiko/features/settings/presentation/privacy_screen.dart';
 import 'package:matchiko/features/settings/presentation/settings_screen.dart';
 import 'package:matchiko/features/teams/presentation/team_screen.dart';
 import 'package:matchiko/features/teams/presentation/teams_screen.dart';
@@ -48,7 +49,10 @@ String? _redirect(SessionUser? user, Profile? me, GoRouterState state) {
     if (me.onboarded && welcome) return Routes.home;
   }
   final inManagerArea = loc.startsWith('/m/');
-  final shared = loc == Routes.settings || loc == Routes.notifications;
+  final shared =
+      loc == Routes.settings ||
+      loc == Routes.notifications ||
+      loc == Routes.privacy;
   if (loc == Routes.login || (!shared && manager != inManagerArea)) {
     return manager ? Routes.mToday : Routes.home;
   }
@@ -68,6 +72,7 @@ final routerProvider = Provider<GoRouter>((ref) {
     routes: [
       GoRoute(path: Routes.login, builder: (_, _) => const LoginScreen()),
       GoRoute(path: Routes.settings, builder: (_, _) => const SettingsScreen()),
+      GoRoute(path: Routes.privacy, builder: (_, _) => const PrivacyScreen()),
       GoRoute(
         path: Routes.onboarding,
         builder: (_, _) => const ProfileFormScreen(onboarding: true),

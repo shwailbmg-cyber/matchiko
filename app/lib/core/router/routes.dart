@@ -13,6 +13,7 @@ abstract final class Routes {
   static const notifications = '/notifications';
   static const wallet = '/wallet';
   static const editProfile = '/edit-profile';
+  static const privacy = '/privacy';
   static const pitches = '/pitches';
   static const friends = '/friends';
   static const teams = '/teams';

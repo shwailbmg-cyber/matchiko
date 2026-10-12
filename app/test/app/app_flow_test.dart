@@ -23,6 +23,7 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.byIcon(Icons.settings_outlined));
     await tester.pumpAndSettle();
+    await scrollTo(tester, find.text('Log out'));
     await tester.tap(find.text('Log out'));
     await tester.pumpAndSettle();
 
