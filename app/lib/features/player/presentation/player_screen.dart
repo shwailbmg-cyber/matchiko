@@ -91,6 +91,8 @@ class PlayerScreen extends ConsumerWidget {
                 Expanded(child: _Num('${p.played}', l.played)),
                 const SizedBox(width: 8),
                 Expanded(child: _Num('${p.xp}', l.xp)),
+                const SizedBox(width: 8),
+                Expanded(child: _Num('${p.reliability}%', l.reliability)),
               ],
             ),
             const SizedBox(height: 16),

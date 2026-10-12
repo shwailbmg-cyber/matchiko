@@ -99,8 +99,8 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
 - Communes (1,541): need an up-to-date dataset after decree n° 26-206
   moved communes into the 11 new wilayas; add a `communes` table then.
   Wilayas (69) are done.
-- Public reliability % and fair-play tags need a `public_player_stats`
-  RPC that doesn't expose raw no-show counts (with S18).
+- Public profiles show the reliability % (no raw no-show counts).
+  Fair-play tags wait for enough match reports.
 - Opening hours are enforced on every booking insert (Algiers time; a
   venue open 0–24 may cross midnight) and the player slot list follows
   them. Peak / off-peak prices (FEATURES E7, later) still need a pricing

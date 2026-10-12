@@ -13,7 +13,8 @@
         "mid",
         "fwd"
       ],
-      "wilaya_id": "alger"
+      "wilaya_id": "alger",
+      "reliability": 100
     }
   ],
   "per_side": 7,

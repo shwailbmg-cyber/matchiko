@@ -452,6 +452,7 @@ class DemoGameRepository implements GameRepository {
         xp: 200 + i * 173 % 2400,
         verified: i % 3 != 2,
         played: 5 + i * 7 % 60,
+        reliability: 100 - i * 3 % 17,
         friend: switch (i) {
           0 || 1 || 3 => FriendStatus.friends,
           4 => FriendStatus.incoming,
@@ -478,6 +479,7 @@ class DemoGameRepository implements GameRepository {
       xp: 300 + handle.length * 97,
       verified: true,
       played: 10 + handle.length,
+      reliability: gp.reliability,
     );
   }
 
@@ -618,6 +620,7 @@ class DemoGameRepository implements GameRepository {
     xp: _me.xp,
     verified: _me.verified,
     played: _me.played,
+    reliability: _me.reliability,
   );
 
   void _seedTeams() {

@@ -39,6 +39,7 @@ void main() {
     expect(p.handle, 'manager_harrach');
     expect(p.friend, FriendStatus.none);
     expect(p.wilayaId, 'alger');
+    expect(p.reliability, 100);
   });
 
   test('Team.fromJson reads my_teams()', () {

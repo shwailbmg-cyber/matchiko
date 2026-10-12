@@ -8,5 +8,6 @@
   "positions": [
     "mid"
   ],
-  "wilaya_id": "alger"
+  "wilaya_id": "alger",
+  "reliability": 100
 }

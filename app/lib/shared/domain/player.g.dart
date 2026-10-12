@@ -18,6 +18,7 @@ _Player _$PlayerFromJson(Map<String, dynamic> json) => _Player(
   xp: (json['xp'] as num?)?.toInt() ?? 0,
   verified: json['verified'] as bool? ?? false,
   played: (json['played'] as num?)?.toInt() ?? 0,
+  reliability: (json['reliability'] as num?)?.toInt() ?? 100,
   friend:
       $enumDecodeNullable(_$FriendStatusEnumMap, json['friend']) ??
       FriendStatus.none,
@@ -31,6 +32,7 @@ Map<String, dynamic> _$PlayerToJson(_Player instance) => <String, dynamic>{
   'xp': instance.xp,
   'verified': instance.verified,
   'played': instance.played,
+  'reliability': instance.reliability,
   'friend': _$FriendStatusEnumMap[instance.friend]!,
 };
 
