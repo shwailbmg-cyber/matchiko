@@ -30,6 +30,22 @@ void main() {
     expect(state().positions, [Position.gk]);
   });
 
+  test('join as keeper only while the game has room for one', () async {
+    final g = (await DemoGameRepository().openGames()).first;
+    final keepers = g.goalkeepers;
+    expect(
+      positionFor(g, [Position.gk, Position.def]),
+      keepers < 2 ? Position.gk : Position.def,
+    );
+    final full = g.copyWith(
+      players: [
+        for (final p in g.players.take(2)) p.copyWith(position: Position.gk),
+      ],
+    );
+    expect(positionFor(full, [Position.gk, Position.def]), Position.def);
+    expect(positionFor(full, [Position.gk]), Position.mid);
+  });
+
   test('at least one time window stays selected', () {
     ctrl().toggleWindow(TimeWindow.evening);
     expect(state().windows, {TimeWindow.evening});

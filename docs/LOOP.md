@@ -84,7 +84,7 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
       booking QR from `booking_tickets`.
 - [ ] **S20** Push notifications (FCM via an Edge Function) for "Still
       coming?", spots near you, confirmations.
-- [ ] **S21** Server matchmaking (`find_matches()` + offers), replacing
+- [x] **S21** Server matchmaking (`find_matches()` + offers), replacing
       the demo `findGame`.
 - [ ] **S22** Release: app icon, splash, store listing texts (3
       languages), release signing (needs your keystore), Play internal test.
@@ -111,4 +111,9 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
   "Type the code" is the fallback; "Simulate scan" is demo-only.
 - Terms of use and the full privacy policy need a legal review (your
   call); the app shows a plain-language "Your data" summary meanwhile.
+- Matchmaking v1 (`find_match`) scores open games in my wilaya for the
+  next 7 days (position 40, time 20, level 15, friend 5) and skips games
+  with blocked players. Not yet: distance, the server-side 30 s offer
+  hold (`match_offers`), pooling free slots into new games (ARCHITECTURE
+  §6 steps 2–4).
 - Profile photo upload waits for the Supabase avatars bucket (S18).

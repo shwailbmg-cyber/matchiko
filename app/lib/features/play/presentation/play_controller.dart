@@ -118,7 +118,7 @@ class PlayController extends Notifier<PlayState> {
     _timer?.cancel();
     await ref
         .read(gameRepositoryProvider)
-        .joinGame(g.id, state.positions.first);
+        .joinGame(g.id, positionFor(g, state.positions));
     if (ref.mounted) reset();
     return g.id;
   }
@@ -131,3 +131,8 @@ class PlayController extends Notifier<PlayState> {
 
 final playControllerProvider =
     NotifierProvider.autoDispose<PlayController, PlayState>(PlayController.new);
+
+/// First wanted position with room: a game takes two goalkeepers.
+Position positionFor(Game g, List<Position> wanted) =>
+    wanted.where((p) => p != Position.gk || g.goalkeepers < 2).firstOrNull ??
+    Position.mid;

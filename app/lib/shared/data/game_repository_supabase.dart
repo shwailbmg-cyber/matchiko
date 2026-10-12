@@ -256,10 +256,14 @@ class SupabaseGameRepository implements GameRepository {
     () => _rpc('set_game_size', {'p_game': gameId, 'p_per_side': perSide}),
   );
 
-  /// Until server matchmaking (LOOP.md S21): the soonest open game.
+  /// Server matchmaking: the best open game for me (`find_match`).
   @override
-  Future<Game?> findGame({required List<Position> positions}) async =>
-      (await openGames()).firstOrNull;
+  Future<Game?> findGame({required List<Position> positions}) async {
+    final j = await _rpc('find_match', {
+      'p_positions': [for (final p in positions) p.name],
+    });
+    return j == null ? null : Game.fromJson(j as _Json);
+  }
 
   // ── Players and friends ──────────────────────────────────────────────
   @override
