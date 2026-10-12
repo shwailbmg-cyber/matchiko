@@ -1,7 +1,7 @@
 # Push notifications setup
 
 The server writes every notification into `public.notifications`
-(triggers + `send_reminders()`). A Database Webhook sends each new row to
+(triggers + `send_reminders()`). A trigger (pg_net) sends each new row to
 the `push` Edge Function, which pushes it to the user's phones through
 Firebase Cloud Messaging (FCM). The app only registers its device token.
 
@@ -51,22 +51,18 @@ Android needs nothing more.
 
 ## 2. Supabase
 
-```bash
-supabase functions deploy push
-supabase secrets set FCM_SERVICE_ACCOUNT="$(cat service-account.json)"
-supabase secrets set PUSH_WEBHOOK_SECRET="$(openssl rand -hex 32)"
-```
+Already automated by migration `20261012001200_push_pipeline.sql` and the
+**Deploy Supabase** workflow: pg_net sends each new notification to the
+`push` function, pg_cron runs the "Still coming?" reminders every 15
+minutes, and the shared secret is generated inside Supabase Vault.
 
-Dashboard → **Database → Webhooks → Create**:
-table `notifications`, event **Insert**, type **Supabase Edge Function**
-`push`, header `x-webhook-secret` = the same secret.
+Left to do by hand, once:
 
-Dashboard → **Database → Extensions**: enable `pg_cron`, then in the SQL
-editor:
-
-```sql
-select cron.schedule('send-reminders', '*/15 * * * *', 'select public.send_reminders()');
-```
+1. Edge Function secret `FCM_SERVICE_ACCOUNT` = the whole Firebase
+   service-account JSON (step 5 above). Dashboard → Edge Functions →
+   Secrets → Add secret.
+2. Vault secret `project_url` = `https://<project-ref>.supabase.co`
+   (already set for the matchiko project).
 
 ## What gets pushed
 

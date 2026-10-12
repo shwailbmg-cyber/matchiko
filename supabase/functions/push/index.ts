@@ -1,6 +1,7 @@
-// Sends one push per new notification (Database Webhook on
-// notifications INSERT → this function). Secrets (supabase secrets set):
-//   PUSH_WEBHOOK_SECRET   shared with the webhook header x-webhook-secret
+// Sends one push per new notification. The notifications_push trigger
+// (migration 20261012001200) posts each new row here with the header
+// x-webhook-secret, a random value kept in Supabase Vault and read back
+// with the service role. One secret to set (supabase secrets set):
 //   FCM_SERVICE_ACCOUNT   Firebase service account JSON (FCM HTTP v1)
 // SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set by Supabase.
 import { createClient } from "npm:@supabase/supabase-js@2.58.0";
@@ -85,16 +86,19 @@ async function accessToken(sa: { client_email: string; private_key: string }) {
   return cached.token;
 }
 
+const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+let webhookSecret: string | undefined;
+
 Deno.serve(async (req) => {
-  const secret = Deno.env.get("PUSH_WEBHOOK_SECRET") ?? "";
-  if (req.method !== "POST" || !secret || !same(req.headers.get("x-webhook-secret") ?? "", secret)) {
+  webhookSecret ??= ((await db.rpc("push_webhook_secret")).data as string | null) ?? undefined;
+  if (req.method !== "POST" || !webhookSecret ||
+      !same(req.headers.get("x-webhook-secret") ?? "", webhookSecret)) {
     return new Response("forbidden", { status: 403 });
   }
   const { record } = (await req.json()) as { record?: Row };
   const t = record && texts[record.kind];
   if (!record || !t) return new Response("ignored");
 
-  const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
   const [{ data: profile }, { data: tokens }] = await Promise.all([
     db.from("profiles").select("lang").eq("id", record.user_id).single(),
     db.from("push_tokens").select("token").eq("user_id", record.user_id),
