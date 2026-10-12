@@ -1,0 +1,27 @@
+{
+  "id": "00000000-0000-0000-0000-0000000000e1",
+  "name": "Harrach Lions",
+  "members": [
+    {
+      "xp": 1240,
+      "name": "Amine Benali",
+      "avatar": null,
+      "friend": "none",
+      "handle": "amineb7",
+      "played": 0,
+      "verified": true,
+      "positions": [
+        "mid",
+        "fwd"
+      ],
+      "wilaya_id": "alger",
+      "reliability": 100
+    }
+  ],
+  "per_side": 7,
+  "usual_hour": null,
+  "i_am_captain": true,
+  "usual_weekday": null,
+  "captain_handle": "amineb7",
+  "usual_pitch_id": null
+}

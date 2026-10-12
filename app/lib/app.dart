@@ -1,42 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:matchiko/core/errors.dart';
+import 'package:matchiko/core/push/push.dart';
+import 'package:matchiko/core/router/router.dart';
+import 'package:matchiko/core/settings/locale_controller.dart';
+import 'package:matchiko/core/theme/mk_theme.dart';
+import 'package:matchiko/l10n/gen/app_localizations.dart';
 
-import 'l10n/gen/app_localizations.dart';
-import 'routing/router.dart';
-import 'ui/core/theme/mk_theme.dart';
-import 'ui/features/auth/view_models/session_view_model.dart';
-import 'ui/features/settings/view_models/settings_view_model.dart';
+final _theme = buildMkTheme();
 
-class MatchikoApp extends StatefulWidget {
+class MatchikoApp extends ConsumerWidget {
   const MatchikoApp({super.key});
 
   @override
-  State<MatchikoApp> createState() => _MatchikoAppState();
-}
-
-class _MatchikoAppState extends State<MatchikoApp> {
-  late final GoRouter _router = buildRouter(context.read<SessionViewModel>());
-  final _theme = buildMkTheme();
-
-  @override
-  void dispose() {
-    _router.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final locale = context.select((SettingsViewModel s) => s.locale);
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(pushProvider);
     return MaterialApp.router(
       title: 'Matchiko',
       debugShowCheckedModeBanner: false,
       theme: _theme,
       themeMode: ThemeMode.dark,
-      locale: locale,
+      locale: ref.watch(localeProvider),
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
-      routerConfig: _router,
+      routerConfig: ref.watch(routerProvider),
+      scaffoldMessengerKey: messengerKey,
     );
   }
 }

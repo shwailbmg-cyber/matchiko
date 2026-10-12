@@ -12,7 +12,9 @@ inventory), `docs/FEATURES.md` (feature catalogue with decisions),
 `docs/ROADMAP.md` (what's built, what's next). Rewards math:
 `docs/economy/REWARDS.md`.
 Design reference: `design/prototype/Matchiko.html` + `design/prototype/BRIEF.md`.
-Every screen should match the prototype (colors, spacing, copy).
+Every screen should match the prototype (spacing, copy). Colors: the brand is
+now electric violet (blue–magenta) from `MkColors`, replacing the prototype's
+green; only the football pitch stays green.
 
 ## Commands
 
@@ -24,6 +26,7 @@ flutter test
 flutter run                                       # demo mode, no backend
 flutter run --dart-define-from-file=env/dev.json  # with Supabase
 flutter gen-l10n                                  # after editing lib/l10n/*.arb
+dart run build_runner build -d                    # after editing freezed models
 dart format lib test
 
 # Database (from repo root)
@@ -50,25 +53,33 @@ Subagents in `.claude/agents/`: `architect` (Opus, plans, read-only),
   needed, add a pgTAP test with an allow case and a deny case.
 - Schema changes are new files in `supabase/migrations/` (never edit an
   applied migration).
-- Architecture: `lib/ui/features/<feature>/{views,view_models}`, repositories
-  in `lib/data/repositories`, pure models in `lib/domain/models`. View models
-  are `ChangeNotifier`s injected with `provider`.
+- Architecture (feature-first, light clean architecture, see `kiss-flutter`):
+  `lib/core/` (infra), `lib/shared/` (models, repository interfaces,
+  providers), `lib/features/<f>/{domain,data,presentation}`. State with
+  Riverpod; models with freezed + json_serializable (run
+  `dart run build_runner build -d` after editing them, commit the output).
 - Directional layout only (`EdgeInsetsDirectional`, `AlignmentDirectional`) so
-  Arabic RTL works. Design tokens from `lib/ui/core/theme/`, not raw hex.
+  Arabic RTL works. Design tokens from `lib/core/theme/`, not raw hex.
 - User-facing text goes in `app/lib/l10n/app_{en,fr,ar}.arb`, all three
   languages: standard Arabic, standard French, English. Simple words, B2
   level max, no Darija/slang. Keep the user's wording verbatim.
 - KISS: the simplest thing that works and still scales. No new package
   without a reason (check pub.dev publisher, maintenance, advisories).
 - Before merging: `flutter analyze`, `flutter test`, the DB tests, and the
-  `matchiko-security` skill on the diff.
+  `matchiko-security` + `owasp-mobile-flutter` skills on the diff.
+- Work in steps (`docs/LOOP.md`): each step is tested and pushed, CI green,
+  before the next starts.
 
 ## Skills in this repo (`.claude/skills/`)
 
 - Flutter/Dart (official): architecture, routing, localization, layouts,
   widget/integration tests, static analysis, mocks, coverage.
 - Supabase (official): `supabase`, `supabase-postgres-best-practices`.
-- Security: `matchiko-security` (project checklist), plus Trail of Bits'
+- Build: `kiss-flutter` (how we write Flutter), `build-loop` (autonomous
+  step loop, backlog in `docs/LOOP.md`; say "run the build loop").
+- Security: `matchiko-security` (project checklist), `owasp-security`
+  (OWASP Top 10:2025, ASVS 5.0), `owasp-mobile-flutter` (Mobile Top 10 2024,
+  MASVS v2), plus Trail of Bits'
   `differential-review`, `sharp-edges`, `semgrep`,
   `supply-chain-risk-auditor`, `agentic-actions-auditor`.
 

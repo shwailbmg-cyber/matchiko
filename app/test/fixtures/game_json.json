@@ -1,0 +1,42 @@
+{
+  "id": "00000000-0000-0000-0000-0000000000d1",
+  "code": "e310ff9e1a1697049459495fbb481be8",
+  "open": false,
+  "pitch": {
+    "id": "00000000-0000-0000-0000-00000000b001",
+    "km": 0,
+    "venue": "Complexe El Harrach",
+    "active": true,
+    "rating": 0,
+    "reviews": 0,
+    "district": "El Harrach",
+    "features": [
+      "light",
+      "ball",
+      "roof"
+    ],
+    "price_da": 2500,
+    "venue_ar": "مركب الحراش",
+    "max_per_side": 7
+  },
+  "status": "requested",
+  "players": [
+    {
+      "name": "Amine Benali",
+      "paid": false,
+      "team": "a",
+      "guest": false,
+      "is_me": true,
+      "handle": "amineb7",
+      "attended": false,
+      "position": "mid",
+      "confirmed": true,
+      "is_booker": true,
+      "reliability": 100
+    }
+  ],
+  "per_side": 7,
+  "waitlist": 0,
+  "starts_at": "2026-10-20T20:00:00+00:00",
+  "competitive": false
+}

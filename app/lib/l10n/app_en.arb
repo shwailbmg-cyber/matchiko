@@ -157,7 +157,7 @@
   "alerts": "Match alerts",
   "alertsSub": "When a nearby game needs a player",
   "reminders": "Game reminders",
-  "remindersSub": "One hour before kick-off",
+  "remindersSub": "Before your games, and the “Still coming?” check",
   "posfGK": "Goalkeeper",
   "posfDEF": "Defender",
   "posfMID": "Midfielder",
@@ -445,11 +445,299 @@
   "noGameYet": "No game right now",
   "noGameYetSub": "We'll notify you when a game near you needs players like you.",
   "nStillTitle": "Still coming tonight?",
-  "nStillBody": "Please confirm your game at 21:00.",
+  "nStillBody": "Please confirm your game at {time}.",
   "nSpotTitle": "1 spot near you",
-  "nSpotBody": "Kouba Five, 22:00, needs a midfielder.",
+  "nSpotBody": "{pitch}, {time}, needs players.",
   "nConfTitle": "Booking confirmed",
   "nConfBody": "The manager confirmed your booking.",
   "nRateTitle": "Rate your last game",
-  "nRateBody": "Rating gives you 10 coins."
+  "nRateBody": "Rating gives you 10 coins.",
+  "onbTitle": "Welcome to Matchiko",
+  "onbSub": "Three quick steps and you can play.",
+  "onbStep": "Step {n} of 3",
+  "@onbStep": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "yourName": "Your name",
+  "namePh": "First and last name",
+  "nameInvalid": "Enter your name (2 to 60 letters).",
+  "yourWilaya": "Your wilaya",
+  "pickWilaya": "Choose your wilaya",
+  "searchWilaya": "Search by name or number",
+  "yourPositions": "Your positions, in order of preference",
+  "yourLevel": "Your level",
+  "levelBeginner": "Beginner",
+  "levelCasual": "Casual",
+  "levelGood": "Good",
+  "levelCompetitive": "Competitive",
+  "yourPhone": "Your phone number",
+  "phoneSub": "The stadium manager calls this number to confirm your booking. Only managers of your bookings can see it.",
+  "phonePh": "0555 12 34 56",
+  "phoneInvalid": "Enter an Algerian mobile number (05, 06 or 07).",
+  "next": "Next",
+  "back": "Back",
+  "letsPlay": "Let's play",
+  "editProfile": "Edit profile",
+  "save": "Save",
+  "saved": "Saved",
+  "pickLevel": "Choose your level",
+  "allPitches": "All pitches",
+  "favorites": "Favourites",
+  "upTo": "Up to {price} DA",
+  "@upTo": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "noPitchMatch": "No pitch matches these filters.",
+  "clearFilters": "Clear filters",
+  "addFavorite": "Add to favourites",
+  "removeFavorite": "Remove from favourites",
+  "noActivity": "No activity yet.",
+  "rShowUp": "Played a booked game",
+  "rFirstGame": "First game bonus",
+  "rRate": "Rated a game",
+  "rReferee": "Refereed a game",
+  "rWin": "Win",
+  "rGoal": "Goal",
+  "rMvp": "Player of the match",
+  "rPayOnline": "Paid online",
+  "rInvite": "Friend invited",
+  "rVerified": "Account verified",
+  "rNoShow": "No-show",
+  "rCancel": "Cancelled a booking",
+  "rAdmin": "Change by Matchiko",
+  "findPlayers": "Find players by name or @handle",
+  "addFriend": "Add friend",
+  "requestSent": "Request sent",
+  "acceptFriend": "Accept",
+  "decline": "Decline",
+  "friendsTag": "Friends",
+  "friendRequests": "Friend requests",
+  "sentRequests": "Requests sent",
+  "noFriends": "No friends yet. Find players you know.",
+  "noPlayerFound": "No player found.",
+  "inviteSub": "You get +100 coins when a friend plays their first game.",
+  "inviteCopied": "Invite link copied",
+  "friendsTitle": "Friends",
+  "@nStillBody": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@nSpotBody": {
+    "placeholders": {
+      "pitch": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "nFriendTitle": "New friend request",
+  "nFriendBody": "{name} wants to add you.",
+  "@nFriendBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "noNotifs": "No notifications yet.",
+  "report": "Report",
+  "reportTitle": "Report this player",
+  "reportSub": "A stadium manager or the Matchiko team checks every report before anything happens.",
+  "rsNoShow": "Did not come to the game",
+  "rsLate": "Came very late",
+  "rsRude": "Rude or insulting",
+  "rsUnsafe": "Dangerous play or violence",
+  "rsOther": "Something else",
+  "reportNote": "Add details (optional)",
+  "createTeam": "Create a team",
+  "teamName": "Team name",
+  "noTeams": "No team yet. Create one with your friends.",
+  "usualGame": "Usual game",
+  "usualGameAt": "Every {day} at {time}",
+  "@usualGameAt": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "noUsualGame": "No usual game yet",
+  "setUsualGame": "Set the usual game",
+  "bookUsual": "Book our usual slot",
+  "addMember": "Add a friend to the team",
+  "removeMember": "Remove from the team",
+  "leaveTeam": "Leave the team",
+  "hour": "Time",
+  "becomeReferee": "Become a referee",
+  "becomeRefereeSub": "Referee games near you and earn {fee} DA per game, paid in cash by the booker, plus XP and coins. A stadium manager approves you in person.",
+  "@becomeRefereeSub": {
+    "placeholders": {
+      "fee": {
+        "type": "String"
+      }
+    }
+  },
+  "refVenue": "Stadium where you apply",
+  "refVerifyFirst": "Get verified first: managers approve verified players only.",
+  "applyReferee": "Send my application",
+  "refPending": "Application sent. The stadium manager will check your ID and approve you.",
+  "refGamesDone": "Games refereed",
+  "refEarned": "Earned (cash)",
+  "refToReport": "Reports to write",
+  "refJobs": "Games looking for a referee",
+  "refNoJobs": "No game needs a referee right now.",
+  "refTake": "Take",
+  "refClash": "You already referee a game at that time.",
+  "refMine": "My next games",
+  "refAvailability": "When I can referee",
+  "refOff": "Not available",
+  "refTapPlayer": "Tap a player to add a goal, a card or the MVP.",
+  "undo": "Undo last",
+  "calendar": "Calendar",
+  "prevWeek": "Previous week",
+  "nextWeek": "Next week",
+  "blocked": "Blocked",
+  "blockSlot": "Block",
+  "blockReason": "Reason (optional)",
+  "walkIn": "Walk-in",
+  "walkInSub": "For a customer who called or came without the app.",
+  "customerName": "Customer name",
+  "customerPhone": "Phone (optional)",
+  "freeThisHour": "Free this hour",
+  "slotTaken": "This hour is already taken.",
+  "myVenue": "My venue",
+  "openingHours": "Opening hours",
+  "opensAt": "Opens at",
+  "closesAt": "Closes at",
+  "pitchesAndPrices": "Pitches and prices",
+  "pricePerHour": "Price per hour",
+  "priceInvalid": "Enter a price between 500 and 50 000 DA.",
+  "maxSize": "Largest game on this pitch",
+  "amenities": "Amenities",
+  "pitchVisible": "Players can book this pitch",
+  "pitchHidden": "Hidden from players",
+  "scanBooking": "Booking",
+  "scanVerify": "ID check",
+  "scanCheckIn": "Arrival",
+  "scanVerifyHint": "Scan the player’s verification QR, then check their ID card.",
+  "arrivedCount": "{n} of {total} players arrived",
+  "@arrivedCount": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "arrived": "{name} arrived",
+  "@arrived": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "refRequests": "Referee requests",
+  "reportsToReview": "Reports to check",
+  "reportedBy": "Reported by {name}",
+  "@reportedBy": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "acceptReport": "Confirm",
+  "rejectReport": "Not true",
+  "reports": "Reports",
+  "thisWeek": "This week",
+  "thisMonth": "This month",
+  "last30": "30 days",
+  "cashExpected": "Cash expected",
+  "cashToCollect": "{amount} still to collect at the pitch.",
+  "@cashToCollect": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "occupancy": "Occupancy",
+  "hoursBooked": "{booked} of {open} open hours booked",
+  "@hoursBooked": {
+    "placeholders": {
+      "booked": {
+        "type": "String"
+      },
+      "open": {
+        "type": "String"
+      }
+    }
+  },
+  "staff": "Staff",
+  "staffHandle": "@handle of a verified player",
+  "addStaff": "Add",
+  "removeStaff": "Remove from staff",
+  "staffSub": "Staff can confirm bookings, scan and verify players at this venue.",
+  "staffNotFound": "No verified player with this @handle.",
+  "privacy": "Privacy",
+  "whoSeesGames": "Who can see the games I play",
+  "visEveryone": "Everyone",
+  "visFriends": "My friends",
+  "visNobody": "Nobody",
+  "blockedPlayers": "Blocked players",
+  "noBlocked": "You have not blocked anyone.",
+  "block": "Block",
+  "unblock": "Unblock",
+  "blockedDone": "Player blocked",
+  "help": "Help",
+  "reportProblem": "Report a problem",
+  "reportProblemPh": "What happened? What were you trying to do?",
+  "sendMessage": "Send",
+  "messageSent": "Message sent. Thank you.",
+  "privacyTitle": "Your data",
+  "deleteAccount": "Delete my account",
+  "deleteAccountTitle": "Delete your account?",
+  "deleteAccountSub": "Your profile, friends, wallet and history are deleted for good. You cannot undo this.",
+  "deleteAccountConfirm": "Delete for good",
+  "deleteAccountBlocked": "Cancel your upcoming bookings first (or add another manager to your venue).",
+  "pvWhatTitle": "What we keep",
+  "pvWhatBody": "Your name, @handle, wilaya, positions, level, games, XP and coins. Other players see your name, rank, positions and games (you choose who sees your games).",
+  "pvPhoneTitle": "Your phone number",
+  "pvPhoneBody": "Only you and the managers of the stadiums where you book can see it. They call it to confirm your booking.",
+  "pvIdTitle": "Your ID card",
+  "pvIdBody": "A stadium manager checks it in person. We never keep a photo of it, only a locked fingerprint of the number so one card makes one account.",
+  "pvPlaceTitle": "Your location",
+  "pvPlaceBody": "Used only while the app is open, to show pitches and games near you. Other players never see where you are.",
+  "pvDeleteTitle": "Deleting your account",
+  "pvDeleteBody": "You can delete your account at any time in Settings. Everything linked to you is deleted.",
+  "offline": "No internet connection. Check your network and try again.",
+  "noUpcoming": "No game booked yet",
+  "noUpcomingSub": "Join a game near you or book a pitch with your friends.",
+  "myQr": "My QR code",
+  "myQrSub": "Show it to the manager when you arrive.",
+  "typeCode": "Type the code",
+  "unknownQr": "This QR code is not valid here.",
+  "cameraOff": "Camera not available. Type the code instead.",
+  "changePhoto": "Change photo",
+  "removePhoto": "Remove photo",
+  "privatePlayer": "Private player"
 }
