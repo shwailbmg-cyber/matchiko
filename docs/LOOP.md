@@ -101,9 +101,10 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
   Wilayas (69) are done.
 - Public reliability % and fair-play tags need a `public_player_stats`
   RPC that doesn't expose raw no-show counts (with S18).
-- Opening hours are shown and used by the calendar; `request_booking`
-  does not reject hours outside them yet (managers simply don't confirm).
-  Peak / off-peak prices need a pricing change in `request_booking`.
+- Opening hours are enforced on every booking insert (Algiers time; a
+  venue open 0–24 may cross midnight) and the player slot list follows
+  them. Peak / off-peak prices (FEATURES E7, later) still need a pricing
+  rule.
 - QR codes: `matchiko:booking:<token>` (random 128-bit server token,
   booker only) and `matchiko:player:<handle>` (verification and check-in;
   the server still checks the ID queue / game roster). Encoder: `qr`

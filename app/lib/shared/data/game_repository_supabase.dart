@@ -125,6 +125,12 @@ class SupabaseGameRepository implements GameRepository {
   @override
   Future<List<Slot>> slots(String pitchId, DateTime day) async {
     final from = DateTime(day.year, day.month, day.day);
+    final hours = await _db
+        .from('pitches')
+        .select('venues(open_hour, close_hour)')
+        .eq('id', pitchId)
+        .single();
+    final venue = hours['venues'] as _Json;
     final busy = await _list('pitch_busy', {
       'p_pitch': pitchId,
       'p_from': from.toUtc().toIso8601String(),
@@ -132,7 +138,12 @@ class SupabaseGameRepository implements GameRepository {
     });
     final now = DateTime.now();
     return [
-      for (var h = 8; h <= 23; h++)
+      // One-hour slots inside the venue's opening hours.
+      for (
+        var h = venue['open_hour'] as int;
+        h < (venue['close_hour'] as int);
+        h++
+      )
         () {
           final t = DateTime(day.year, day.month, day.day, h);
           final hit = busy.where((b) {
