@@ -79,7 +79,7 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
       pitches, slots, games, booking, favourites, wallet, notifications,
       friends, teams, settings) + JSON mapping tests. Used when
       `env/dev.json` is set.
-- [ ] **S18c** Supabase repository for manager and referee screens.
+- [x] **S18c** Supabase repository for manager and referee screens.
 - [ ] **S19** Real QR codes and camera scanning (`mobile_scanner`),
       booking QR from `booking_tickets`.
 - [ ] **S20** Push notifications (FCM via an Edge Function) for "Still

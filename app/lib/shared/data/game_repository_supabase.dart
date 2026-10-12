@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:matchiko/shared/domain/app_notification.dart';
+import 'package:matchiko/shared/domain/booking_status.dart';
 import 'package:matchiko/shared/domain/calendar_entry.dart';
 import 'package:matchiko/shared/domain/game.dart';
 import 'package:matchiko/shared/domain/game_repository.dart';
@@ -527,16 +528,32 @@ class SupabaseGameRepository implements GameRepository {
         .eq('weekday', weekday),
   );
 
+  /// Open jobs from the board, then the games I referee.
   @override
-  Future<List<RefJob>> refereeJobs() async => [
-    for (final r in await _list('open_referee_jobs'))
-      RefJob(
-        bookingId: r['booking_id'] as String,
-        startsAt: DateTime.parse(r['starts_at'] as String).toLocal(),
-        venue: r['venue_name'] as String,
-        perSide: r['per_side'] as int? ?? 7,
-      ),
-  ];
+  Future<List<RefJob>> refereeJobs() async {
+    final open = await _list('open_referee_jobs');
+    final mine = await _list('my_referee_jobs');
+    DateTime at(_Json r) => DateTime.parse(r['starts_at'] as String).toLocal();
+    return [
+      for (final r in open)
+        RefJob(
+          bookingId: r['booking_id'] as String,
+          startsAt: at(r),
+          venue: r['venue_name'] as String,
+          perSide: r['per_side'] as int? ?? 7,
+        ),
+      for (final r in mine)
+        RefJob(
+          bookingId: r['booking_id'] as String,
+          startsAt: at(r),
+          venue: r['venue_name'] as String,
+          perSide: r['per_side'] as int? ?? 7,
+          gameId: r['game_id'] as String?,
+          mine: true,
+          reported: r['reported'] as bool? ?? false,
+        ),
+    ];
+  }
 
   @override
   Future<void> takeRefereeJob(String bookingId) =>
@@ -775,23 +792,77 @@ class SupabaseGameRepository implements GameRepository {
   Future<void> removeBlock(String id) =>
       _write(() => _db.from('pitch_blocks').delete().eq('id', id));
 
-  // Manager lists that need their own read RPCs (LOOP.md S18c).
-  static Never _soon() =>
-      throw UnsupportedError('Not connected to the server yet (S18c)');
-
   @override
-  Future<List<Game>> venueToday() async => _soon();
-
-  @override
-  Future<List<Profile>> verificationQueue() async => _soon();
-
-  @override
-  Future<List<RefApplication>> refereeApplications() async => _soon();
-
-  @override
-  Future<List<VenueReport>> venueReports() async => _soon();
+  Future<List<Game>> venueToday() async => [
+    for (final j in await _list('venue_today')) Game.fromJson(j),
+  ];
 
   @override
   Future<List<CalendarEntry>> venueWeek(String pitchId, DateTime from) async =>
-      _soon();
+      [
+        for (final r in await _list('venue_week', {
+          'p_pitch': pitchId,
+          'p_from': from.toUtc().toIso8601String(),
+        }))
+          CalendarEntry(
+            id: r['id'] as String,
+            startsAt: DateTime.parse(r['starts_at'] as String).toLocal(),
+            kind: CalendarKind.values.byName(r['kind'] as String),
+            label: r['label'] as String? ?? '',
+            phone: r['phone'] as String?,
+            status: switch (r['status']) {
+              'no_show' => BookingStatus.noShow,
+              final String st => BookingStatus.values.byName(st),
+              _ => null,
+            },
+            gameId: r['game_id'] as String?,
+          ),
+      ];
+
+  /// Players waiting for the in-person ID check (public fields only).
+  @override
+  Future<List<Profile>> verificationQueue() async => [
+    for (final j in await _list('verification_queue'))
+      () {
+        final p = Player.fromJson(j);
+        return Profile(
+          name: p.name,
+          handle: p.handle,
+          xp: p.xp,
+          coins: 0,
+          verified: p.verified,
+          positions: p.positions,
+          reliability: 100,
+          played: p.played,
+          wins: 0,
+          goals: 0,
+        );
+      }(),
+  ];
+
+  @override
+  Future<List<RefApplication>> refereeApplications() async => [
+    for (final r in await _list('venue_referee_applications'))
+      RefApplication(
+        id: r['id'] as String,
+        player: Player.fromJson(r['player'] as _Json),
+      ),
+  ];
+
+  @override
+  Future<List<VenueReport>> venueReports() async => [
+    for (final r in await _list('venue_open_reports'))
+      VenueReport(
+        id: r['id'] as int,
+        reporterName: r['reporter_name'] as String,
+        reported: Player.fromJson(r['reported'] as _Json),
+        reason: switch (r['reason']) {
+          'no_show' => ReportReason.noShow,
+          final String x => ReportReason.values.byName(x),
+          _ => ReportReason.other,
+        },
+        note: r['note'] as String? ?? '',
+        gameStartsAt: DateTime.parse(r['game_starts_at'] as String).toLocal(),
+      ),
+  ];
 }
