@@ -71,8 +71,23 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
 - [x] **S16** Settings complete: notifications, privacy, blocked users,
       help, terms/privacy, delete account. (M1)
 - [x] **S17** Empty / error / offline states on every screen.
-- [ ] **S18** Supabase repositories: profile, pitches/slots, bookings,
-      games (replace demo data when `env/dev.json` is set). (M1–M2)
+- [x] **S18a** Game read model on the server: `game_players.paid` and
+      `confirmed`, RPCs returning games as JSON (`my_games`, `game_detail`,
+      `open_games`), booker tools (`set_player_paid`, `set_game_open`,
+      `confirm_coming`). pgTAP.
+- [ ] **S18b** `SupabaseGameRepository` for player screens (profile,
+      pitches, slots, games, booking, favourites, wallet, notifications,
+      friends, teams, settings) + JSON mapping tests. Used when
+      `env/dev.json` is set.
+- [ ] **S18c** Supabase repository for manager and referee screens.
+- [ ] **S19** Real QR codes and camera scanning (`mobile_scanner`),
+      booking QR from `booking_tickets`.
+- [ ] **S20** Push notifications (FCM via an Edge Function) for "Still
+      coming?", spots near you, confirmations.
+- [ ] **S21** Server matchmaking (`find_matches()` + offers), replacing
+      the demo `findGame`.
+- [ ] **S22** Release: app icon, splash, store listing texts (3
+      languages), release signing (needs your keystore), Play internal test.
 
 ## Notes and deferred items
 
