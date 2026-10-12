@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:matchiko/core/env.dart';
 import 'package:matchiko/core/router/routes.dart';
 import 'package:matchiko/core/theme/mk_colors.dart';
 import 'package:matchiko/core/widgets/mk_widgets.dart';
@@ -161,10 +163,45 @@ class _FormState extends ConsumerState<_Form> {
     );
   }
 
+  /// Pick a photo, shrink it on the device, upload it (real backend only).
+  Future<void> _photo({bool remove = false}) async {
+    final repo = ref.read(gameRepositoryProvider);
+    if (remove) return repo.setAvatar(null);
+    final file = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 512,
+      maxHeight: 512,
+      imageQuality: 80,
+      requestFullMetadata: false,
+    );
+    if (file == null) return;
+    await repo.setAvatar(await file.readAsBytes());
+  }
+
   List<Widget> _who(AppLocalizations l) {
     final lang = Localizations.localeOf(context).languageCode;
     final w = Wilaya.byId(_wilaya);
+    final photo = ref.watch(meProvider).value?.avatar;
     return [
+      if (!widget.onboarding && Env.hasSupabase)
+        Row(
+          children: [
+            MkAvatar(widget.me.initials, size: 64, photo: photo),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Wrap(
+                children: [
+                  TextButton(onPressed: _photo, child: Text(l.changePhoto)),
+                  if (photo != null)
+                    TextButton(
+                      onPressed: () => _photo(remove: true),
+                      child: Text(l.removePhoto),
+                    ),
+                ],
+              ),
+            ),
+          ],
+        ),
       MkLabel(l.yourName),
       TextField(
         controller: _name,

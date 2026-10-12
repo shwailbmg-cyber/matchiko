@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:matchiko/shared/domain/app_notification.dart';
 import 'package:matchiko/shared/domain/booking_status.dart';
@@ -88,6 +89,7 @@ class SupabaseGameRepository implements GameRepository {
         _ => null,
       },
       phone: p['phone'] as String?,
+      avatar: p['avatar_url'] as String?,
     );
   }
 
@@ -610,6 +612,22 @@ class SupabaseGameRepository implements GameRepository {
     () async =>
         _rpc('confirm_booking', {'p_booking': await _bookingOf(gameId)}),
   );
+
+  @override
+  Future<void> setAvatar(Uint8List? jpeg) => _write(() async {
+    final path = '${_db.auth.currentUser!.id}/avatar.jpg';
+    final bucket = _db.storage.from('avatars');
+    if (jpeg == null) {
+      await bucket.remove([path]);
+    } else {
+      await bucket.uploadBinary(
+        path,
+        jpeg,
+        fileOptions: const FileOptions(contentType: 'image/jpeg', upsert: true),
+      );
+    }
+    await _rpc('set_my_avatar', {'p_remove': jpeg == null});
+  });
 
   @override
   Future<void> registerPushToken(String token, String platform) =>

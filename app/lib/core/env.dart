@@ -30,6 +30,12 @@ abstract final class Env {
       firebaseSenderId.isNotEmpty &&
       firebaseProjectId.isNotEmpty;
 
+  /// Public URL of a profile photo path from the server (`<id>/avatar.jpg?v=…`).
+  static String? avatarUrl(String? path) =>
+      path == null || path.isEmpty || !hasSupabase
+      ? null
+      : '$supabaseUrl/storage/v1/object/public/avatars/$path';
+
   /// Without Supabase config the app runs in demo mode on local fake data,
   /// like the Claude Design prototype.
   static bool get hasSupabase =>

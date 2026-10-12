@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:matchiko/shared/domain/app_notification.dart';
 import 'package:matchiko/shared/domain/calendar_entry.dart';
 import 'package:matchiko/shared/domain/game.dart';
@@ -154,6 +156,9 @@ abstract interface class GameRepository {
   // ── Manager ──────────────────────────────────────────────────────────
   Future<List<Game>> venueToday();
   Future<void> confirmBooking(String gameId);
+
+  /// Replaces my profile photo (a small JPEG), or removes it when null.
+  Future<void> setAvatar(Uint8List? jpeg);
 
   /// This device's push token (FCM), kept while the user is signed in.
   Future<void> registerPushToken(String token, String platform);

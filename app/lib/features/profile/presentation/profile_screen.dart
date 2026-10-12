@@ -86,7 +86,7 @@ class ProfileScreen extends ConsumerWidget {
                         children: [
                           Row(
                             children: [
-                              MkAvatar(me.initials, size: 72),
+                              MkAvatar(me.initials, size: 72, photo: me.avatar),
                               const SizedBox(width: 14),
                               Expanded(
                                 child: Column(

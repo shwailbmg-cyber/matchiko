@@ -122,4 +122,7 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
   with blocked players. Not yet: distance, the server-side 30 s offer
   hold (`match_offers`), pooling free slots into new games (ARCHITECTURE
   §6 steps 2–4).
-- Profile photo upload waits for the Supabase avatars bucket (S18).
+- Profile photos: public `avatars` bucket, one JPEG per user (≤ 512 KB,
+  resized to 512 px on the phone, metadata dropped). The server sets the
+  path, so photos can't point to outside tracking URLs. Shown on the
+  profile, home and player pages; line-ups keep initials.

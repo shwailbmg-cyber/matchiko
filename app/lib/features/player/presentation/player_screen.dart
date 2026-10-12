@@ -52,7 +52,12 @@ class PlayerScreen extends ConsumerWidget {
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
-                      MkAvatar(p.initials, size: 84, seed: p.name.length),
+                      MkAvatar(
+                        p.initials,
+                        size: 84,
+                        seed: p.name.length,
+                        photo: p.avatar,
+                      ),
                       const SizedBox(height: 10),
                       Text(
                         p.name,

@@ -25,6 +25,9 @@ abstract class Profile with _$Profile {
     required int goals,
     @Default(false) bool isReferee,
 
+    /// Photo path in the avatars bucket (null → initials).
+    String? avatar,
+
     /// `cities.id` of the player's wilaya.
     String? wilayaId,
     Level? level,

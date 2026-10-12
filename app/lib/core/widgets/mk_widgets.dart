@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:matchiko/core/env.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:matchiko/core/errors.dart';
 
@@ -18,14 +19,39 @@ const _avatarColors = [
 ];
 
 class MkAvatar extends StatelessWidget {
-  const MkAvatar(this.initials, {super.key, this.size = 36, this.seed = 0});
+  const MkAvatar(
+    this.initials, {
+    super.key,
+    this.size = 36,
+    this.seed = 0,
+    this.photo,
+  });
 
   final String initials;
   final double size;
   final int seed;
 
+  /// Path in the avatars bucket; initials when null or unreachable.
+  final String? photo;
+
   @override
   Widget build(BuildContext context) {
+    final url = Env.avatarUrl(photo);
+    if (url != null) {
+      return ClipOval(
+        child: Image.network(
+          url,
+          width: size,
+          height: size,
+          fit: BoxFit.cover,
+          errorBuilder: (_, _, _) => _initials(),
+        ),
+      );
+    }
+    return _initials();
+  }
+
+  Widget _initials() {
     final c = _avatarColors[seed.abs() % _avatarColors.length];
     return Container(
       width: size,

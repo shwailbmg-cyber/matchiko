@@ -62,7 +62,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     InkWell(
                       customBorder: const CircleBorder(),
                       onTap: () => context.go(Routes.profile),
-                      child: MkAvatar(home.me.initials, size: 40),
+                      child: MkAvatar(
+                        home.me.initials,
+                        size: 40,
+                        photo: home.me.avatar,
+                      ),
                     ),
                   ],
                 ),

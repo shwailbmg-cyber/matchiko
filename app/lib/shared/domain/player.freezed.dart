@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Player {
 
- String get handle; String get name; String? get wilayaId; List<Position> get positions; int get xp; bool get verified; int get played;/// % of finished games the player showed up for (no raw counts).
+ String get handle; String get name; String? get wilayaId; List<Position> get positions; int get xp; bool get verified; int get played; String? get avatar;/// % of finished games the player showed up for (no raw counts).
  int get reliability; FriendStatus get friend;
 /// Create a copy of Player
 /// with the given fields replaced by the non-null parameter values.
@@ -31,20 +31,20 @@ $PlayerCopyWith<Player> get copyWith => _$PlayerCopyWithImpl<Player>(this as Pla
 @override
 bool operator ==(Object other) {
   final _this = this as Player;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Player&&(identical(other.handle, _this.handle) || other.handle == _this.handle)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.wilayaId, _this.wilayaId) || other.wilayaId == _this.wilayaId)&&const DeepCollectionEquality().equals(other.positions, _this.positions)&&(identical(other.xp, _this.xp) || other.xp == _this.xp)&&(identical(other.verified, _this.verified) || other.verified == _this.verified)&&(identical(other.played, _this.played) || other.played == _this.played)&&(identical(other.reliability, _this.reliability) || other.reliability == _this.reliability)&&(identical(other.friend, _this.friend) || other.friend == _this.friend));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Player&&(identical(other.handle, _this.handle) || other.handle == _this.handle)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.wilayaId, _this.wilayaId) || other.wilayaId == _this.wilayaId)&&const DeepCollectionEquality().equals(other.positions, _this.positions)&&(identical(other.xp, _this.xp) || other.xp == _this.xp)&&(identical(other.verified, _this.verified) || other.verified == _this.verified)&&(identical(other.played, _this.played) || other.played == _this.played)&&(identical(other.avatar, _this.avatar) || other.avatar == _this.avatar)&&(identical(other.reliability, _this.reliability) || other.reliability == _this.reliability)&&(identical(other.friend, _this.friend) || other.friend == _this.friend));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Player;
-  return Object.hash(runtimeType,_this.handle,_this.name,_this.wilayaId,const DeepCollectionEquality().hash(_this.positions),_this.xp,_this.verified,_this.played,_this.reliability,_this.friend);
+  return Object.hash(runtimeType,_this.handle,_this.name,_this.wilayaId,const DeepCollectionEquality().hash(_this.positions),_this.xp,_this.verified,_this.played,_this.avatar,_this.reliability,_this.friend);
 }
 
 @override
 String toString() {
   final _this = this as Player;
-  return 'Player(handle: ${_this.handle}, name: ${_this.name}, wilayaId: ${_this.wilayaId}, positions: ${_this.positions}, xp: ${_this.xp}, verified: ${_this.verified}, played: ${_this.played}, reliability: ${_this.reliability}, friend: ${_this.friend})';
+  return 'Player(handle: ${_this.handle}, name: ${_this.name}, wilayaId: ${_this.wilayaId}, positions: ${_this.positions}, xp: ${_this.xp}, verified: ${_this.verified}, played: ${_this.played}, avatar: ${_this.avatar}, reliability: ${_this.reliability}, friend: ${_this.friend})';
 }
 
 
@@ -55,7 +55,7 @@ abstract mixin class $PlayerCopyWith<$Res>  {
   factory $PlayerCopyWith(Player value, $Res Function(Player) _then) = _$PlayerCopyWithImpl;
 @useResult
 $Res call({
- String handle, String name, String? wilayaId, List<Position> positions, int xp, bool verified, int played, int reliability, FriendStatus friend
+ String handle, String name, String? wilayaId, List<Position> positions, int xp, bool verified, int played, String? avatar, int reliability, FriendStatus friend
 });
 
 
@@ -72,7 +72,7 @@ class _$PlayerCopyWithImpl<$Res>
 
 /// Create a copy of Player
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? handle = null,Object? name = null,Object? wilayaId = freezed,Object? positions = null,Object? xp = null,Object? verified = null,Object? played = null,Object? reliability = null,Object? friend = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? handle = null,Object? name = null,Object? wilayaId = freezed,Object? positions = null,Object? xp = null,Object? verified = null,Object? played = null,Object? avatar = freezed,Object? reliability = null,Object? friend = null,}) {
   return _then(Player(
 handle: null == handle ? _self.handle : handle // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -81,7 +81,8 @@ as String?,positions: null == positions ? _self.positions : positions // ignore:
 as List<Position>,xp: null == xp ? _self.xp : xp // ignore: cast_nullable_to_non_nullable
 as int,verified: null == verified ? _self.verified : verified // ignore: cast_nullable_to_non_nullable
 as bool,played: null == played ? _self.played : played // ignore: cast_nullable_to_non_nullable
-as int,reliability: null == reliability ? _self.reliability : reliability // ignore: cast_nullable_to_non_nullable
+as int,avatar: freezed == avatar ? _self.avatar : avatar // ignore: cast_nullable_to_non_nullable
+as String?,reliability: null == reliability ? _self.reliability : reliability // ignore: cast_nullable_to_non_nullable
 as int,friend: null == friend ? _self.friend : friend // ignore: cast_nullable_to_non_nullable
 as FriendStatus,
   ));
@@ -168,10 +169,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String handle,  String name,  String? wilayaId,  List<Position> positions,  int xp,  bool verified,  int played,  int reliability,  FriendStatus friend)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String handle,  String name,  String? wilayaId,  List<Position> positions,  int xp,  bool verified,  int played,  String? avatar,  int reliability,  FriendStatus friend)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Player() when $default != null:
-return $default(_that.handle,_that.name,_that.wilayaId,_that.positions,_that.xp,_that.verified,_that.played,_that.reliability,_that.friend);case _:
+return $default(_that.handle,_that.name,_that.wilayaId,_that.positions,_that.xp,_that.verified,_that.played,_that.avatar,_that.reliability,_that.friend);case _:
   return orElse();
 
 }
@@ -189,10 +190,10 @@ return $default(_that.handle,_that.name,_that.wilayaId,_that.positions,_that.xp,
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String handle,  String name,  String? wilayaId,  List<Position> positions,  int xp,  bool verified,  int played,  int reliability,  FriendStatus friend)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String handle,  String name,  String? wilayaId,  List<Position> positions,  int xp,  bool verified,  int played,  String? avatar,  int reliability,  FriendStatus friend)  $default,) {final _that = this;
 switch (_that) {
 case _Player():
-return $default(_that.handle,_that.name,_that.wilayaId,_that.positions,_that.xp,_that.verified,_that.played,_that.reliability,_that.friend);case _:
+return $default(_that.handle,_that.name,_that.wilayaId,_that.positions,_that.xp,_that.verified,_that.played,_that.avatar,_that.reliability,_that.friend);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -209,10 +210,10 @@ return $default(_that.handle,_that.name,_that.wilayaId,_that.positions,_that.xp,
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String handle,  String name,  String? wilayaId,  List<Position> positions,  int xp,  bool verified,  int played,  int reliability,  FriendStatus friend)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String handle,  String name,  String? wilayaId,  List<Position> positions,  int xp,  bool verified,  int played,  String? avatar,  int reliability,  FriendStatus friend)?  $default,) {final _that = this;
 switch (_that) {
 case _Player() when $default != null:
-return $default(_that.handle,_that.name,_that.wilayaId,_that.positions,_that.xp,_that.verified,_that.played,_that.reliability,_that.friend);case _:
+return $default(_that.handle,_that.name,_that.wilayaId,_that.positions,_that.xp,_that.verified,_that.played,_that.avatar,_that.reliability,_that.friend);case _:
   return null;
 
 }
@@ -224,7 +225,7 @@ return $default(_that.handle,_that.name,_that.wilayaId,_that.positions,_that.xp,
 @JsonSerializable()
 
 class _Player extends Player {
-  const _Player({required this.handle, required this.name, this.wilayaId,  List<Position> positions = const <Position>[], this.xp = 0, this.verified = false, this.played = 0, this.reliability = 100, this.friend = FriendStatus.none}): _positions = positions,super._();
+  const _Player({required this.handle, required this.name, this.wilayaId,  List<Position> positions = const <Position>[], this.xp = 0, this.verified = false, this.played = 0, this.avatar, this.reliability = 100, this.friend = FriendStatus.none}): _positions = positions,super._();
   factory _Player.fromJson(Map<String, dynamic> json) => _$PlayerFromJson(json);
 
 @override final  String handle;
@@ -240,6 +241,7 @@ class _Player extends Player {
 @override@JsonKey() final  int xp;
 @override@JsonKey() final  bool verified;
 @override@JsonKey() final  int played;
+@override final  String? avatar;
 /// % of finished games the player showed up for (no raw counts).
 @override@JsonKey() final  int reliability;
 @override@JsonKey() final  FriendStatus friend;
@@ -257,18 +259,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Player&&(identical(other.handle, handle) || other.handle == handle)&&(identical(other.name, name) || other.name == name)&&(identical(other.wilayaId, wilayaId) || other.wilayaId == wilayaId)&&const DeepCollectionEquality().equals(other.positions, _positions)&&(identical(other.xp, xp) || other.xp == xp)&&(identical(other.verified, verified) || other.verified == verified)&&(identical(other.played, played) || other.played == played)&&(identical(other.reliability, reliability) || other.reliability == reliability)&&(identical(other.friend, friend) || other.friend == friend));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Player&&(identical(other.handle, handle) || other.handle == handle)&&(identical(other.name, name) || other.name == name)&&(identical(other.wilayaId, wilayaId) || other.wilayaId == wilayaId)&&const DeepCollectionEquality().equals(other.positions, _positions)&&(identical(other.xp, xp) || other.xp == xp)&&(identical(other.verified, verified) || other.verified == verified)&&(identical(other.played, played) || other.played == played)&&(identical(other.avatar, avatar) || other.avatar == avatar)&&(identical(other.reliability, reliability) || other.reliability == reliability)&&(identical(other.friend, friend) || other.friend == friend));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,handle,name,wilayaId,const DeepCollectionEquality().hash(_positions),xp,verified,played,reliability,friend);
+    return Object.hash(runtimeType,handle,name,wilayaId,const DeepCollectionEquality().hash(_positions),xp,verified,played,avatar,reliability,friend);
 }
 
 @override
 String toString() {
-    return 'Player(handle: $handle, name: $name, wilayaId: $wilayaId, positions: $positions, xp: $xp, verified: $verified, played: $played, reliability: $reliability, friend: $friend)';
+    return 'Player(handle: $handle, name: $name, wilayaId: $wilayaId, positions: $positions, xp: $xp, verified: $verified, played: $played, avatar: $avatar, reliability: $reliability, friend: $friend)';
 }
 
 
@@ -279,7 +281,7 @@ abstract mixin class _$PlayerCopyWith<$Res> implements $PlayerCopyWith<$Res> {
   factory _$PlayerCopyWith(_Player value, $Res Function(_Player) _then) = __$PlayerCopyWithImpl;
 @override @useResult
 $Res call({
- String handle, String name, String? wilayaId, List<Position> positions, int xp, bool verified, int played, int reliability, FriendStatus friend
+ String handle, String name, String? wilayaId, List<Position> positions, int xp, bool verified, int played, String? avatar, int reliability, FriendStatus friend
 });
 
 
@@ -296,7 +298,7 @@ class __$PlayerCopyWithImpl<$Res>
 
 /// Create a copy of Player
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? handle = null,Object? name = null,Object? wilayaId = freezed,Object? positions = null,Object? xp = null,Object? verified = null,Object? played = null,Object? reliability = null,Object? friend = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? handle = null,Object? name = null,Object? wilayaId = freezed,Object? positions = null,Object? xp = null,Object? verified = null,Object? played = null,Object? avatar = freezed,Object? reliability = null,Object? friend = null,}) {
   return _then(_Player(
 handle: null == handle ? _self.handle : handle // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -305,7 +307,8 @@ as String?,positions: null == positions ? _self._positions : positions // ignore
 as List<Position>,xp: null == xp ? _self.xp : xp // ignore: cast_nullable_to_non_nullable
 as int,verified: null == verified ? _self.verified : verified // ignore: cast_nullable_to_non_nullable
 as bool,played: null == played ? _self.played : played // ignore: cast_nullable_to_non_nullable
-as int,reliability: null == reliability ? _self.reliability : reliability // ignore: cast_nullable_to_non_nullable
+as int,avatar: freezed == avatar ? _self.avatar : avatar // ignore: cast_nullable_to_non_nullable
+as String?,reliability: null == reliability ? _self.reliability : reliability // ignore: cast_nullable_to_non_nullable
 as int,friend: null == friend ? _self.friend : friend // ignore: cast_nullable_to_non_nullable
 as FriendStatus,
   ));

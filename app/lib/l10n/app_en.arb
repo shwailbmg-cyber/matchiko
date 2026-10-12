@@ -736,5 +736,7 @@
   "myQrSub": "Show it to the manager when you arrive.",
   "typeCode": "Type the code",
   "unknownQr": "This QR code is not valid here.",
-  "cameraOff": "Camera not available. Type the code instead."
+  "cameraOff": "Camera not available. Type the code instead.",
+  "changePhoto": "Change photo",
+  "removePhoto": "Remove photo"
 }

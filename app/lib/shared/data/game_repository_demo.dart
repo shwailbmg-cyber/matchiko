@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:matchiko/shared/domain/booking_status.dart';
 import 'package:matchiko/shared/domain/app_notification.dart';
@@ -1086,6 +1087,9 @@ class DemoGameRepository implements GameRepository {
           : g,
     ),
   );
+
+  @override
+  Future<void> setAvatar(Uint8List? jpeg) async {}
 
   /// Push tokens registered on this fake backend (for tests).
   final pushTokens = <String>{};

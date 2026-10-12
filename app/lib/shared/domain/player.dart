@@ -23,6 +23,7 @@ abstract class Player with _$Player {
     @Default(0) int xp,
     @Default(false) bool verified,
     @Default(0) int played,
+    String? avatar,
 
     /// % of finished games the player showed up for (no raw counts).
     @Default(100) int reliability,

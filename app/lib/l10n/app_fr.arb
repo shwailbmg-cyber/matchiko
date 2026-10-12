@@ -501,5 +501,7 @@
   "myQrSub": "Montrez-le au gérant à votre arrivée.",
   "typeCode": "Saisir le code",
   "unknownQr": "Ce QR code n’est pas valable ici.",
-  "cameraOff": "Caméra non disponible. Saisissez le code."
+  "cameraOff": "Caméra non disponible. Saisissez le code.",
+  "changePhoto": "Changer la photo",
+  "removePhoto": "Supprimer la photo"
 }
