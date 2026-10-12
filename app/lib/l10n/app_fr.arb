@@ -503,5 +503,6 @@
   "unknownQr": "Ce QR code n’est pas valable ici.",
   "cameraOff": "Caméra non disponible. Saisissez le code.",
   "changePhoto": "Changer la photo",
-  "removePhoto": "Supprimer la photo"
+  "removePhoto": "Supprimer la photo",
+  "privatePlayer": "Joueur privé"
 }

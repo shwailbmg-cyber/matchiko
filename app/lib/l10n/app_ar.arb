@@ -503,5 +503,6 @@
   "unknownQr": "رمز QR هذا غير صالح هنا.",
   "cameraOff": "الكاميرا غير متاحة. اكتب الرمز بدلًا من ذلك.",
   "changePhoto": "تغيير الصورة",
-  "removePhoto": "حذف الصورة"
+  "removePhoto": "حذف الصورة",
+  "privatePlayer": "لاعب خاص"
 }

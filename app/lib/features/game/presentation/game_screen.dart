@@ -437,7 +437,11 @@ class _Players extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            p.isMe ? '${p.name} (${l.you})' : p.name,
+                            p.isMe
+                                ? '${p.name} (${l.you})'
+                                : p.name.isEmpty
+                                ? l.privatePlayer
+                                : p.name,
                             style: const TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 14,

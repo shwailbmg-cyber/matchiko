@@ -738,5 +738,6 @@
   "unknownQr": "This QR code is not valid here.",
   "cameraOff": "Camera not available. Type the code instead.",
   "changePhoto": "Change photo",
-  "removePhoto": "Remove photo"
+  "removePhoto": "Remove photo",
+  "privatePlayer": "Private player"
 }
