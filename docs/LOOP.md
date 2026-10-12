@@ -86,8 +86,10 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
       coming?", spots near you, confirmations.
 - [x] **S21** Server matchmaking (`find_matches()` + offers), replacing
       the demo `findGame`.
-- [ ] **S22** Release: app icon, splash, store listing texts (3
+- [x] **S22** Release: app icon, splash, store listing texts (3
       languages), release signing (needs your keystore), Play internal test.
+      Code side done (docs/RELEASE.md); the keystore and the Play upload
+      are yours.
 
 ## Notes and deferred items
 
