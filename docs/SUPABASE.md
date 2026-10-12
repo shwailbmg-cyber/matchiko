@@ -12,8 +12,11 @@ One-time setup, repo Settings → Secrets and variables → Actions:
 
 | Secret | Where |
 |---|---|
-| `SUPABASE_ACCESS_TOKEN` | supabase.com/dashboard/account/tokens (`sbp_…`) |
-| `SUPABASE_DB_PASSWORD` | Project Settings → Database → Reset database password |
+| `SUPABASE_DB_URL` | Dashboard → **Connect** → **Session pooler** → copy the URI, replace `[YOUR-PASSWORD]` with the database password |
+| `SUPABASE_ACCESS_TOKEN` | supabase.com/dashboard/account/tokens (`sbp_…`), only needs Edge Functions: Read-write |
+
+The password must be URL-safe inside the URI: if it contains `@ : / ? # %`,
+reset it (Database → Settings) to letters and digits only.
 
 - **First run:** tick **reset** (the project was half-loaded during setup;
   this wipes it and loads every migration cleanly). Only safe while there
