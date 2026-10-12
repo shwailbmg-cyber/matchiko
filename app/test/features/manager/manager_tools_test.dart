@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:matchiko/shared/data/game_repository_demo.dart';
+import 'package:matchiko/shared/domain/booking_status.dart';
 import 'package:matchiko/shared/domain/game.dart';
+import 'package:matchiko/shared/domain/qr_payload.dart';
 
 import '../../helpers.dart';
 
@@ -49,6 +51,47 @@ void main() {
     await t.tap(find.text('Simulate scan'));
     await t.pumpAndSettle();
     expect(arrived(await games.venueToday()), was + 1);
+    expect(find.textContaining('arrived'), findsWidgets);
+  });
+
+  testWidgets('type a booking code, take the cash, mark Guaranteed', (t) async {
+    final games = await asManager(t);
+    await t.tap(find.text('Scan'));
+    await t.pumpAndSettle();
+    Future<void> type(String code) async {
+      await t.tap(find.text('Type the code'));
+      await t.pumpAndSettle();
+      await t.enterText(find.byType(TextField), code);
+      await t.tap(find.text('Confirm'));
+      await t.pumpAndSettle();
+    }
+
+    await type('matchiko:player:nobody');
+    expect(find.text('This QR code is not valid here.'), findsOneWidget);
+
+    final g = (await games.venueToday()).firstWhere(
+      (g) => g.status == BookingStatus.confirmed,
+    );
+    await type('${BookingQr(g.code)}');
+    await t.tap(find.textContaining('Cash received'));
+    await t.pumpAndSettle();
+    await t.tap(find.textContaining('Guaranteed'));
+    await t.pumpAndSettle();
+    expect((await games.game(g.id)).status, BookingStatus.guaranteed);
+
+    await t.tap(find.text('Arrival'));
+    await t.pumpAndSettle();
+    final first = (await games.venueToday())
+        .firstWhere(
+          (x) =>
+              x.status == BookingStatus.guaranteed ||
+              x.status == BookingStatus.confirmed,
+        )
+        .players
+        .firstWhere((p) => !p.guest && !p.attended);
+    await scrollTo(t, find.text('Type the code'));
+    await type('@${first.handle}');
+    expect(find.text(first.name), findsNothing);
     expect(find.textContaining('arrived'), findsWidgets);
   });
 

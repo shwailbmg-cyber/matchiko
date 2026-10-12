@@ -80,7 +80,7 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
       friends, teams, settings) + JSON mapping tests. Used when
       `env/dev.json` is set.
 - [x] **S18c** Supabase repository for manager and referee screens.
-- [ ] **S19** Real QR codes and camera scanning (`mobile_scanner`),
+- [x] **S19** Real QR codes and camera scanning (`mobile_scanner`),
       booking QR from `booking_tickets`.
 - [ ] **S20** Push notifications (FCM via an Edge Function) for "Still
       coming?", spots near you, confirmations.
@@ -102,8 +102,13 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
 - Opening hours are shown and used by the calendar; `request_booking`
   does not reject hours outside them yet (managers simply don't confirm).
   Peak / off-peak prices need a pricing change in `request_booking`.
-- QR codes are drawn placeholders and scans are simulated: add a real
-  QR encoder and `mobile_scanner` (camera) with S18.
+- QR codes: `matchiko:booking:<token>` (random 128-bit server token,
+  booker only) and `matchiko:player:<handle>` (verification and check-in;
+  the server still checks the ID queue / game roster). Encoder: `qr`
+  (kevmoo.com); camera: `mobile_scanner` (steenbakker.dev), Android uses
+  the unbundled ML Kit (Play Services, +600 KB). On the web, browsers
+  without `BarcodeDetector` load a pinned `zxing-wasm` from jsdelivr.
+  "Type the code" is the fallback; "Simulate scan" is demo-only.
 - Terms of use and the full privacy policy need a legal review (your
   call); the app shows a plain-language "Your data" summary meanwhile.
 - Profile photo upload waits for the Supabase avatars bucket (S18).

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:matchiko/core/env.dart';
+import 'package:matchiko/core/errors.dart';
 import 'package:matchiko/core/format.dart';
 import 'package:matchiko/core/theme/mk_colors.dart';
 import 'package:matchiko/core/widgets/mk_widgets.dart';
@@ -8,13 +11,15 @@ import 'package:matchiko/l10n/gen/app_localizations.dart';
 import 'package:matchiko/shared/domain/booking_status.dart';
 import 'package:matchiko/shared/domain/game.dart';
 import 'package:matchiko/shared/domain/profile.dart';
+import 'package:matchiko/shared/domain/qr_payload.dart';
 import 'package:matchiko/shared/providers.dart';
 
 enum _Mode { booking, verify, checkIn }
 
 /// `SC.mscan`: one scanner, three jobs: booking QR after the cash
 /// (→ Guaranteed), a player's verification QR, and check-in on arrival.
-/// The demo has no camera: "Simulate scan" picks the next code.
+/// The server checks every scan (own venue only). Demo mode also offers
+/// "Simulate scan", which picks the next code.
 class ScanScreen extends ConsumerStatefulWidget {
   const ScanScreen({super.key});
 
@@ -49,8 +54,6 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
               onSelectionChanged: (s) => setState(() => _mode = s.first),
             ),
             const SizedBox(height: 16),
-            const _Viewfinder(),
-            const SizedBox(height: 16),
             switch (_mode) {
               _Mode.booking => const _BookingScan(),
               _Mode.verify => const _VerifyScan(),
@@ -63,27 +66,145 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
   }
 }
 
-class _Viewfinder extends StatelessWidget {
-  const _Viewfinder();
+/// Camera viewfinder plus a "Type the code" fallback. Calls [onCode] with
+/// the text of each new code; a failed lookup shows "not valid here".
+class _Scanner extends ConsumerStatefulWidget {
+  const _Scanner({required this.onCode});
+
+  final Future<void> Function(String raw) onCode;
 
   @override
-  Widget build(BuildContext context) => Center(
-    child: Container(
-      width: 220,
-      height: 220,
-      decoration: BoxDecoration(
-        color: const Color(0xFF05040D),
-        borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: MkColors.primary, width: 3),
-      ),
-      child: const Icon(
-        Icons.qr_code_scanner,
-        size: 100,
-        color: MkColors.line2,
-      ),
-    ),
-  );
+  ConsumerState<_Scanner> createState() => _ScannerState();
 }
+
+class _ScannerState extends ConsumerState<_Scanner> {
+  bool _busy = false;
+  String? _last;
+  DateTime _lastAt = DateTime(0);
+
+  Future<void> _handle(String raw) async {
+    final now = DateTime.now();
+    // The camera reports the same code many times a second.
+    if (_busy || (raw == _last && now.difference(_lastAt).inSeconds < 3)) {
+      return;
+    }
+    _busy = true;
+    _last = raw;
+    _lastAt = now;
+    final l = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      await widget.onCode(raw);
+    } catch (e) {
+      messenger
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(content: Text(isOffline(e) ? l.offline : l.unknownQr)),
+        );
+    } finally {
+      _busy = false;
+    }
+  }
+
+  Future<void> _type() async {
+    final raw = await showDialog<String>(
+      context: context,
+      builder: (_) => const _CodeDialog(),
+    );
+    if (raw != null && raw.trim().isNotEmpty) await _handle(raw.trim());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    const off = Icon(Icons.qr_code_scanner, size: 100, color: MkColors.line2);
+    return Column(
+      children: [
+        Center(
+          child: Container(
+            width: 220,
+            height: 220,
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+              color: const Color(0xFF05040D),
+              borderRadius: BorderRadius.circular(28),
+              border: Border.all(color: MkColors.primary, width: 3),
+            ),
+            child: ref.watch(cameraScanProvider)
+                ? MobileScanner(
+                    onDetect: (c) {
+                      final raw = c.barcodes.firstOrNull?.rawValue;
+                      if (raw != null) _handle(raw);
+                    },
+                    errorBuilder: (_, _) => Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Center(
+                        child: Text(
+                          l.cameraOff,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(color: MkColors.sub),
+                        ),
+                      ),
+                    ),
+                  )
+                : off,
+          ),
+        ),
+        TextButton.icon(
+          onPressed: _type,
+          icon: const Icon(Icons.keyboard),
+          label: Text(l.typeCode),
+        ),
+      ],
+    );
+  }
+}
+
+/// Fallback when the camera can't read the code.
+class _CodeDialog extends StatefulWidget {
+  const _CodeDialog();
+
+  @override
+  State<_CodeDialog> createState() => _CodeDialogState();
+}
+
+class _CodeDialogState extends State<_CodeDialog> {
+  final _c = TextEditingController();
+
+  @override
+  void dispose() {
+    _c.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    return AlertDialog(
+      title: Text(l.typeCode),
+      content: TextField(
+        controller: _c,
+        autofocus: true,
+        maxLength: 80,
+        textDirection: TextDirection.ltr,
+        onSubmitted: (v) => Navigator.of(context).pop(v),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(l.cancel),
+        ),
+        FilledButton(
+          onPressed: () => Navigator.of(context).pop(_c.text),
+          child: Text(l.confirm),
+        ),
+      ],
+    );
+  }
+}
+
+/// "Simulate scan" exists only in demo mode (no real tickets to scan).
+bool get _demo => !Env.hasSupabase;
 
 /// Booking QR: cash received → Guaranteed.
 class _BookingScan extends ConsumerStatefulWidget {
@@ -96,6 +217,21 @@ class _BookingScan extends ConsumerStatefulWidget {
 class _BookingScanState extends ConsumerState<_BookingScan> {
   Game? _scanned;
   bool _cash = false;
+
+  Future<void> _onCode(String raw) async {
+    final token = switch (QrPayload.parse(raw)) {
+      BookingQr(:final token) => token,
+      PlayerQr() => throw const FormatException('player QR'),
+      null => raw,
+    };
+    final g = await ref.read(gameRepositoryProvider).bookingByQr(token);
+    if (mounted) {
+      setState(() {
+        _scanned = g;
+        _cash = false;
+      });
+    }
+  }
 
   Future<void> _markGuaranteed() async {
     final g = _scanned;
@@ -117,22 +253,26 @@ class _BookingScanState extends ConsumerState<_BookingScan> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          _Scanner(onCode: _onCode),
+          const SizedBox(height: 8),
           Text(
             l.scanHint,
             textAlign: TextAlign.center,
             style: const TextStyle(color: MkColors.sub),
           ),
-          const SizedBox(height: 12),
-          FilledButton.icon(
-            onPressed: next == null
-                ? null
-                : () => setState(() {
-                    _scanned = next;
-                    _cash = false;
-                  }),
-            icon: const Icon(Icons.qr_code_2),
-            label: Text(next == null ? l.allDone : l.simulate),
-          ),
+          if (_demo) ...[
+            const SizedBox(height: 12),
+            FilledButton.icon(
+              onPressed: next == null
+                  ? null
+                  : () => setState(() {
+                      _scanned = next;
+                      _cash = false;
+                    }),
+              icon: const Icon(Icons.qr_code_2),
+              label: Text(next == null ? l.allDone : l.simulate),
+            ),
+          ],
         ],
       );
     }
@@ -185,6 +325,22 @@ class _VerifyScanState extends ConsumerState<_VerifyScan> {
   Profile? _scanned;
   final _checks = <int>{};
 
+  /// Only players waiting in this venue's queue can be verified here.
+  Future<void> _onCode(String raw) async {
+    final handle = _handleOf(raw);
+    final queue = await ref.read(verificationQueueProvider.future);
+    final p = queue.firstWhere(
+      (p) => p.handle == handle,
+      orElse: () => throw StateError('not in queue'),
+    );
+    if (mounted) {
+      setState(() {
+        _scanned = p;
+        _checks.clear();
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
@@ -194,22 +350,26 @@ class _VerifyScanState extends ConsumerState<_VerifyScan> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          _Scanner(onCode: _onCode),
+          const SizedBox(height: 8),
           Text(
             l.scanVerifyHint,
             textAlign: TextAlign.center,
             style: const TextStyle(color: MkColors.sub),
           ),
-          const SizedBox(height: 12),
-          FilledButton.icon(
-            onPressed: next == null
-                ? null
-                : () => setState(() {
-                    _scanned = next;
-                    _checks.clear();
-                  }),
-            icon: const Icon(Icons.badge_outlined),
-            label: Text(next == null ? l.allDone : l.simulate),
-          ),
+          if (_demo) ...[
+            const SizedBox(height: 12),
+            FilledButton.icon(
+              onPressed: next == null
+                  ? null
+                  : () => setState(() {
+                      _scanned = next;
+                      _checks.clear();
+                    }),
+              icon: const Icon(Icons.badge_outlined),
+              label: Text(next == null ? l.allDone : l.simulate),
+            ),
+          ],
         ],
       );
     }
@@ -293,6 +453,12 @@ class _CheckInScanState extends ConsumerState<_CheckInScan> {
       orElse: () => games.first,
     );
     final players = g.players.where((p) => !p.guest).toList();
+    Future<void> checkIn(String handle, String name) async {
+      final messenger = ScaffoldMessenger.of(context);
+      await ref.read(gameRepositoryProvider).checkInPlayer(g.id, handle);
+      messenger.showSnackBar(SnackBar(content: Text(l.arrived(name))));
+    }
+
     final arrived = players.where((p) => p.attended).length;
     final next = players.where((p) => !p.attended).firstOrNull;
     return Column(
@@ -317,22 +483,33 @@ class _CheckInScanState extends ConsumerState<_CheckInScan> {
           style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
         ),
         const SizedBox(height: 12),
-        FilledButton.icon(
-          onPressed: next == null
-              ? null
-              : () async {
-                  final messenger = ScaffoldMessenger.of(context);
-                  await ref
-                      .read(gameRepositoryProvider)
-                      .checkInPlayer(g.id, next.handle);
-                  messenger.showSnackBar(
-                    SnackBar(content: Text(l.arrived(next.name))),
-                  );
-                },
-          icon: const Icon(Icons.how_to_reg),
-          label: Text(next == null ? l.allDone : l.simulate),
+        _Scanner(
+          onCode: (raw) {
+            final handle = _handleOf(raw);
+            final p = players.firstWhere(
+              (p) => p.handle == handle,
+              orElse: () => throw StateError('not in this game'),
+            );
+            return checkIn(p.handle, p.name);
+          },
         ),
+        if (_demo)
+          FilledButton.icon(
+            onPressed: next == null
+                ? null
+                : () => checkIn(next.handle, next.name),
+            icon: const Icon(Icons.how_to_reg),
+            label: Text(next == null ? l.allDone : l.simulate),
+          ),
       ],
     );
   }
 }
+
+/// Player handle from a player QR, or from a typed handle (with or
+/// without "@").
+String _handleOf(String raw) => switch (QrPayload.parse(raw)) {
+  PlayerQr(:final handle) => handle,
+  BookingQr() => throw const FormatException('booking QR'),
+  null => raw.startsWith('@') ? raw.substring(1) : raw,
+};

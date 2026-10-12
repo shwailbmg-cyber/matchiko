@@ -155,6 +155,9 @@ abstract interface class GameRepository {
   Future<List<Game>> venueToday();
   Future<void> confirmBooking(String gameId);
 
+  /// The booking a ticket QR token belongs to (manager's venue only).
+  Future<Game> bookingByQr(String token);
+
   /// Returns the booking the QR code belongs to, now Guaranteed.
   Future<Game> scanBooking(String code);
   Future<void> markNoShow(String gameId);

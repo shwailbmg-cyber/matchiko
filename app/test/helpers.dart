@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:matchiko/features/manager/presentation/providers.dart';
 import 'package:matchiko/app.dart';
 import 'package:matchiko/core/settings/locale_controller.dart';
 import 'package:matchiko/core/settings/settings_repository.dart';
@@ -31,6 +32,7 @@ Widget testApp({
     gameRepositoryProvider.overrideWithValue(games ?? DemoGameRepository()),
     settingsRepositoryProvider.overrideWithValue(memorySettings()),
     savedLanguageProvider.overrideWithValue(language),
+    cameraScanProvider.overrideWithValue(false),
   ],
   child: const MatchikoApp(),
 );

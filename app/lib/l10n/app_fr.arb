@@ -496,5 +496,10 @@
   "pvDeleteBody": "Vous pouvez supprimer votre compte à tout moment dans les Réglages. Tout ce qui vous concerne est supprimé.",
   "offline": "Pas de connexion internet. Vérifiez votre réseau et réessayez.",
   "noUpcoming": "Aucun match réservé pour le moment",
-  "noUpcomingSub": "Rejoignez un match près de chez vous ou réservez un terrain avec vos amis."
+  "noUpcomingSub": "Rejoignez un match près de chez vous ou réservez un terrain avec vos amis.",
+  "myQr": "Mon QR code",
+  "myQrSub": "Montrez-le au gérant à votre arrivée.",
+  "typeCode": "Saisir le code",
+  "unknownQr": "Ce QR code n’est pas valable ici.",
+  "cameraOff": "Caméra non disponible. Saisissez le code."
 }

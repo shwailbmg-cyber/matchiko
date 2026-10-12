@@ -12,3 +12,6 @@ final venueTodayProvider = FutureProvider.autoDispose<List<Game>>(
 final verificationQueueProvider = FutureProvider.autoDispose<List<Profile>>(
   (ref) => watchGames(ref).verificationQueue(),
 );
+
+/// Whether the scanner opens the camera. Off in widget tests (no camera).
+final cameraScanProvider = Provider<bool>((_) => true);

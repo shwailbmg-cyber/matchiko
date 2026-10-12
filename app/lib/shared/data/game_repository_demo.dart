@@ -1085,6 +1085,14 @@ class DemoGameRepository implements GameRepository {
   );
 
   @override
+  Future<Game> bookingByQr(String token) => _wait(
+    () => _games.values.firstWhere(
+      (g) => g.code.isNotEmpty && g.code == token,
+      orElse: () => throw StateError('unknown ticket'),
+    ),
+  );
+
+  @override
   Future<Game> scanBooking(String code) => _wait(() {
     final g = _games.values.firstWhere(
       (g) => g.code == code && g.status.canMoveTo(BookingStatus.guaranteed),

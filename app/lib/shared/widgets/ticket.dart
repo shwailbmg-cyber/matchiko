@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:qr/qr.dart' as qr;
 
 import 'package:matchiko/shared/domain/game.dart';
+import 'package:matchiko/shared/domain/qr_payload.dart';
 import 'package:matchiko/l10n/gen/app_localizations.dart';
 import 'package:matchiko/core/format.dart';
 import 'package:matchiko/core/theme/mk_colors.dart';
@@ -8,9 +10,7 @@ import 'package:matchiko/core/theme/mk_theme.dart';
 
 /// White booking ticket with the QR code (prototype `.ticket`).
 ///
-/// The QR drawing is a deterministic placeholder from the booking code, like
-/// the prototype; the real scannable QR (random server token) comes with the
-/// manager camera scan in M3.
+/// The QR holds the booking's random server token (see [BookingQr]).
 class Ticket extends StatelessWidget {
   const Ticket(this.game, {super.key});
 
@@ -41,7 +41,7 @@ class Ticket extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            QrCode(game.code),
+            QrCode('${BookingQr(game.code)}'),
             const SizedBox(height: 14),
             Text(
               l.code.toUpperCase(),
@@ -52,14 +52,15 @@ class Ticket extends StatelessWidget {
                 letterSpacing: 1,
               ),
             ),
-            Text(
+            SelectableText(
               game.code,
+              textAlign: TextAlign.center,
               textDirection: TextDirection.ltr,
               style: const TextStyle(
                 fontFamily: MkFonts.display,
                 fontWeight: FontWeight.w800,
-                fontSize: 26,
-                letterSpacing: 2,
+                fontSize: 18,
+                letterSpacing: 1,
               ),
             ),
             const Divider(height: 28, color: Color(0x2E14072E)),
@@ -87,8 +88,7 @@ Future<void> showTicket(BuildContext context, Game game) =>
       ),
     );
 
-/// QR-looking code drawn from [data]. Placeholder until a real QR
-/// encoder and the camera scanner land (LOOP.md notes).
+/// A real, scannable QR code for [data] (black on the white ticket).
 class QrCode extends StatelessWidget {
   const QrCode(this.data, {super.key, this.size = 176});
 
@@ -96,49 +96,33 @@ class QrCode extends StatelessWidget {
   final double size;
 
   @override
-  Widget build(BuildContext context) =>
-      CustomPaint(size: Size.square(size), painter: _QrPainter(data));
+  Widget build(BuildContext context) => Semantics(
+    label: 'QR',
+    child: CustomPaint(size: Size.square(size), painter: _QrPainter(data)),
+  );
 }
 
 class _QrPainter extends CustomPainter {
-  _QrPainter(this.seed);
+  _QrPainter(this.data)
+    : image = qr.QrImage(qr.QrCode(payload: qr.QrPayload.fromString(data)));
 
-  final String seed;
+  final String data;
+  final qr.QrImage image;
 
   @override
   void paint(Canvas canvas, Size size) {
-    const n = 25;
+    final n = image.moduleCount;
     final c = size.width / n;
     final dark = Paint()..color = MkColors.bg;
-    final light = Paint()..color = MkColors.text;
-    var h = 0;
-    for (final u in seed.codeUnits) {
-      h = (h * 31 + u) & 0x7fffffff;
-    }
-    bool finder(int x, int y) =>
-        (x < 8 && y < 8) || (x >= n - 8 && y < 8) || (x < 8 && y >= n - 8);
     for (var y = 0; y < n; y++) {
       for (var x = 0; x < n; x++) {
-        h = (h * 1103515245 + 12345) & 0x7fffffff;
-        if (!finder(x, y) && (h >> 16) & 1 == 1) {
+        if (image.isDark(y, x)) {
           canvas.drawRect(Rect.fromLTWH(x * c, y * c, c + .3, c + .3), dark);
         }
       }
     }
-    for (final (fx, fy) in [(0, 0), (n - 7, 0), (0, n - 7)]) {
-      canvas
-        ..drawRect(Rect.fromLTWH(fx * c, fy * c, 7 * c, 7 * c), dark)
-        ..drawRect(
-          Rect.fromLTWH((fx + 1) * c, (fy + 1) * c, 5 * c, 5 * c),
-          light,
-        )
-        ..drawRect(
-          Rect.fromLTWH((fx + 2) * c, (fy + 2) * c, 3 * c, 3 * c),
-          dark,
-        );
-    }
   }
 
   @override
-  bool shouldRepaint(_QrPainter old) => old.seed != seed;
+  bool shouldRepaint(_QrPainter old) => old.data != data;
 }

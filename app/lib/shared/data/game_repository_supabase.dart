@@ -597,19 +597,17 @@ class SupabaseGameRepository implements GameRepository {
   );
 
   @override
+  Future<Game> bookingByQr(String token) async => Game.fromJson(
+    await _rpc('booking_by_qr', {'p_token': token}) as Map<String, dynamic>,
+  );
+
+  @override
   Future<Game> scanBooking(String code) => _write(() async {
-    await _rpc('scan_booking_qr', {'p_token': code});
-    final booking =
-        (await _db
-                .from('booking_tickets')
-                .select('booking_id')
-                .eq('qr_token', code)
-                .maybeSingle())?['booking_id']
-            as String?;
+    final row = (await _list('scan_booking_qr', {'p_token': code})).single;
     final game = await _db
         .from('games')
         .select('id')
-        .eq('booking_id', booking ?? '')
+        .eq('booking_id', row['booking_id'] as String)
         .single();
     return this.game(game['id'] as String);
   });

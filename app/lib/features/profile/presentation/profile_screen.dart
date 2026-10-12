@@ -128,6 +128,13 @@ class ProfileScreen extends ConsumerWidget {
                                               color: MkColors.sand,
                                             ),
                                           ),
+                                        InkWell(
+                                          onTap: () => showMyQr(context),
+                                          child: MkTag(
+                                            '▦ ${l.myQr}',
+                                            color: MkColors.tint,
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ],
