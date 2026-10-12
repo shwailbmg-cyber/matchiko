@@ -24,13 +24,14 @@ there is just no push.
    |---|---|
    | `FIREBASE_PROJECT_ID` | top of the page, "Project ID" |
    | `FIREBASE_SENDER_ID` | Cloud Messaging tab, "Sender ID" (= project number) |
-   | `FIREBASE_ANDROID_API_KEY` | Android app → "Web API Key" / API key |
-   | `FIREBASE_ANDROID_APP_ID` | Android app → "App ID" (`1:…:android:…`) |
-   | `FIREBASE_IOS_API_KEY` | iOS app → API key |
-   | `FIREBASE_IOS_APP_ID` | iOS app → "App ID" (`1:…:ios:…`) |
+   | `FIREBASE_ANDROID_APP_ID` | Your apps → Android → "App ID" (`1:…:android:…`) |
+   | `FIREBASE_IOS_APP_ID` | Your apps → iOS → "App ID" (`1:…:ios:…`), **not** the "Encoded App ID" |
+   | `FIREBASE_ANDROID_API_KEY` | download `google-services.json` → `api_key` → `current_key` (`AIza…`) |
+   | `FIREBASE_IOS_API_KEY` | download `GoogleService-Info.plist` → `API_KEY` (`AIza…`) |
 
-   The API keys are also in each app's downloaded config file
-   (`api_key` / `API_KEY`) if the page doesn't show them.
+   The API keys are also in Google Cloud console → APIs & Services →
+   Credentials ("Android key", "iOS key"). The downloaded files are not
+   needed in the project.
 5. Project settings → **Service accounts → Generate new private key**.
    This JSON is a **secret**: never commit it, never put it in the app.
 
