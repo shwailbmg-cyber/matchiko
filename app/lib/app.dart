@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:matchiko/core/errors.dart';
 import 'package:matchiko/core/router/router.dart';
 import 'package:matchiko/core/settings/locale_controller.dart';
 import 'package:matchiko/core/theme/mk_theme.dart';
@@ -21,6 +22,7 @@ class MatchikoApp extends ConsumerWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       routerConfig: ref.watch(routerProvider),
+      scaffoldMessengerKey: messengerKey,
     );
   }
 }

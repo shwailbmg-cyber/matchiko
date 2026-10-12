@@ -44,12 +44,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
         ref.watch(notificationsProvider),
         onRetry: () => ref.invalidate(notificationsProvider),
         data: (list) => list.isEmpty
-            ? Center(
-                child: Text(
-                  l.noNotifs,
-                  style: const TextStyle(color: MkColors.sub),
-                ),
-              )
+            ? Center(child: MkEmpty('🔔', l.noNotifs))
             : ListView.builder(
                 padding: const EdgeInsets.all(16),
                 itemCount: list.length,

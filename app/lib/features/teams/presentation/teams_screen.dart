@@ -32,16 +32,7 @@ class TeamsScreen extends ConsumerWidget {
         ref.watch(myTeamsProvider),
         onRetry: () => ref.invalidate(myTeamsProvider),
         data: (teams) => teams.isEmpty
-            ? Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(32),
-                  child: Text(
-                    l.noTeams,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(color: MkColors.sub),
-                  ),
-                ),
-              )
+            ? Center(child: MkEmpty('🛡️', l.noTeams))
             : ListView(
                 padding: const EdgeInsets.fromLTRB(16, 4, 16, 96),
                 children: [for (final t in teams) TeamCard(t)],

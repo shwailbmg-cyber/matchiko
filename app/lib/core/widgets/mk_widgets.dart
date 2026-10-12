@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:matchiko/core/errors.dart';
 
 import 'package:matchiko/l10n/gen/app_localizations.dart';
 import 'package:matchiko/core/theme/mk_colors.dart';
@@ -156,6 +157,42 @@ class MkTitle extends StatelessWidget {
       Text(text.toUpperCase(), style: mkDisplay(context, size: size));
 }
 
+/// Friendly empty list: emoji, title, optional line and button.
+class MkEmpty extends StatelessWidget {
+  const MkEmpty(this.emoji, this.title, {super.key, this.sub, this.action});
+
+  final String emoji;
+  final String title;
+  final String? sub;
+  final Widget? action;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(emoji, style: const TextStyle(fontSize: 44)),
+        const SizedBox(height: 10),
+        Text(
+          title,
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w800),
+        ),
+        if (sub != null) ...[
+          const SizedBox(height: 6),
+          Text(
+            sub!,
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: MkColors.sub, height: 1.5),
+          ),
+        ],
+        if (action != null) ...[const SizedBox(height: 16), action!],
+      ],
+    ),
+  );
+}
+
 /// Loading / error / data for an [AsyncValue], used by every screen.
 /// Keeps showing the previous data while a refresh runs.
 class AsyncView<T> extends StatelessWidget {
@@ -174,13 +211,23 @@ class AsyncView<T> extends StatelessWidget {
   Widget build(BuildContext context) => value.when(
     data: data,
     loading: () => const Center(child: CircularProgressIndicator()),
-    error: (_, _) => Center(
+    error: (e, _) => Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            AppLocalizations.of(context).genericError,
-            style: const TextStyle(color: MkColors.sub),
+          Icon(
+            isOffline(e) ? Icons.wifi_off : Icons.error_outline,
+            color: MkColors.faint,
+            size: 40,
+          ),
+          const SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+            child: Text(
+              errorText(AppLocalizations.of(context), e),
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: MkColors.sub),
+            ),
           ),
           TextButton(
             onPressed: onRetry,

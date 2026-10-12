@@ -57,19 +57,15 @@ class _PitchesScreenState extends ConsumerState<PitchesScreen> {
                     .toList();
                 if (list.isEmpty) {
                   return Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          l.noPitchMatch,
-                          style: const TextStyle(color: MkColors.sub),
-                        ),
-                        if (!_filter.isEmpty)
-                          TextButton(
-                            onPressed: () => _set(const PitchFilter()),
-                            child: Text(l.clearFilters),
-                          ),
-                      ],
+                    child: MkEmpty(
+                      '🏟️',
+                      l.noPitchMatch,
+                      action: _filter.isEmpty
+                          ? null
+                          : TextButton(
+                              onPressed: () => _set(const PitchFilter()),
+                              child: Text(l.clearFilters),
+                            ),
                     ),
                   );
                 }

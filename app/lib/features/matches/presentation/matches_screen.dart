@@ -60,15 +60,18 @@ class _MatchesScreenState extends ConsumerState<MatchesScreen> {
                 ),
                 const SizedBox(height: 16),
                 if (list.isEmpty)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 60),
-                    child: Center(
-                      child: Text(
-                        l.noGames,
-                        style: const TextStyle(color: MkColors.sub),
-                      ),
-                    ),
-                  ),
+                  _showPast
+                      ? MkEmpty('📅', l.noGames)
+                      : MkEmpty(
+                          '⚽',
+                          l.noUpcoming,
+                          sub: l.noUpcomingSub,
+                          action: FilledButton.icon(
+                            onPressed: () => context.go(Routes.play),
+                            icon: const Icon(Icons.bolt),
+                            label: Text(l.playNow),
+                          ),
+                        ),
                 for (final g in list)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10),

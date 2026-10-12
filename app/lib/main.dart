@@ -1,7 +1,10 @@
+import 'dart:ui' show PlatformDispatcher;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:matchiko/app.dart';
 import 'package:matchiko/core/env.dart';
+import 'package:matchiko/core/errors.dart';
 import 'package:matchiko/core/settings/locale_controller.dart';
 import 'package:matchiko/core/settings/settings_repository.dart';
 import 'package:matchiko/features/auth/data/auth_repository_demo.dart';
@@ -15,6 +18,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // A failed action (no network, refused by the server) shows a snackbar
+  // instead of failing silently.
+  PlatformDispatcher.instance.onError = (error, stack) {
+    showError(error);
+    return true;
+  };
 
   final AuthRepository auth;
   if (Env.hasSupabase) {

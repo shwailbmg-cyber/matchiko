@@ -70,7 +70,7 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
       staff. (M6)
 - [x] **S16** Settings complete: notifications, privacy, blocked users,
       help, terms/privacy, delete account. (M1)
-- [ ] **S17** Empty / error / offline states on every screen.
+- [x] **S17** Empty / error / offline states on every screen.
 - [ ] **S18** Supabase repositories: profile, pitches/slots, bookings,
       games (replace demo data when `env/dev.json` is set). (M1–M2)
 

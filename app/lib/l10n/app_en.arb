@@ -728,5 +728,8 @@
   "pvPlaceTitle": "Your location",
   "pvPlaceBody": "Used only while the app is open, to show pitches and games near you. Other players never see where you are.",
   "pvDeleteTitle": "Deleting your account",
-  "pvDeleteBody": "You can delete your account at any time in Settings. Everything linked to you is deleted."
+  "pvDeleteBody": "You can delete your account at any time in Settings. Everything linked to you is deleted.",
+  "offline": "No internet connection. Check your network and try again.",
+  "noUpcoming": "No game booked yet",
+  "noUpcomingSub": "Join a game near you or book a pitch with your friends."
 }
