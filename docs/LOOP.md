@@ -91,6 +91,10 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
       Code side done (docs/RELEASE.md); the keystore and the Play upload
       are yours.
 
+Next steps **S23–S40** (launch blockers R1, then R2, R3) are specified in
+`docs/BLUEPRINT.md` § 9. Add each one here as `[ ]` when it starts; steps
+that depend on a decision in BLUEPRINT § 8 wait for the user's answer.
+
 ## Notes and deferred items
 
 - Dio is not added: every backend call goes through `supabase_flutter`.
