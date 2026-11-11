@@ -104,7 +104,7 @@ Under 15 → verification refused. (`ARCHITECTURE.md` still says 16+;
 | Verified | ID checked | Book pitches; **1** pending request; 4 upcoming games |
 | Reliable | Verified + ≥ 5 completed games + reliability ≥ 90 % | **3** pending requests; first in the manager's queue; first in matching |
 | Restricted | Reliability < 70 % after ≥ 5 games | Join only; matched last; cannot open games to strangers |
-| Banned | 2 no-shows in 60 days → 7 days; 3rd → 30 days ❓ | Nothing new; existing games stay |
+| Banned | 2 no-shows in 60 days → 7 days; 3rd → 30 days ✅ | Nothing new; existing games stay |
 
 **Reliability %** = shows ÷ (shows + no-shows + cancellations), last 20
 games. New players show "New" instead of 100 %.
@@ -124,7 +124,8 @@ only. That player no longer sees this venue's slots.
   count in the cost split; they earn nothing and cannot be rated.
 - **Invite link (C3).** `https://matchiko.app/g/<short code>` opens the
   game in the app (Android App Links) or the store page. The code is
-  random and can be reset by the booker. ❓ needs a domain.
+  random and can be reset by the booker. ✅ A domain will be bought
+  (name to choose, e.g. `matchiko.app`).
 - **Level tag (C16).** Casual / Competitive, chosen by the booker.
   Beginners are never matched into Competitive games.
 - **Still coming? (C7).** Decided rule: T−24 h reminder; **T−10 h** "Still
@@ -434,16 +435,16 @@ cap the game still counts for stats and reliability, not for XP/coins.
 **Invite reward (I7):** paid once, when the invited friend is **verified**
 and has **completed a first game** in which the inviter did not play
 (stops two-account farming). Each side gets it: inviter +100 coins,
-friend +50 coins ❓.
+friend +50 coins ✅.
 
 ### 6.3 Penalties
 
 | Event | Effect |
 |---|---|
-| Cancel (booker) or leave (player), any time | −20 XP, −10 coins, lowers reliability |
+| Cancel (booker) or leave (player), any time (same cost inside 24 h ✅) | −20 XP, −10 coins, lowers reliability |
 | No-show | −50 XP, −30 coins, lowers reliability |
 | 2 no-shows in 60 days | 7-day ban on booking and joining |
-| 3rd no-show in 60 days ❓ | 30-day ban |
+| 3rd no-show in 60 days ✅ | 30-day ban |
 | Confirmed bad-behaviour report | Admin decides: warning, 7/30-day suspension, permanent |
 | Manager cancels | No cost to players |
 
@@ -490,7 +491,7 @@ Rate: **1 coin ≈ 0.2 DA** (about 5 % back on what a player spends).
 
 Buying an item moves coins in the ledger and creates a **voucher** (random
 code + QR, valid 30 days, single use). The manager scans it (new scan
-mode); the server marks it used. Coins unused for 12 months expire ❓.
+mode); the server marks it used. Coins never expire ✅.
 Watch each month: coins created vs. spent; adjust store prices, never the
 earn amounts already promised.
 
@@ -597,22 +598,30 @@ An admin can freeze rewards for a user or a venue, and reverse entries.
 
 ---
 
-## 8. Decisions needed from you
+## 8. Decisions
 
-1. **Bans:** 3rd no-show in 60 days = 30-day ban? (§ 6.3)
-2. **Invite reward:** friend also gets +50 coins? (§ 6.2)
-3. **Coins expire** after 12 months without activity? (§ 6.6)
-4. **Late leaving:** same cost as any cancellation (−20 / −10), or
-   heavier inside 24 h?
-5. **Venue managers:** one owner who alone can remove managers (staff
-   rights, § 3.3)?
-6. **Open games:** show player names to everyone by default, or friends
-   only (today's default)?
-7. **Domain** for invite links (e.g. `matchiko.app`)? (§ 3.2)
-8. **Legal:** who reviews the terms, the privacy policy and the 18-07
-   declaration?
-9. **Venue plans:** commission 10 % and the monthly fee amount for
-   plan B.
+Answered (November 2026):
+
+| # | Question | Answer |
+|---|---|---|
+| 1 | 3rd no-show in 60 days = 30-day ban | ✅ Yes |
+| 2 | Invited friend also gets +50 coins | ✅ Yes |
+| 3 | Coins expire after 12 months | ✅ No, coins never expire |
+| 4 | Leaving inside 24 h costs more | ✅ No, same cost as any cancellation |
+| 6 | Open games show player names to everyone by default | ✅ Yes (default of "who sees my games" becomes *everyone*; each player can still switch to friends / nobody) |
+| 7 | A domain for invite links | ✅ Yes (name to choose and buy) |
+| 8 | Terms, privacy policy, 18-07 declaration | ✅ Claude drafts the texts in 3 languages; the declaration to the ANPDP is filed by BMG as the company. A lawyer's check is still advised before production |
+
+Still open:
+
+- **5. Venue managers: one owner?** Today every manager of a venue has the
+  same rights, so a staff member added last week can remove the person who
+  added him and change prices. Proposal: the first manager of a venue is
+  its **owner**. Only the owner adds/removes people, changes prices and
+  sees money reports; **staff** can confirm, scan, add walk-ins and mark
+  no-shows. Ownership can be handed to someone else by the owner or by a
+  BMG admin.
+- **9. Venue plans:** commission % and monthly fee (not decided yet).
 
 ---
 
