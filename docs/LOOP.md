@@ -1,5 +1,9 @@
 # Build loop
 
+> **Replaced by the software factory** (`docs/FACTORY.md`, `/factory`).
+> This file stays as the record of steps S1–S22. New work is a feature
+> file in `factory/features/`.
+
 How Claude builds Matchiko on its own: one step at a time, and every step
 is tested and pushed before the next one starts. To continue in any session,
 say **"run the build loop"** (skill `build-loop`). Claude picks the first

@@ -1,0 +1,38 @@
+{
+  "base_branch": "main",
+  "max_rounds": 3,
+  "fresh_rounds_after_feedback": true,
+  "auto_merge": false,
+  "step_tags": ["db", "app", "ui", "edge", "docs"],
+  "reviewers_by_tag": {
+    "db": ["db", "security"],
+    "app": [],
+    "ui": ["design"],
+    "edge": ["security"],
+    "docs": []
+  },
+  "models": {
+    "planner": "opus",
+    "builder": "sonnet",
+    "approver": "opus",
+    "reviewers": {
+      "low":    { "code": "haiku",  "db": "sonnet", "design": "haiku",  "security": "sonnet" },
+      "medium": { "code": "sonnet", "db": "sonnet", "design": "sonnet", "security": "opus" },
+      "high":   { "code": "sonnet", "db": "opus",   "design": "sonnet", "security": "opus" }
+    }
+  },
+  "protected_paths": [
+    "factory/checks.sh",
+    "factory/config.json",
+    "factory/bin/",
+    "factory/lints/",
+    "factory/tests/",
+    ".github/workflows/",
+    ".claude/agents/",
+    ".claude/skills/",
+    ".claude/settings.json",
+    ".claude/hooks/",
+    "supabase/tests/local/",
+    "CLAUDE.md"
+  ]
+}

@@ -38,6 +38,17 @@ jobs:
       - run: flutter analyze
       - run: flutter test
 
+  factory:
+    name: Factory · feature files, lints, translations
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - run: python3 factory/bin/factory validate
+        env:
+          FACTORY_NO_GIT: "1"
+      - run: python3 -m unittest discover -s factory/tests
+      - run: python3 factory/lints/l10n_check.py
+
   db:
     name: Database · pgTAP tests
     runs-on: ubuntu-24.04

@@ -13,9 +13,21 @@ commit hash here.
 | `supabase`, `supabase-postgres-best-practices` | [supabase/agent-skills](https://github.com/supabase/agent-skills) | c9be0e9 | MIT |
 | `differential-review`, `sharp-edges`, `semgrep`, `supply-chain-risk-auditor`, `agentic-actions-auditor` | [trailofbits/skills](https://github.com/trailofbits/skills) | 82fe822 | CC BY-SA 4.0 (the copied files stay under CC BY-SA 4.0) |
 | `owasp-security` | [agamm/claude-code-owasp](https://github.com/agamm/claude-code-owasp) | 8ac7965 | MIT (`owasp-security/LICENSE`) |
-| `matchiko-security`, `owasp-mobile-flutter`, `kiss-flutter`, `build-loop` | written for this project | — | same as this repo |
+| `accessibility` | [VeryGoodOpenSource/very_good_ai_flutter_plugin](https://github.com/VeryGoodOpenSource/very_good_ai_flutter_plugin) | 6162209 | MIT (`accessibility/LICENSE`); only this skill, with the Android and iOS platform references |
+| `matchiko-security`, `owasp-mobile-flutter`, `kiss-flutter`, `build-loop`, `matchiko-design`, `factory` | written for this project | — | same as this repo |
 
 ## Not vendored on purpose
+
+- **Very Good Ventures `material-theming` and `animations`**: they assume
+  Material `ColorScheme` theming and VGV's own synced standards, and
+  prefer `EdgeInsets.only` (not directional). `matchiko-design` holds our
+  token, RTL and motion rules instead.
+- **Design generators** (`ui-ux-pro-max`, Anthropic `frontend-design`,
+  `impeccable`): made for inventing a look, mostly for the web. Ours is
+  fixed by the prototype and `MkColors`.
+- **zazencodes software-factory-claude-code-v2** (GPL-3.0): the factory
+  in `factory/` follows its ideas (queue, script gate, routed reviewers,
+  approver, state in files) but shares no code or text with it.
 
 - **Flutter plugin's Dart MCP server**: install it locally with
   `/plugin marketplace add flutter/agent-plugins` then

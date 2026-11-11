@@ -1,0 +1,621 @@
+#!/usr/bin/env python3
+"""Matchiko software factory: the deterministic part.
+
+Features are Markdown files in factory/features/ (front matter + steps).
+A feature is built step by step on the branch factory/<ID>; the state of a
+build lives in factory/runs/<ID>/state.json on that branch. This script is
+the only writer of state.json and of the step checkboxes, and it refuses
+illegal moves. Agents and the orchestrator never edit those by hand.
+
+What counts as approved is what is on the base branch (origin/main): a
+feature can start only when its file there says `status: ready`, and it is
+finished when its file there says `status: done` (i.e. its PR was merged).
+
+Usage: factory <command> [args]   (run `factory help`)
+"""
+from __future__ import annotations
+
+import json
+import os
+import re
+import subprocess
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+ROOT = Path(
+    os.environ.get("FACTORY_ROOT")
+    or subprocess.run(
+        ["git", "rev-parse", "--show-toplevel"], capture_output=True, text=True
+    ).stdout.strip()
+    or "."
+)
+FEATURES = "factory/features"
+RUNS = "factory/runs"
+STATUSES = ("draft", "ready", "done", "blocked")
+KINDS = ("build", "human")
+RISKS = ("low", "medium", "high")
+RELEASES = ("R1", "R2", "R3")
+
+# stage -> stages it may move to
+TRANSITIONS = {
+    "spec": {"build", "needs-human"},
+    "build": {"gate", "needs-human"},
+    "gate": {"review", "build", "needs-human"},
+    "review": {"approve", "build", "needs-human"},
+    "approve": {"step-done", "needs-human"},
+    "step-done": {"spec", "pr-ready"},
+    "needs-human": {"build", "spec"},
+    "pr-ready": set(),
+}
+WAITING = {"needs-human", "pr-ready"}
+
+
+def die(msg: str) -> "NoReturn":
+    print(f"factory: {msg}", file=sys.stderr)
+    sys.exit(1)
+
+
+def config() -> dict:
+    return json.loads((ROOT / "factory/config.json").read_text())
+
+
+def git(*args: str, check: bool = True) -> str:
+    r = subprocess.run(["git", "-C", str(ROOT), *args], capture_output=True, text=True)
+    if check and r.returncode != 0:
+        die(f"git {' '.join(args)} failed: {r.stderr.strip()}")
+    return r.stdout.strip()
+
+
+def git_ok(*args: str) -> bool:
+    return (
+        subprocess.run(["git", "-C", str(ROOT), *args], capture_output=True).returncode
+        == 0
+    )
+
+
+def use_git() -> bool:
+    """Tests set FACTORY_NO_GIT=1: everything is read from the working tree."""
+    return os.environ.get("FACTORY_NO_GIT") != "1"
+
+
+def base_ref() -> str:
+    return f"origin/{config()['base_branch']}"
+
+
+# ── Feature files ────────────────────────────────────────────────────────
+
+FRONT = re.compile(r"\A---\n(.*?)\n---\n", re.S)
+STEP = re.compile(r"^- \[( |x)\] (\d+)\. \*\*([a-z-]+)\*\* (.*)$", re.M)
+
+
+def parse_front(text: str) -> dict:
+    m = FRONT.match(text)
+    if not m:
+        return {}
+    out: dict = {}
+    for line in m.group(1).splitlines():
+        if not line.strip() or line.lstrip().startswith("#"):
+            continue
+        key, _, val = line.partition(":")
+        val = val.split(" #")[0].strip()
+        if val.startswith("[") and val.endswith("]"):
+            out[key.strip()] = [v.strip() for v in val[1:-1].split(",") if v.strip()]
+        else:
+            out[key.strip()] = val
+    return out
+
+
+def parse_feature(text: str, path: str) -> dict:
+    f = parse_front(text)
+    f["path"] = path
+    f["steps"] = [
+        {"done": m.group(1) == "x", "n": int(m.group(2)), "tag": m.group(3), "title": m.group(4)}
+        for m in STEP.finditer(text)
+    ]
+    f.setdefault("depends_on", [])
+    f.setdefault("surfaces", [])
+    f.setdefault("kind", "build")
+    f.setdefault("order", "999")
+    return f
+
+
+def feature_files_on_disk() -> list[Path]:
+    d = ROOT / FEATURES
+    return sorted(p for p in d.glob("*.md") if not p.name.startswith(("_", "README")))
+
+
+def load_features(source: str) -> dict[str, dict]:
+    """source: 'disk' or a git ref such as origin/main."""
+    feats: dict[str, dict] = {}
+    if source == "disk":
+        for p in feature_files_on_disk():
+            f = parse_feature(p.read_text(), str(p.relative_to(ROOT)))
+            if f.get("id"):
+                feats[f["id"]] = f
+        return feats
+    names = git("ls-tree", "--name-only", f"{source}:{FEATURES}", check=False).splitlines()
+    for name in sorted(names):
+        if not name.endswith(".md") or name.startswith(("_", "README")):
+            continue
+        path = f"{FEATURES}/{name}"
+        f = parse_feature(git("show", f"{source}:{path}"), path)
+        if f.get("id"):
+            feats[f["id"]] = f
+    return feats
+
+
+def approved_features() -> dict[str, dict]:
+    """The features as approved: on the base branch (or on disk in tests)."""
+    if not use_git():
+        return load_features("disk")
+    return load_features(base_ref())
+
+
+def sort_key(f: dict):
+    rel = f.get("release", "R9")
+    return (rel, int(f.get("order", "999")), f.get("id", ""))
+
+
+# ── Run state ────────────────────────────────────────────────────────────
+
+
+def branch_of(fid: str) -> str:
+    return f"factory/{fid}"
+
+
+def current_branch() -> str:
+    return git("branch", "--show-current", check=False) if use_git() else ""
+
+
+def state_path(fid: str) -> Path:
+    return ROOT / RUNS / fid / "state.json"
+
+
+def read_state(fid: str) -> dict | None:
+    """State from the working tree when we are on the feature's branch,
+    else from the branch tip (local, then remote)."""
+    p = state_path(fid)
+    if not use_git() or current_branch() == branch_of(fid):
+        return json.loads(p.read_text()) if p.exists() else None
+    rel = f"{RUNS}/{fid}/state.json"
+    for ref in (branch_of(fid), f"origin/{branch_of(fid)}"):
+        if git_ok("rev-parse", "--verify", "-q", ref):
+            r = subprocess.run(
+                ["git", "-C", str(ROOT), "show", f"{ref}:{rel}"], capture_output=True, text=True
+            )
+            if r.returncode == 0:
+                return json.loads(r.stdout)
+    return None
+
+
+def write_state(fid: str, st: dict, note: str) -> None:
+    st.setdefault("history", []).append(
+        {"at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"), "note": note}
+    )
+    p = state_path(fid)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(json.dumps(st, indent=2) + "\n")
+    # The folders agents write into for the current step and round.
+    (ROOT / round_dir(fid, st)).mkdir(parents=True, exist_ok=True)
+
+
+def commit_factory_files(fid: str, message: str) -> None:
+    if not use_git():
+        return
+    feat = load_features("disk").get(fid)
+    paths = [f"{RUNS}/{fid}"] + ([feat["path"]] if feat else [])
+    git("add", "--", *paths)
+    if git_ok("diff", "--cached", "--quiet"):
+        return
+    git("commit", "-q", "-m", message)
+
+
+def head_sha() -> str:
+    return git("rev-parse", "HEAD", check=False) if use_git() else ""
+
+
+def step_dir(fid: str, st: dict) -> str:
+    return f"{RUNS}/{fid}/step-{st['step']}"
+
+
+def round_dir(fid: str, st: dict) -> str:
+    return f"{step_dir(fid, st)}/round-{st['round']}"
+
+
+def set_front(path: Path, key: str, value: str) -> None:
+    text = path.read_text()
+    new, n = re.subn(rf"^({key}:\s*)([^\n#]*)", rf"\g<1>{value}", text, count=1, flags=re.M)
+    if n == 0:
+        die(f"{path.name}: no '{key}:' line in the front matter")
+    path.write_text(new)
+
+
+def tick_step(path: Path, n: int) -> None:
+    text = path.read_text()
+    new, count = re.subn(rf"^- \[ \] {n}\. ", f"- [x] {n}. ", text, count=1, flags=re.M)
+    if count == 0:
+        die(f"{path.name}: step {n} is not an open step")
+    path.write_text(new)
+
+
+def reviewers_for(feat: dict, step: dict, cfg: dict) -> dict[str, str]:
+    """Which reviewers a step gets, and on which model."""
+    names = ["code"] + list(cfg["reviewers_by_tag"].get(step["tag"], []))
+    if "security" in feat["surfaces"] and "security" not in names:
+        names.append("security")
+    models = cfg["models"]["reviewers"][feat.get("risk", "medium")]
+    return {n: models[n] for n in dict.fromkeys(names)}
+
+
+# ── Commands ─────────────────────────────────────────────────────────────
+
+
+def validate_features(feats: dict[str, dict]) -> list[str]:
+    errors = []
+    seen: dict[str, str] = {}
+    for p in feature_files_on_disk():
+        f = parse_feature(p.read_text(), p.name)
+        fid = f.get("id")
+        if not fid:
+            errors.append(f"{p.name}: no id in the front matter")
+            continue
+        if fid in seen:
+            errors.append(f"{p.name}: id {fid} already used by {seen[fid]}")
+        seen[fid] = p.name
+        if not p.name.startswith(f"{fid}-"):
+            errors.append(f"{p.name}: file name must start with '{fid}-'")
+        for key, allowed in (("status", STATUSES), ("kind", KINDS), ("release", RELEASES)):
+            if f.get(key) not in allowed:
+                errors.append(f"{p.name}: {key} must be one of {', '.join(allowed)}")
+        if f["kind"] == "build" and f.get("risk") not in RISKS:
+            errors.append(f"{p.name}: risk must be one of {', '.join(RISKS)}")
+        for dep in f["depends_on"]:
+            if dep not in feats:
+                errors.append(f"{p.name}: depends_on unknown feature {dep}")
+            elif feats[dep]["kind"] == "human":
+                errors.append(f"{p.name}: depends_on {dep}, a human task (they never block)")
+        if f["kind"] == "build" and f.get("status") in ("ready", "done"):
+            if not f["steps"]:
+                errors.append(f"{p.name}: a ready feature needs steps ('- [ ] 1. **tag** …')")
+            if [s["n"] for s in f["steps"]] != list(range(1, len(f["steps"]) + 1)):
+                errors.append(f"{p.name}: steps must be numbered 1, 2, 3…")
+            tags = set(config()["step_tags"])
+            for s in f["steps"]:
+                if s["tag"] not in tags:
+                    errors.append(f"{p.name}: step {s['n']} tag '{s['tag']}' not in {sorted(tags)}")
+            if "## Acceptance" not in p.read_text():
+                errors.append(f"{p.name}: a ready feature needs an '## Acceptance criteria' section")
+    return errors
+
+
+def cmd_validate(_args: list[str]) -> None:
+    errors = validate_features(load_features("disk"))
+    for e in errors:
+        print(f"factory: {e}", file=sys.stderr)
+    if errors:
+        sys.exit(1)
+    print(f"factory: {len(feature_files_on_disk())} feature files OK")
+
+
+def plan_lines() -> list[tuple[str, str, str]]:
+    """(action, feature id, note) for every feature, in build order.
+    Actions: RUN (start or resume), WAIT (needs a person), HUMAN (a task only
+    a person can do), HOLD (dependencies not merged), DRAFT, DONE."""
+    feats = approved_features()
+    out = []
+    for f in sorted(feats.values(), key=sort_key):
+        fid = f["id"]
+        if f.get("status") == "done":
+            out.append(("DONE", fid, ""))
+            continue
+        if f["kind"] == "human":
+            if f.get("status") == "ready":
+                out.append(("HUMAN", fid, f"yours: {f.get('title', '')}"))
+            continue
+        st = read_state(fid)
+        if st:
+            stage = st["stage"]
+            where = f"step {st['step']}/{len(f['steps'])} {stage} round {st['round']}"
+            if stage == "pr-ready":
+                pr = f"PR #{st['pr']}" if st.get("pr") else "its PR"
+                out.append(("WAIT", fid, f"merge {pr} to approve"))
+            elif stage == "needs-human":
+                out.append(("WAIT", fid, f"needs you: see {step_dir(fid, st)}/ (decision.md, build.md or spec.md)"))
+            else:
+                out.append(("RUN", fid, f"resume {where}"))
+            continue
+        if f.get("status") != "ready":
+            note = "plan it: /factory plan " + fid if f.get("status") == "draft" else ""
+            out.append((f.get("status", "draft").upper(), fid, note))
+            continue
+        missing = [d for d in f["depends_on"] if feats[d].get("status") != "done"]
+        if missing:
+            out.append(("HOLD", fid, f"waits for {', '.join(missing)}"))
+        else:
+            out.append(("RUN", fid, "start step 1"))
+    return out
+
+
+def cmd_status(_args: list[str]) -> None:
+    feats = approved_features()
+    for action, fid, note in plan_lines():
+        f = feats[fid]
+        done = sum(s["done"] for s in f["steps"])
+        steps = f"{done}/{len(f['steps'])}" if f["steps"] else "-"
+        print(f"{action:6} {fid:5} {f.get('release','?'):3} {steps:5} {f.get('title','')[:46]:46} {note}")
+
+
+def cmd_next(_args: list[str]) -> None:
+    """The one feature to work on now, then everything that waits on a person."""
+    lines = plan_lines()
+    run = [l for l in lines if l[0] == "RUN"]
+    if run:
+        print(f"RUN {run[0][1]} {run[0][2]}")
+    else:
+        print("IDLE nothing to build")
+    for action, fid, note in lines:
+        if action in ("WAIT", "HUMAN"):
+            print(f"{action} {fid} {note}")
+
+
+def require_feature(fid: str, source: dict[str, dict] | None = None) -> dict:
+    feats = source if source is not None else load_features("disk")
+    if fid not in feats:
+        die(f"unknown feature {fid}")
+    return feats[fid]
+
+
+def cmd_start(args: list[str]) -> None:
+    """Start or resume a feature: checks it may run, switches to its branch,
+    creates the state when new, and prints what to do next."""
+    if len(args) != 1:
+        die("usage: factory start <ID>")
+    fid = args[0]
+    approved = approved_features()
+    feat = require_feature(fid, approved)
+    if feat["kind"] != "build":
+        die(f"{fid} is a human task; the factory does not build it")
+    branch = branch_of(fid)
+    existing = read_state(fid)
+    if use_git():
+        if git("status", "--porcelain"):
+            die("the working tree has uncommitted changes; commit or stash them first")
+        if current_branch() != branch:
+            if git_ok("rev-parse", "--verify", "-q", branch):
+                git("checkout", "-q", branch)
+            elif git_ok("rev-parse", "--verify", "-q", f"origin/{branch}"):
+                git("checkout", "-q", "-b", branch, f"origin/{branch}")
+            else:
+                if feat.get("status") != "ready":
+                    die(f"{fid} is '{feat.get('status')}' on {base_ref()}; only 'ready' features start")
+                missing = [d for d in feat["depends_on"] if approved[d].get("status") != "done"]
+                if missing:
+                    die(f"{fid} waits for {', '.join(missing)} to be merged")
+                git("checkout", "-q", "-b", branch, base_ref())
+        existing = read_state(fid)
+    if existing:
+        print(f"RESUME {fid} step {existing['step']} stage {existing['stage']} round {existing['round']}")
+        return
+    feat = require_feature(fid)
+    if feat.get("status") != "ready":
+        die(f"{fid} is '{feat.get('status')}'; only 'ready' features start")
+    open_steps = [s for s in feat["steps"] if not s["done"]]
+    if not open_steps:
+        die(f"{fid} has no open step")
+    st = {"feature": fid, "branch": branch, "step": open_steps[0]["n"], "stage": "spec", "round": 1, "pr": None}
+    st["step_base"] = head_sha()
+    st["reviewers"] = reviewers_for(feat, open_steps[0], config())
+    write_state(fid, st, "started")
+    commit_factory_files(fid, f"factory: {fid} step {st['step']} started")
+    print(f"START {fid} step {st['step']} stage spec round 1")
+
+
+def cmd_advance(args: list[str]) -> None:
+    if len(args) != 2:
+        die("usage: factory advance <ID> <stage>")
+    fid, target = args
+    feat = require_feature(fid)
+    st = read_state(fid) or die(f"{fid} has no run; use: factory start {fid}")
+    cur = st["stage"]
+    cfg = config()
+    if target not in TRANSITIONS.get(cur, set()):
+        die(f"{fid}: illegal move {cur} → {target}. Allowed: {', '.join(sorted(TRANSITIONS[cur])) or 'none'}")
+
+    def need(rel: str, first: str | None = None) -> None:
+        p = ROOT / rel
+        if not p.exists():
+            die(f"{fid}: {rel} is missing; the {cur} stage is not finished")
+        if first and not p.read_text().startswith(first):
+            die(f"{fid}: {rel} must start with '{first}'")
+
+    sd, rd = step_dir(fid, st), round_dir(fid, st)
+    if cur == "spec" and target == "build":
+        need(f"{sd}/spec.md")
+        if (ROOT / sd / "spec.md").read_text().startswith("BLOCKED"):
+            die(f"{fid}: spec.md is BLOCKED; use: factory advance {fid} needs-human")
+    if cur == "build" and target == "gate":
+        need(f"{sd}/build.md", "STATUS: READY")
+    if cur == "gate" and target == "review":
+        need(f"{rd}/checks.md", "GATE: PASS")
+    if cur == "review" and target == "approve":
+        for name in st["reviewers"]:
+            need(f"{rd}/review-{name}.md", "VERDICT: PASS")
+    if cur == "approve" and target == "step-done":
+        need(f"{sd}/decision.md", "APPROVE")
+    if target == "build" and cur in ("gate", "review"):
+        if st["round"] >= cfg["max_rounds"]:
+            die(f"{fid}: round {st['round']} was the last one (max_rounds {cfg['max_rounds']}); "
+                f"use: factory advance {fid} needs-human")
+        st["round"] += 1
+    if cur == "needs-human":
+        st["round"] = 1 if cfg.get("fresh_rounds_after_feedback", True) else st["round"]
+        st["feedback"] = st.get("feedback", 0)
+    if target == "step-done":
+        tick_step(ROOT / feat["path"], st["step"])
+    if target == "spec":  # next step
+        feat = require_feature(fid)
+        open_steps = [s for s in feat["steps"] if not s["done"]]
+        if not open_steps:
+            die(f"{fid}: every step is done; use: factory advance {fid} pr-ready")
+        st["step"], st["round"] = open_steps[0]["n"], 1
+        st["reviewers"] = reviewers_for(feat, open_steps[0], cfg)
+        st["step_base"] = head_sha()
+    if target == "pr-ready":
+        feat = require_feature(fid)
+        if any(not s["done"] for s in feat["steps"]):
+            die(f"{fid}: open steps remain; use: factory advance {fid} spec")
+        if not st.get("pr"):
+            die(f"{fid}: no PR number recorded; use: factory set {fid} pr <number>")
+        set_front(ROOT / feat["path"], "status", "done")
+    st["stage"] = target
+    write_state(fid, st, f"{cur} → {target}")
+    commit_factory_files(fid, f"factory: {fid} step {st['step']} {cur} → {target}")
+    print(f"{fid} step {st['step']}: {cur} → {target} (round {st['round']})")
+
+
+def cmd_set(args: list[str]) -> None:
+    if len(args) != 3 or args[1] != "pr" or not args[2].isdigit():
+        die("usage: factory set <ID> pr <number>")
+    fid = args[0]
+    st = read_state(fid) or die(f"{fid} has no run")
+    st["pr"] = int(args[2])
+    write_state(fid, st, f"PR #{args[2]}")
+    commit_factory_files(fid, f"factory: {fid} PR #{args[2]}")
+    print(f"{fid}: PR #{args[2]}")
+
+
+def cmd_feedback(args: list[str]) -> None:
+    """The user's words (stdin) for a needs-human job → feedback-<k>.md."""
+    if len(args) != 1:
+        die("usage: factory feedback <ID> < text")
+    fid = args[0]
+    st = read_state(fid) or die(f"{fid} has no run")
+    if st["stage"] != "needs-human":
+        die(f"{fid} is at '{st['stage']}', not waiting for feedback")
+    text = sys.stdin.read().strip() or die("no feedback text on stdin")
+    k = st.get("feedback", 0) + 1
+    rel = f"{step_dir(fid, st)}/feedback-{k}.md"
+    (ROOT / rel).write_text(f"# Feedback {k} from the owner\n\n{text}\n")
+    st["feedback"] = k
+    write_state(fid, st, f"feedback {k}")
+    print(rel)
+
+
+def fork_point(base: str) -> str:
+    """The commit where this branch left the base. Cloud checkouts are
+    shallow, so more history is fetched when the ancestor is missing."""
+    for depth in (None, 200, 2000):
+        if depth:
+            git("fetch", "-q", f"--deepen={depth}", "origin", check=False)
+        mb = git("merge-base", base, "HEAD", check=False)
+        if mb:
+            return mb
+    die(f"no common ancestor with {base}; fetch more history (git fetch --unshallow)")
+
+
+def changed_files(base: str) -> list[str]:
+    return [l for l in git("diff", "--name-only", fork_point(base), "HEAD").splitlines() if l]
+
+
+def protected_violations(fid: str, files: list[str], cfg: dict) -> list[str]:
+    bad = []
+    own = require_feature(fid)["path"]
+    for f in files:
+        if f.startswith(f"{FEATURES}/") and f != own:
+            bad.append(f"{f} (another feature's file)")
+        elif f.startswith(f"{RUNS}/") and not f.startswith(f"{RUNS}/{fid}/"):
+            bad.append(f"{f} (another feature's run)")
+        elif any(f == p or (p.endswith("/") and f.startswith(p)) for p in cfg["protected_paths"]):
+            bad.append(f"{f} (protected)")
+    return bad
+
+
+def cmd_gate(args: list[str]) -> None:
+    """Runs the base branch's copy of factory/checks.sh on this branch and
+    writes round-N/checks.md. A branch cannot change the checks it is judged
+    by: protected paths fail the gate."""
+    if len(args) != 1:
+        die("usage: factory gate <ID>")
+    fid = args[0]
+    st = read_state(fid) or die(f"{fid} has no run")
+    if st["stage"] != "gate":
+        die(f"{fid} is at '{st['stage']}', not at the gate")
+    cfg = config()
+    base = base_ref()
+    rd = ROOT / round_dir(fid, st)
+    rd.mkdir(parents=True, exist_ok=True)
+    log = rd / "checks.log"
+    problems = protected_violations(fid, changed_files(base), cfg) if use_git() else []
+    if git("status", "--porcelain", check=False):
+        problems.append("uncommitted changes in the working tree (commit everything first)")
+    if problems:
+        verdict, body = "FAIL", "Files a factory job may not touch:\n\n" + "\n".join(f"- {p}" for p in problems)
+        log.write_text(body + "\n")
+    else:
+        script = git("show", f"{base}:factory/checks.sh", check=False) if use_git() else ""
+        src = "base branch" if script else "working tree"
+        if not script:
+            script = (ROOT / "factory/checks.sh").read_text()
+        env = dict(os.environ, FACTORY_BASE=base, FACTORY_FEATURE=fid)
+        with log.open("w") as fh:
+            rc = subprocess.run(["bash", "-s"], input=script, text=True, cwd=ROOT, env=env,
+                                stdout=fh, stderr=subprocess.STDOUT).returncode
+        verdict = "PASS" if rc == 0 else "FAIL"
+        tail = "\n".join(log.read_text().splitlines()[-60:])
+        body = f"checks.sh from the {src}, exit code {rc}. Last lines:\n\n```\n{tail}\n```"
+    (rd / "checks.md").write_text(f"GATE: {verdict}\n\n## Summary\n\n{body}\n")
+    if verdict == "PASS":
+        log.unlink(missing_ok=True)
+        if use_git() and st.get("step_base"):
+            # What the reviewers read: this step's changes, without the factory's own files.
+            (rd / "diff.patch").write_text(
+                git("diff", st["step_base"], "HEAD", "--", ".", f":(exclude){RUNS}", f":(exclude){FEATURES}")
+            )
+    commit_factory_files(fid, f"factory: {fid} step {st['step']} gate {verdict} (round {st['round']})")
+    print(f"GATE: {verdict}")
+
+
+def cmd_new(args: list[str]) -> None:
+    if len(args) < 2:
+        die("usage: factory new <ID> <title words…>")
+    fid, title = args[0], " ".join(args[1:])
+    if not re.fullmatch(r"[A-Z]+\d+[a-z]?", fid):
+        die("an id looks like G8 or S32")
+    if fid in load_features("disk"):
+        die(f"{fid} already exists")
+    slug = re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-")[:40]
+    text = (ROOT / FEATURES / "_template.md").read_text()
+    text = text.replace("id: X0", f"id: {fid}").replace("title: Short title", f"title: {title}")
+    text = text.replace("# X0 Short title", f"# {fid} {title}")
+    path = ROOT / FEATURES / f"{fid}-{slug}.md"
+    path.write_text(text)
+    print(path.relative_to(ROOT))
+
+
+def cmd_help(_args: list[str]) -> None:
+    print(__doc__)
+    print("Commands:")
+    for name, fn in COMMANDS.items():
+        doc = (fn.__doc__ or "").strip().splitlines()[0] if fn.__doc__ else ""
+        print(f"  {name:9} {doc}")
+
+
+COMMANDS = {
+    "status": cmd_status,
+    "next": cmd_next,
+    "start": cmd_start,
+    "advance": cmd_advance,
+    "gate": cmd_gate,
+    "set": cmd_set,
+    "feedback": cmd_feedback,
+    "new": cmd_new,
+    "validate": cmd_validate,
+    "help": cmd_help,
+}
+
+if __name__ == "__main__":
+    name = sys.argv[1] if len(sys.argv) > 1 else "help"
+    if name not in COMMANDS:
+        die(f"unknown command '{name}'. Try: factory help")
+    COMMANDS[name](sys.argv[2:])
