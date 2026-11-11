@@ -6,6 +6,9 @@ system and the security system. It builds on `PRODUCT.md`, `FEATURES.md`
 (feature IDs like C6, F2 come from there), `ARCHITECTURE.md` and
 `economy/REWARDS.md`. Items marked **❓** need your decision (list in § 8).
 
+Game organising itself (solo, friends, teams, opponents built by the app,
+challenges, sharing) is specified in `GAMES.md`.
+
 Releases used below:
 
 - **R1 = launch blockers.** Without them real users hit a wall or can cheat.

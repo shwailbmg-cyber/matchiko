@@ -10,7 +10,9 @@ decisions), `docs/PRODUCT.md` (full feature spec, cash-market rules, screen
 inventory), `docs/FEATURES.md` (feature catalogue with decisions),
 `docs/COMPETITORS.md` (similar businesses worldwide) and
 `docs/ROADMAP.md` (what's built, what's next). What to build next and how (features, screens,
-matching, rewards, security): `docs/BLUEPRINT.md`. Rewards math:
+matching, rewards, security): `docs/BLUEPRINT.md`. Game organising (every
+scenario: solo, friends, teams, Matchiko Select, challenges, sharing):
+`docs/GAMES.md`. Rewards math:
 `docs/economy/REWARDS.md`.
 Design reference: `design/prototype/Matchiko.html` + `design/prototype/BRIEF.md`.
 Every screen should match the prototype (spacing, copy). Colors: the brand is

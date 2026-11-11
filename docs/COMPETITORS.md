@@ -1,8 +1,12 @@
 # Similar businesses worldwide: what they offer
 
-Research for Matchiko (October 2026). No Algerian pitch-booking or
-pickup-football app showed up in searches, so the closest competition is
-WhatsApp groups, phone calls and Facebook pages.
+Research for Matchiko (October 2026, updated November 2026). The main
+competition is still WhatsApp groups, phone calls and Facebook pages, but
+Algerian apps now exist: **Matchna** (book a pitch, pay at the venue or by
+card, QR check-in; cancellation rules left to each venue; no user reviews
+found) and **FieldZ** ("coming soon"). Morocco and Tunisia have KoraKick,
+FootConnect, MatchUp and MyMatch.tn (marketing pages only). See the
+November section at the end.
 
 ## Overview
 
@@ -63,3 +67,66 @@ Sources: [Playtomic Premium](https://helpmanager.playtomic.com/hc/en-gb/articles
 [Decathlon Play](https://apps.apple.com/us/app/id1302825508),
 [Stadion 24/7](https://webcatalog.io/en/apps/stadion-247),
 [69 wilayas](https://www.tsa-algerie.com/algerie-onze-nouvelles-wilayas-creees-voici-la-liste/).
+
+## November 2026: game organising, user feedback, sharing
+
+Second research pass, used for `docs/GAMES.md`. Most pages could not be
+opened directly from the research session, so this comes from search
+results of help centres, store listings, review sites and press; treat
+figures as reported.
+
+| App (market) | Mechanic worth knowing |
+|---|---|
+| **Playtomic** | Open match with a level band; players outside it "request a place". Friendly vs competitive locked at booking; only competitive moves the level. Reliability figure on levels. "10-Match Challenge" to re-check a level |
+| **CeleBreak** (Spain, Germany, Dubai) | Paid host brings balls and bibs and rebalances teams; friends who join together are **not** guaranteed the same side. Leagues accept individuals and assign them a team |
+| **FiveKick** (Belgium) | Teams post when they are free; others challenge. One side enters the score, the other confirms, Elo updates |
+| **CricHeroes** (India), **OLE** (UAE) | One "Looking for" board: opponent, player, team, ground, umpire. OLE: invite a referee in the app |
+| **BenchApp Finder** | Captain posts a missing spot with position, level and money terms; nearby free agents are notified |
+| **Powerleague** (UK) | "Ringerz" stand-in pool for same-day dropouts; says 84 % of 5-a-side teams suffer them. "Transfer Market" for players without a team |
+| **Volo, Urban Rec, Leisure Leagues** | Solo players ("free agents") merged into teams at league registration |
+| **Goleiro de Aluguel** (Brazil) | Goalkeeper for hire, rated on punctuality, behaviour, technique |
+| **Atmos Football**, **Poteau** (France) | Balanced teams with win probability; level from a situational questionnaire; each game shows its expected level |
+| **Appito / Chega+** (Brazil), **Tonsser** | Peer ratings and awards after the game (best player, scorer, defender); attendance and waiting lists |
+| **Spond** | Attendance cap, waiting list that promotes itself, automatic reminders to non-responders |
+| **Strava** | "Local Legend" (most efforts in 90 days), private group challenges, stat stickers for Stories |
+| **Yalla Hagz** (Egypt) | Small online deposit, rest at the pitch. Main reported failure: venue calendar out of sync with the app |
+| **Malaeb** (Gulf) | Unpaid (cash) bookings cancel free, prepaid do not, so users learn not to prepay |
+
+Not found anywhere: an app that builds a team of solo players on demand
+to face an existing team for a single match (Matchiko Select, GAMES § 3.1).
+
+Top user complaints across these apps: unfair cancellation/refund rules;
+no-shows and short-handed games; skill mismatch and unfair levels;
+unreliable hosts and venues; payment bugs; no human support; toxic play.
+Top wishes: player ratings, games by level, a free pass for a late
+cancel, rewards, calendar sync, instant spot alerts, friends features.
+
+Sources: [Playtomic levels](https://playerhelp.playtomic.com/hc/en-gb/articles/43310980754193),
+[Playtomic casual vs competitive](https://helpmanager.playtomic.com/hc/en-gb/articles/20535188135185-Casual-vs-Competitive-Open-Matches),
+[Playtomic 10-match challenge](https://playerhelp.playtomic.com/hc/en-gb/articles/42759192068369-What-is-the-10-Match-Challenge-and-how-does-it-work),
+[CeleBreak FAQ](https://www.celebreak.com/faqs),
+[CeleBreak leagues](https://celebreak.com/en/leagues),
+[FiveKick](https://play.google.com/store/apps/details?id=com.fivekick.app),
+[CricHeroes "Looking for"](https://medium.com/cricheroes/looking-for-cricket-7d20ce89e1d8),
+[OLE](https://apps.apple.com/ae/app/id1472879986),
+[BenchApp Finder](https://www.benchapp.com/find-a-game/what-is-finder),
+[Powerleague Ringerz](https://www.powerleague.com/blog/powerleague-launches-ringerz),
+[Powerleague Transfer Market](https://powerleague.com/transfer-market),
+[Volo free agents](https://help.volosports.com/support/solutions/articles/29000049630-what-if-i-don-t-have-a-full-team-),
+[Urban Rec individuals](https://vancouver.urbanrec.ca/policies/individuals-teams-policy),
+[Goleiro de Aluguel](https://exame.com/pme/empreendedores-criam-uber-de-goleiros-para-partidas-amadoras),
+[Atmos Football](https://atmos-football-13ac0.web.app/blog/elo-ratings-explained),
+[Poteau](https://iphonesoft.fr/2026/10/16/poteau-app-trouver-match-foot-5-padel-adapte-niveau),
+[Spond features](https://help.spond.com/en/articles/28547-spond-features-overview),
+[Strava Local Legend](https://dcrainmaker.com/2020/06/strava-legends-feature.html),
+[Strava sticker stats](https://www.bikeradar.com/news/strava-sticker-stats-spring-2025-updates),
+[Footy Addicts ideas board](https://footyaddicts.uservoice.com/),
+[Footy Addicts reviews](https://www.trustpilot.com/review/footyaddicts.com),
+[CeleBreak reviews](https://play.google.com/store/apps/details?id=com.lewisblack.celebreakOne),
+[Malaeb reviews](https://apps.apple.com/sa/app/malaeb-%D9%85%D9%84%D8%A7%D8%B9%D8%A8/id1094201670),
+[Yalla Hagz](https://yallahagz-eg.com/),
+[Matchna](https://www.matchna.app/),
+[collecting money for five-a-side](https://caposport.com/blog/collecting-money-five-a-side),
+[Instagram sharing to Stories](https://developers.facebook.com/docs/instagram-platform/sharing-to-stories),
+[share_plus](https://pub.dev/packages/share_plus),
+[Firebase Dynamic Links shutdown](https://blog.pragmaticengineer.com/google-shutting-down-firebase-dynamic-links/).
