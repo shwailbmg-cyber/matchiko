@@ -615,6 +615,10 @@ Answered (November 2026):
 | 7 | A domain for invite links | ✅ Yes (name to choose and buy) |
 | 8 | Terms, privacy policy, 18-07 declaration | ✅ Claude drafts the texts in 3 languages; the declaration to the ANPDP is filed by BMG as the company. A lawyer's check is still advised before production |
 
+More decisions on game organising (payment agreed offline, football
+terms, free pass, direct sharing to Instagram/Snapchat/TikTok, official
+matches for verified players only) are recorded in `GAMES.md` § 9.
+
 Still open:
 
 - **5. Venue managers: one owner?** Today every manager of a venue has the
