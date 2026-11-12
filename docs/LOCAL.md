@@ -65,12 +65,12 @@ cd app && flutter run --dart-define-from-file=env/dev.json
 
 ## 5. The nightly run
 
-A scheduled Claude Code routine starts a cloud session every night with
+A scheduled Claude Code task can start a cloud session every night with
 the factory. It builds what is ready on `main`, opens pull requests, and
 when nothing is ready it writes the plan of the next draft feature for
 you to approve. You find the result in the morning: pull requests to
-merge and questions to answer. Manage or stop it at
-claude.ai/code/routines.
+merge and questions to answer. **It is not created yet:** follow
+`factory/NIGHTLY.md` (two minutes, one prompt to paste).
 
 ## 6. What still needs you
 
