@@ -10,7 +10,8 @@ set -euo pipefail
 BASE="${FACTORY_BASE:-origin/main}"
 ROOT="$(git rev-parse --show-toplevel)"
 cd "$ROOT"
-export PATH="/opt/sdk/flutter/bin:$PATH"
+export PATH="/opt/sdk/flutter/bin:$PATH"   # cloud sessions; harmless elsewhere
+PY="$(command -v python3 || command -v python)" || { echo "Python 3 is needed."; exit 1; }
 # Where this branch left the base. Cloud checkouts are shallow, so fetch
 # more history when the common ancestor is not there yet.
 FROM="$(git merge-base "$BASE" HEAD 2>/dev/null || true)"
@@ -24,14 +25,14 @@ changed() { git diff --name-only "$FROM" HEAD -- "$@" | grep -q .; }
 step() { echo; echo "── $* ──"; }
 
 step "factory: feature files and its own tests"
-python3 factory/bin/factory validate
-python3 -m unittest discover -s factory/tests -q
+"$PY" factory/bin/factory validate
+"$PY" -m unittest discover -s factory/tests -q
 
 step "lints on the lines this branch adds (design, RTL, security, SQL rules)"
-python3 factory/lints/diff_lint.py "$FROM"
+"$PY" factory/lints/diff_lint.py "$FROM"
 
 step "translations: en / fr / ar have the same keys"
-python3 factory/lints/l10n_check.py
+"$PY" factory/lints/l10n_check.py
 
 cd app
 step "flutter pub get + gen-l10n"
@@ -59,11 +60,19 @@ flutter test
 cd "$ROOT"
 if changed supabase; then
   step "database tests (pgTAP)"
-  bash supabase/tests/local/run.sh >/tmp/factory-db.log 2>&1 || {
-    tail -40 /tmp/factory-db.log
+  LOG="$(mktemp)"
+  if ls /usr/lib/postgresql/*/bin/initdb >/dev/null 2>&1; then
+    # Linux with Postgres + pgTAP installed (cloud sessions, CI): no Docker needed.
+    bash supabase/tests/local/run.sh >"$LOG" 2>&1 || { tail -40 "$LOG"; exit 1; }
+  elif command -v supabase >/dev/null 2>&1; then
+    # A developer machine: the Supabase CLI with Docker (docs/LOCAL.md).
+    { supabase start && supabase db reset && supabase test db; } >"$LOG" 2>&1 || { tail -40 "$LOG"; exit 1; }
+  else
+    echo "Database files changed but no way to test them here."
+    echo "Install the Supabase CLI and Docker (docs/LOCAL.md), or Postgres with pgTAP on Linux."
     exit 1
-  }
-  grep -c "^ *ok " /tmp/factory-db.log | sed 's/$/ database assertions passed/'
+  fi
+  grep -c "^ *ok " "$LOG" | sed 's/$/ database assertions passed/'
 fi
 
 echo

@@ -155,10 +155,12 @@ finishing with open steps.
 **Your part:** merge the PRs you agree with (a feature PR, or a "Plan:"
 PR), answer the questions of jobs at `needs-human`, do the `HUMAN` tasks.
 
-**Running without you there.** A scheduled Claude Code routine can start
-a session each night with the prompt `/factory run`. It builds what is
-ready and leaves PRs and questions for the morning. Ask Claude to set it
-up when you want it. `auto_merge` in `factory/config.json` is `false`:
+**On your computer:** `docs/LOCAL.md` (Android Studio setup).
+
+**Running without you there.** A scheduled Claude Code routine starts a
+cloud session each night with the factory. It builds what is ready and
+leaves PRs and questions for the morning; when nothing is ready it plans
+the next draft. Manage it at claude.ai/code/routines. `auto_merge` in `factory/config.json` is `false`:
 turn it on only when you trust the gate and reviews enough to let
 low-risk features merge on green CI.
 

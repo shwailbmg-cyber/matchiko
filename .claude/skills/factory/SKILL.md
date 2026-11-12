@@ -43,6 +43,12 @@ by merging it.** The factory never merges (unless `auto_merge` is true in
 
 ## Before anything
 
+0. On a computer where `python3` is not a command, use `python`.
+   Another session may be running the factory too (the nightly cloud run,
+   or the owner's computer): after `git fetch origin`, if
+   `origin/factory/<ID>` has commits you do not have, `git pull` first;
+   if its last commit is less than 30 minutes old and is not yours,
+   leave that feature alone and take the next one.
 1. `git fetch origin` then `F next`. It prints one `RUN` line (or `IDLE`)
    and the `WAIT` / `HUMAN` lines.
 2. Approved means "on `origin/main`": a feature starts only when its file
@@ -134,6 +140,11 @@ gh api repos/{owner}/{repo}/pulls -f title="<ID> <title>" -f head="factory/<ID>"
 PR bodies end with the attribution lines your session was given.
 
 ## /factory run
+
+When `F next` prints `IDLE` at the very start (nothing ready), do not
+stop empty-handed: plan the next draft in build order that has no open
+decision (**/factory plan <ID>**, at most two per run), so there is
+something for the owner to approve.
 
 Loop: `git fetch origin` → `F next` → run the `RUN` feature to `pr-ready`
 or `needs-human` → repeat. Stop when `F next` prints `IDLE`. One feature

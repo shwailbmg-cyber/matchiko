@@ -42,6 +42,7 @@ supabase/tests/local/run.sh                                # plain Postgres + pg
 ```
 
 Cloud sessions get Flutter and pgTAP from `.claude/hooks/session-start.sh`.
+On your own computer (Android Studio): `docs/LOCAL.md`.
 
 ## Models and agents
 
