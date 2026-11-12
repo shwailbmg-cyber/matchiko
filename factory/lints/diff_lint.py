@@ -6,6 +6,8 @@ Only new lines are checked, so old code never blocks a job; the rule is
 
   design    D1 raw colour outside lib/core/theme      D2 non-directional layout (breaks Arabic)
             D3 user-facing text not from l10n
+  structure A8 a widget file calls a repository (the whole-app structure
+            rules A1-A7 are in arch_lint.py)
   security  S1 print/debugPrint in app code           S2 cleartext http:// URL
             S3 secret-looking string                  S4 TLS / backup / cleartext switches
   database  Q1 applied migration edited or deleted    Q2 security definer without search_path = ''
@@ -45,6 +47,8 @@ SECRETS = [
     re.compile(r"eyJhbGciOi[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}\."),
     re.compile(r"\bsk_live_[A-Za-z0-9]{10,}"),
 ]
+REPOSITORY_CALL = re.compile(r"\bref\.(read|watch)\(\s*\w*[rR]epositoryProvider\b")
+LOGIC_FILES = ("_controller.dart", "_view_model.dart", "providers.dart")
 SWITCHES = re.compile(
     r"badCertificateCallback|allowBackup\s*=\s*\"true\"|usesCleartextTraffic\s*=\s*\"true\""
 )
@@ -76,6 +80,12 @@ def lint_line(path: str, line: str) -> list[tuple[str, str]]:
             if re.search(r"[A-Za-z؀-ۿ]{3,}", text):
                 found.append(("D3", "user-facing text must come from app_en/fr/ar.arb (AppLocalizations)"))
                 break
+        if (
+            ("/presentation/" in path or "/widgets/" in path)
+            and not path.endswith(LOGIC_FILES)
+            and REPOSITORY_CALL.search(line)
+        ):
+            found.append(("A8", "a widget calls a repository; call a controller (Notifier) or watch a provider instead"))
         if PRINT.search(line):
             found.append(("S1", "print/debugPrint in app code (may leak personal data)"))
         if CLEARTEXT.search(line):

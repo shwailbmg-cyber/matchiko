@@ -13,7 +13,9 @@ step folder.
 
 ## Read first
 
-1. `CLAUDE.md`, then `.claude/skills/kiss-flutter/SKILL.md`. For screens
+1. `CLAUDE.md`, then `.claude/skills/matchiko-architecture/SKILL.md`
+   (where a file goes, what it may import, how long it may get) and
+   `.claude/skills/kiss-flutter/SKILL.md`. For screens
    also `.claude/skills/matchiko-design/SKILL.md`; for SQL
    `.claude/skills/matchiko-security/SKILL.md`.
 2. `spec.md` in the step folder: what to build. Its criteria are your
@@ -30,6 +32,11 @@ step folder.
 - Write the test for each criterion with the code (database: pgTAP in
   `supabase/tests/database/`; app: unit and widget tests). A criterion
   without a test is not done.
+- Dart: logic in a controller, a use case or the domain, never in a
+  widget; a widget file does not call a repository. Keep every file under
+  400 lines and every function under 60 (`build`: 80); when a file you
+  touch gets close, split it the way the architecture skill says. Run
+  `python3 factory/lints/arch_lint.py` before you finish.
 - Make the simplest change that meets the spec. Nothing the spec does not
   ask for. Match the surrounding code.
 - Schema changes are new migration files; never edit an existing one.

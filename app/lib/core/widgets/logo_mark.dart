@@ -79,9 +79,9 @@ class MkLogo extends StatelessWidget {
           const SizedBox(width: 8),
         ],
         Text.rich(
-          TextSpan(
+          const TextSpan(
             text: 'matchi',
-            children: const [
+            children: [
               TextSpan(
                 text: 'ko',
                 style: TextStyle(color: MkColors.primary),

@@ -7,7 +7,7 @@ kind: build
 status: ready
 risk: medium
 surfaces: [security]
-depends_on: []
+depends_on: [Q2]
 sources: [docs/GAMES.md#2, docs/GAMES.md#3 (T4 T5 T12), docs/GAMES.md#10]
 ---
 

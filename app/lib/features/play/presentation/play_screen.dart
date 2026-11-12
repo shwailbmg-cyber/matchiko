@@ -513,7 +513,7 @@ class _Found extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 14),
-        PitchTurf(height: 176, radius: 18),
+        const PitchTurf(height: 176, radius: 18),
         const SizedBox(height: 20),
         Row(
           children: [

@@ -207,6 +207,12 @@ docs/                 this file, PRODUCT.md, ROADMAP.md, AI_WORKFLOW.md, economy
 .claude/skills/       agent skills (Flutter, Dart, Supabase, security)
 ```
 
+**Code structure.** Clean Architecture, feature-first: `presentation →
+domain ← data`, the domain is pure Dart, widgets only display and
+controllers hold the logic. A file is at most 400 lines, a function 60, a
+widget's `build` 80. The rules are in `.claude/skills/matchiko-architecture`
+and the gate checks them (`python3 factory/lints/arch_lint.py`).
+
 ## 9. Sign-in (decided: free)
 
 | Option | Cost for ~1,000 users | Verdict |

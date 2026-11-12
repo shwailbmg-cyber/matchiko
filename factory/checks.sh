@@ -31,6 +31,9 @@ step "factory: feature files and its own tests"
 step "lints on the lines this branch adds (design, RTL, security, SQL rules)"
 "$PY" factory/lints/diff_lint.py "$FROM"
 
+step "architecture: layers, imports, file and function sizes"
+"$PY" factory/lints/arch_lint.py
+
 step "translations: en / fr / ar have the same keys"
 "$PY" factory/lints/l10n_check.py
 

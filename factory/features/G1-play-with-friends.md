@@ -7,7 +7,7 @@ kind: build
 status: ready
 risk: medium
 surfaces: [security]
-depends_on: []
+depends_on: [Q2]
 sources: [docs/GAMES.md#3 (F1 F2 F3 F8 F9), docs/BLUEPRINT.md#5.2, docs/BLUEPRINT.md#5.4]
 ---
 

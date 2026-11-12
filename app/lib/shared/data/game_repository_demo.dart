@@ -196,7 +196,9 @@ class DemoGameRepository implements GameRepository {
         features: {Feature.light, Feature.ball, Feature.shower, Feature.roof},
       ),
     ]);
-    final harrach = _pitches[0], biar = _pitches[1], kouba = _pitches[2];
+    final harrach = _pitches[0];
+    final biar = _pitches[1];
+    final kouba = _pitches[2];
 
     // My game tonight: I'm the booker.
     final mine = [

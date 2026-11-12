@@ -17,6 +17,7 @@ REPO = Path(__file__).resolve().parents[2]
 CLI = REPO / "factory/bin/factory"
 
 sys.path.insert(0, str(REPO / "factory/lints"))
+import arch_lint  # noqa: E402
 import diff_lint  # noqa: E402
 import l10n_check  # noqa: E402
 
@@ -298,6 +299,16 @@ class DiffLint(unittest.TestCase):
         self.assertEqual(self.rules(p, "child: Text('Book now'),"), ["D3"])
         self.assertEqual(self.rules(p, "child: Text(l.bookNow),"), [])
         self.assertEqual(self.rules(p, "Text('${g.perSide}v${g.perSide}'),"), [])
+
+    def test_a_widget_file_does_not_call_a_repository(self):
+        p = "app/lib/features/x/presentation/x_screen.dart"
+        call = "await ref.read(gameRepositoryProvider).join(id);"
+        self.assertEqual(self.rules(p, call), ["A8"])
+        self.assertEqual(self.rules("app/lib/shared/widgets/friend_button.dart", call), ["A8"])
+        self.assertEqual(self.rules("app/lib/features/x/presentation/x_controller.dart", call), [])
+        self.assertEqual(self.rules("app/lib/features/x/presentation/providers.dart", "(ref) => ref.watch(gameRepositoryProvider).me(),"), [])
+        self.assertEqual(self.rules(p, "ref.read(xControllerProvider.notifier).join();"), [])
+        self.assertEqual(self.rules(p, call + " // factory-lint: ignore A8 moved in step 3"), [])
         self.assertEqual(self.rules(p, "Text('🪪', style: s),"), [])
 
     def test_security_rules(self):
@@ -328,6 +339,123 @@ class DiffLint(unittest.TestCase):
         replaced = "create or replace function public.old(p uuid) returns void language sql security definer set search_path = '' as $$ select 1 $$;"
         self.assertEqual(diff_lint.lint_migration("m.sql", replaced), [])
 
+
+class ArchLint(unittest.TestCase):
+    def rules(self, rel, *uris):
+        return [r for r, _, _ in arch_lint.import_problems(rel, list(uris))]
+
+    def test_domain_is_pure(self):
+        d = "features/x/domain/x.dart"
+        self.assertEqual(self.rules(d, "dart:async", "package:freezed_annotation/freezed_annotation.dart"), [])
+        self.assertEqual(self.rules(d, "package:matchiko/shared/domain/game.dart", "x_rules.dart"), [])
+        self.assertEqual(self.rules(d, "package:flutter/material.dart"), ["A1"])
+        self.assertEqual(self.rules(d, "package:flutter_riverpod/flutter_riverpod.dart"), ["A1"])
+        self.assertEqual(self.rules(d, "package:supabase_flutter/supabase_flutter.dart"), ["A1"])
+        self.assertEqual(self.rules(d, "package:matchiko/features/x/data/x_repository_demo.dart"), ["A1"])
+        self.assertEqual(self.rules(d, "../presentation/x_screen.dart"), ["A1"])
+        self.assertEqual(self.rules(d, "dart:io"), ["A1"])
+
+    def test_presentation_and_data_do_not_know_each_other(self):
+        p, d = "features/x/presentation/x_screen.dart", "features/x/data/x_repository_supabase.dart"
+        self.assertEqual(self.rules(p, "package:matchiko/shared/domain/game_repository.dart"), [])
+        self.assertEqual(self.rules(p, "package:matchiko/shared/data/game_repository_demo.dart"), ["A2"])
+        self.assertEqual(self.rules(p, "../data/x_repository_demo.dart"), ["A2"])
+        self.assertEqual(self.rules(p, "package:supabase_flutter/supabase_flutter.dart"), ["A2"])
+        self.assertEqual(self.rules("shared/widgets/badge.dart", "package:shared_preferences/shared_preferences.dart"), ["A2"])
+        self.assertEqual(self.rules(d, "package:supabase_flutter/supabase_flutter.dart", "package:flutter/foundation.dart"), [])
+        self.assertEqual(self.rules(d, "package:flutter/material.dart"), ["A3"])
+        self.assertEqual(self.rules(d, "package:matchiko/features/x/presentation/x_screen.dart"), ["A3"])
+        self.assertEqual(self.rules(d, "package:go_router/go_router.dart"), ["A3"])
+
+    def test_features_core_and_shared(self):
+        self.assertEqual(self.rules("features/x/presentation/x_screen.dart", "package:matchiko/features/y/presentation/y_screen.dart"), ["A5"])
+        self.assertEqual(self.rules("features/x/presentation/x_screen.dart", "package:matchiko/features/x/presentation/widgets/card.dart"), [])
+        self.assertEqual(self.rules("shared/widgets/badge.dart", "package:matchiko/features/y/presentation/y_screen.dart"), ["A4"])
+        self.assertEqual(self.rules("core/widgets/mk.dart", "package:matchiko/features/y/presentation/y_screen.dart"), ["A4"])
+        self.assertEqual(self.rules("core/router/router.dart", "package:matchiko/features/y/presentation/y_screen.dart"), [])
+        self.assertEqual(self.rules("core/push/push.dart", "package:matchiko/shared/data/game_repository_demo.dart"), ["A4"])
+        self.assertEqual(self.rules("main.dart", "package:matchiko/shared/data/game_repository_demo.dart", "package:supabase_flutter/supabase_flutter.dart"), [])
+
+    DART = """import 'package:flutter/material.dart';
+
+const labels = {
+  'a': 1,
+  'b': 2,
+};
+
+int top(int a) {
+  return a;
+}
+
+class Card extends StatelessWidget {
+  const Card({super.key});
+
+  final int n = compute(
+    1,
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    if (n > 0) {
+      return const SizedBox();
+    }
+    return const Text('');
+  }
+
+  Future<void> save({
+    required int a,
+    int b = 2,
+  }) async {
+    await run(a);
+  }
+
+  String get label => n > 0
+      ? 'a'
+      : 'b';
+
+  Widget arrow() => Padding(
+    padding: EdgeInsets.zero,
+  );
+}
+
+void last() {}
+"""
+
+    def test_function_lengths(self):
+        found = {name: length for name, _, length in arch_lint.declarations(self.DART.splitlines())}
+        self.assertEqual(
+            found,
+            {"top": 3, "Card.Card": 1, "Card.build": 6, "Card.save": 6, "Card.label": 3, "Card.arrow": 3, "last": 1},
+        )
+
+    def scan(self, files):
+        root = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, root, True)
+        for rel, text in files.items():
+            (root / rel).parent.mkdir(parents=True, exist_ok=True)
+            (root / rel).write_text(text)
+        return arch_lint.scan(root)
+
+    def test_size_limits(self):
+        long_fn = "void f() {\n" + "  g();\n" * 70 + "}\n"
+        build = "class W {\n  Widget build(BuildContext c) {\n" + "    g();\n" * 70 + "  }\n}\n"
+        found = self.scan({
+            "app/lib/features/x/presentation/big.dart": "// x\n" * 401,
+            "app/lib/features/x/presentation/ok.dart": "// x\n" * 400,
+            "app/lib/features/x/presentation/x.g.dart": "// x\n" * 900,
+            "app/lib/l10n/gen/app_localizations.dart": "// x\n" * 900,
+            "app/lib/features/x/presentation/fn.dart": long_fn + build,
+            "app/test/big_test.dart": "// x\n" * 401,
+        })
+        self.assertEqual(
+            sorted(found),
+            [
+                "A6 app/lib/features/x/presentation/big.dart",
+                "A6 app/test/big_test.dart",
+                "A7 app/lib/features/x/presentation/fn.dart::f",
+            ],
+        )
+        self.assertEqual(found["A7 app/lib/features/x/presentation/fn.dart::f"][0], 72)
 
 class L10nCheck(unittest.TestCase):
     def test_keys_and_placeholders(self):

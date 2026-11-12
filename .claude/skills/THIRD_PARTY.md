@@ -14,7 +14,7 @@ commit hash here.
 | `differential-review`, `sharp-edges`, `semgrep`, `supply-chain-risk-auditor`, `agentic-actions-auditor` | [trailofbits/skills](https://github.com/trailofbits/skills) | 82fe822 | CC BY-SA 4.0 (the copied files stay under CC BY-SA 4.0) |
 | `owasp-security` | [agamm/claude-code-owasp](https://github.com/agamm/claude-code-owasp) | 8ac7965 | MIT (`owasp-security/LICENSE`) |
 | `accessibility` | [VeryGoodOpenSource/very_good_ai_flutter_plugin](https://github.com/VeryGoodOpenSource/very_good_ai_flutter_plugin) | 6162209 | MIT (`accessibility/LICENSE`); only this skill, with the Android and iOS platform references |
-| `matchiko-security`, `owasp-mobile-flutter`, `kiss-flutter`, `build-loop`, `matchiko-design`, `factory` | written for this project | — | same as this repo |
+| `matchiko-security`, `owasp-mobile-flutter`, `kiss-flutter`, `matchiko-architecture`, `build-loop`, `matchiko-design`, `factory` | written for this project | — | same as this repo |
 
 ## Not vendored on purpose
 
@@ -22,6 +22,15 @@ commit hash here.
   Material `ColorScheme` theming and VGV's own synced standards, and
   prefer `EdgeInsets.only` (not directional). `matchiko-design` holds our
   token, RTL and motion rules instead.
+- **Flutter architecture skills from the net** (VGV `layered-architecture`,
+  which assumes Bloc and one Dart package per layer; community "clean
+  architecture" skills that add use cases, mappers and `Either` types
+  everywhere): too heavy or built for another state library.
+  `matchiko-architecture` holds our rules, written from the primary
+  sources it lists (R. C. Martin, the Flutter team's architecture guide,
+  Code With Andrea, Reso Coder, VGV, DCM); no text or code copied. The
+  Flutter team's own `flutter-apply-architecture-best-practices` stays
+  vendored as the general reference.
 - **Design generators** (`ui-ux-pro-max`, Anthropic `frontend-design`,
   `impeccable`): made for inventing a look, mostly for the web. Ours is
   fixed by the prototype and `MkColors`.

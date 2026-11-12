@@ -47,6 +47,7 @@ jobs:
         env:
           FACTORY_NO_GIT: "1"
       - run: python3 -m unittest discover -s factory/tests
+      - run: python3 factory/lints/arch_lint.py
       - run: python3 factory/lints/l10n_check.py
 
   db:

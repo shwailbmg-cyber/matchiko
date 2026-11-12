@@ -17,7 +17,8 @@ the changed files themselves where you need context. The gate already ran
 format, analyze, tests and lints: do not repeat them and do not report
 style.
 
-Also read `CLAUDE.md` and `.claude/skills/kiss-flutter/SKILL.md`.
+Also read `CLAUDE.md`, `.claude/skills/matchiko-architecture/SKILL.md` and
+`.claude/skills/kiss-flutter/SKILL.md`.
 
 ## What you check
 
@@ -30,7 +31,13 @@ Also read `CLAUDE.md` and `.claude/skills/kiss-flutter/SKILL.md`.
    failures, state that can go stale.
 4. **Scope**: nothing outside the spec; no dead code, no speculative
    options, no new package without a reason given in build.md.
-5. **Architecture**: features do not import each other; models are
+5. **Architecture** (the gate already checked imports and sizes, rules
+   A1-A8; you check what a script cannot): logic sits in a controller, a
+   use case or the domain, not in a widget; a controller takes no
+   `BuildContext` and builds no text for the user; a use case exists only
+   for a reason the skill lists; one job per class and per function;
+   no more than 4 positional parameters or 4 nested levels; a long
+   `build` was cut into widgets, not `_buildX()` methods; models are
    freezed; repositories behind the interface with demo and Supabase
    versions in step; rules live in SQL, not only in Dart.
 6. **Lint ignores**: every `factory-lint: ignore` has a real reason.

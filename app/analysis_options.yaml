@@ -16,9 +16,20 @@ analyzer:
 linter:
   rules:
     - always_declare_return_types
+    - always_use_package_imports
+    - avoid_multiple_declarations_per_line
     - avoid_print
+    - avoid_void_async
     - cancel_subscriptions
+    - only_throw_errors
+    - prefer_const_constructors
+    - prefer_const_declarations
+    - prefer_final_fields
+    - prefer_final_in_for_each
     - prefer_final_locals
     - prefer_single_quotes
     - require_trailing_commas
+    - sort_constructors_first
     - unawaited_futures
+    - unnecessary_lambdas
+    - use_super_parameters

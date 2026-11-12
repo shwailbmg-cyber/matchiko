@@ -74,7 +74,7 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
           AsyncView(
             ref.watch(_statsProvider(_period)),
             onRetry: () => ref.invalidate(_statsProvider(_period)),
-            data: (s) => _Stats(s),
+            data: _Stats.new,
           ),
           MkLabel(l.staff),
           const _Staff(),

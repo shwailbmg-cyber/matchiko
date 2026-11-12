@@ -7,7 +7,7 @@ kind: build
 status: ready
 risk: high
 surfaces: [security]
-depends_on: []
+depends_on: [Q2]
 sources: [docs/BLUEPRINT.md#3.1, docs/BLUEPRINT.md#7.1, docs/FEATURES.md (A4 A5 F2)]
 ---
 

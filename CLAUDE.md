@@ -62,7 +62,11 @@ Subagents in `.claude/agents/`: the factory's (`factory-planner`,
   needed, add a pgTAP test with an allow case and a deny case.
 - Schema changes are new files in `supabase/migrations/` (never edit an
   applied migration).
-- Architecture (feature-first, light clean architecture, see `kiss-flutter`):
+- Architecture (feature-first clean architecture, see
+  `matchiko-architecture` and `kiss-flutter`): dependencies point inward,
+  `presentation → domain ← data`; widgets only display, logic lives in
+  controllers; a file is at most 400 lines, a function 60, a `build` 80
+  (`python3 factory/lints/arch_lint.py`). Folders:
   `lib/core/` (infra), `lib/shared/` (models, repository interfaces,
   providers), `lib/features/<f>/{domain,data,presentation}`. State with
   Riverpod; models with freezed + json_serializable (run
@@ -87,7 +91,8 @@ Subagents in `.claude/agents/`: the factory's (`factory-planner`,
   widget/integration tests, static analysis, mocks, coverage.
 - Supabase (official): `supabase`, `supabase-postgres-best-practices`.
 - Build: `factory` (the software factory: `/factory run`, `/factory plan
-  <ID>`, `/factory status`), `kiss-flutter` (how we write Flutter),
+  <ID>`, `/factory status`), `matchiko-architecture` (layers, what goes where, size limits),
+  `kiss-flutter` (how we write Flutter),
   `matchiko-design` (design rules), `accessibility` (WCAG audit).
 - Security: `matchiko-security` (project checklist), `owasp-security`
   (OWASP Top 10:2025, ASVS 5.0), `owasp-mobile-flutter` (Mobile Top 10 2024,

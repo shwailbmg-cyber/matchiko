@@ -80,6 +80,7 @@ Deterministic, about 3 minutes:
 |---|---|
 | `factory validate` + the factory's own tests | broken feature files or a broken factory |
 | **Lints on added lines** (`lints/diff_lint.py`) | **Design:** raw colours outside the theme (D1), layout that breaks Arabic (D2), text not from the translations (D3). **Security:** `print` in app code (S1), cleartext URLs (S2), secret-looking strings (S3), TLS/backup switches (S4). **Database:** an applied migration edited (Q1), `security definer` without `search_path = ''` (Q2), a table without RLS (Q3), a new function not revoked from `public`/`anon` (Q4), a migration without a database test (Q5) |
+| **Architecture** (`lints/arch_lint.py`, whole app) | a `domain/` file that imports Flutter or a backend package (A1), a screen that imports `data/` or Supabase (A2), `data/` that imports the UI (A3), `core/`/`shared/` that import a feature (A4), a feature that imports another feature (A5), a file over 400 lines (A6), a function over 60 lines or a `build` over 80 (A7). On added lines: a widget that calls a repository (A8). Rules: the `matchiko-architecture` skill |
 | Translations check | a key missing in French or Arabic, different placeholders |
 | Generated code is up to date | stale freezed / JSON code |
 | `dart format`, `flutter analyze`, `flutter test` | style, static errors, failing tests |
@@ -87,7 +88,10 @@ Deterministic, about 3 minutes:
 | Protected paths | a job changing its own checks, the CI, the agents, the skills, `CLAUDE.md`, or another feature |
 
 The lints look only at lines the branch adds, so old code never blocks a
-job: the rule is "no new violations".
+job: the rule is "no new violations". The architecture check looks at the
+whole app; what was too long before the rules is listed in
+`lints/arch_baseline.json` and may shrink but not grow (feature Q2 clears
+that list).
 
 ### Reviewers and models (`factory/config.json`)
 
@@ -166,9 +170,12 @@ low-risk features merge on green CI.
 
 ## What is in the queue now
 
-- **Ready** (built as soon as this is on `main`): Q1 design and
-  accessibility baseline · G1 play with friends · G2 team call-up ·
-  S24 verification v2 · S25 reward conditions and limits.
+- **Ready** (built as soon as this is on `main`), in this order: Q1
+  design and accessibility baseline → Q2 clean architecture cleanup (old
+  long files split, controllers for every screen) → G1 play with friends ·
+  G2 team call-up · S24 verification v2 · S25 reward conditions and
+  limits. The four features wait for Q2 so they are built on the clean
+  structure.
 - **Yours:** H1 the real-phone test.
 - **Drafts** to plan next, in order: G3, S26, G5, G6, S27, S28, G4, S29,
   G7, S30, S31 (R1), then R2 and R3. Each needs `/factory plan <ID>`;
