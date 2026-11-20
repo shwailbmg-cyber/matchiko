@@ -21,7 +21,8 @@ final _weekProvider = FutureProvider.autoDispose
     );
 
 /// Opening hours shown in the calendar.
-const _firstHour = 8, _lastHour = 23;
+const _firstHour = 8;
+const _lastHour = 23;
 
 DateTime _midnight(DateTime t) => DateTime(t.year, t.month, t.day);
 

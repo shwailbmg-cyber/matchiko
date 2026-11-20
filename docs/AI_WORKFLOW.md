@@ -11,6 +11,14 @@
 Subagents live in `.claude/agents/`. A subagent's own `model:` wins over the
 env default. Sources: [model config](https://code.claude.com/docs/en/model-config), [subagents](https://code.claude.com/docs/en/sub-agents).
 
+## The software factory (the normal way to build now)
+
+`/factory run` builds the ready features in `factory/features/` step by
+step with its own agents: planner and approver on Opus, builder on Sonnet,
+reviewers routed by risk (Haiku to Opus). See `docs/FACTORY.md`. The
+manual loop below is still fine for small fixes and for changes to the
+factory itself.
+
 ## The loop for each feature
 
 ```

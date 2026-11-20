@@ -8,23 +8,6 @@
 /// 3. If that still isn't a multiple of 50, round to the nearest 50; the
 ///    small difference ([balance]) is shown to the booker.
 class CostShare {
-  const CostShare({
-    required this.perPlayer,
-    required this.payers,
-    required this.goalkeepersFree,
-    required this.balance,
-  });
-
-  final int perPlayer;
-  final int payers;
-  final bool goalkeepersFree;
-
-  /// Collected minus price: positive = extra for the booker, negative = the
-  /// booker adds that much.
-  final int balance;
-
-  static const step = 50;
-
   factory CostShare.split({
     required int priceDa,
     required int players,
@@ -54,4 +37,20 @@ class CostShare {
       balance: perPlayer * payers - priceDa,
     );
   }
+  const CostShare({
+    required this.perPlayer,
+    required this.payers,
+    required this.goalkeepersFree,
+    required this.balance,
+  });
+
+  final int perPlayer;
+  final int payers;
+  final bool goalkeepersFree;
+
+  /// Collected minus price: positive = extra for the booker, negative = the
+  /// booker adds that much.
+  final int balance;
+
+  static const step = 50;
 }

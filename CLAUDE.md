@@ -9,7 +9,10 @@ Read first: `docs/ARCHITECTURE.md` (main loop, data model, security,
 decisions), `docs/PRODUCT.md` (full feature spec, cash-market rules, screen
 inventory), `docs/FEATURES.md` (feature catalogue with decisions),
 `docs/COMPETITORS.md` (similar businesses worldwide) and
-`docs/ROADMAP.md` (what's built, what's next). Rewards math:
+`docs/ROADMAP.md` (what's built, what's next). What to build next and how (features, screens,
+matching, rewards, security): `docs/BLUEPRINT.md`. Game organising (every
+scenario: solo, friends, teams, Matchiko Select, challenges, sharing):
+`docs/GAMES.md`. Rewards math:
 `docs/economy/REWARDS.md`.
 Design reference: `design/prototype/Matchiko.html` + `design/prototype/BRIEF.md`.
 Every screen should match the prototype (spacing, copy). Colors: the brand is
@@ -29,17 +32,23 @@ flutter gen-l10n                                  # after editing lib/l10n/*.arb
 dart run build_runner build -d                    # after editing freezed models
 dart format lib test
 
+# Factory (from repo root)
+python3 factory/bin/factory status                  # the feature queue
+FACTORY_BASE=origin/main bash factory/checks.sh    # everything the gate checks
+
 # Database (from repo root)
 supabase start && supabase db reset && supabase test db   # needs Docker
 supabase/tests/local/run.sh                                # plain Postgres + pgTAP, no Docker
 ```
 
 Cloud sessions get Flutter and pgTAP from `.claude/hooks/session-start.sh`.
+On your own computer (Android Studio): `docs/LOCAL.md`.
 
 ## Models and agents
 
 `opusplan` is the default: plan mode runs on Opus, execution on Sonnet.
-Subagents in `.claude/agents/`: `architect` (Opus, plans, read-only),
+Subagents in `.claude/agents/`: the factory's (`factory-planner`,
+`factory-builder`, `factory-reviewer-*`, `factory-approver`), `architect` (Opus, plans, read-only),
 `implementer` (Sonnet, builds), `runner` (Haiku, runs commands and reports),
 `Explore` (Haiku, search). Use `runner` for test/analyze runs. See
 `docs/AI_WORKFLOW.md`.
@@ -53,7 +62,11 @@ Subagents in `.claude/agents/`: `architect` (Opus, plans, read-only),
   needed, add a pgTAP test with an allow case and a deny case.
 - Schema changes are new files in `supabase/migrations/` (never edit an
   applied migration).
-- Architecture (feature-first, light clean architecture, see `kiss-flutter`):
+- Architecture (feature-first clean architecture, see
+  `matchiko-architecture` and `kiss-flutter`): dependencies point inward,
+  `presentation → domain ← data`; widgets only display, logic lives in
+  controllers; a file is at most 400 lines, a function 60, a `build` 80
+  (`python3 factory/lints/arch_lint.py`). Folders:
   `lib/core/` (infra), `lib/shared/` (models, repository interfaces,
   providers), `lib/features/<f>/{domain,data,presentation}`. State with
   Riverpod; models with freezed + json_serializable (run
@@ -67,16 +80,20 @@ Subagents in `.claude/agents/`: `architect` (Opus, plans, read-only),
   without a reason (check pub.dev publisher, maintenance, advisories).
 - Before merging: `flutter analyze`, `flutter test`, the DB tests, and the
   `matchiko-security` + `owasp-mobile-flutter` skills on the diff.
-- Work in steps (`docs/LOOP.md`): each step is tested and pushed, CI green,
-  before the next starts.
+- Work goes through the **factory** (`docs/FACTORY.md`, `/factory`):
+  features in `factory/features/`, built step by step (spec, build, gate,
+  reviews, approval), one PR per feature. Do not edit `factory/`,
+  `.claude/` or the CI from inside a factory job.
 
 ## Skills in this repo (`.claude/skills/`)
 
 - Flutter/Dart (official): architecture, routing, localization, layouts,
   widget/integration tests, static analysis, mocks, coverage.
 - Supabase (official): `supabase`, `supabase-postgres-best-practices`.
-- Build: `kiss-flutter` (how we write Flutter), `build-loop` (autonomous
-  step loop, backlog in `docs/LOOP.md`; say "run the build loop").
+- Build: `factory` (the software factory: `/factory run`, `/factory plan
+  <ID>`, `/factory status`), `matchiko-architecture` (layers, what goes where, size limits),
+  `kiss-flutter` (how we write Flutter),
+  `matchiko-design` (design rules), `accessibility` (WCAG audit).
 - Security: `matchiko-security` (project checklist), `owasp-security`
   (OWASP Top 10:2025, ASVS 5.0), `owasp-mobile-flutter` (Mobile Top 10 2024,
   MASVS v2), plus Trail of Bits'

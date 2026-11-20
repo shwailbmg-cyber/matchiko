@@ -24,6 +24,9 @@ Prefer the simplest solution that works.
 
 ## Structure: feature-first, light clean architecture
 
+The full rules (layers, imports, size limits, naming, how to split long
+code) are in the `matchiko-architecture` skill. In short:
+
 ```
 lib/
   core/            infra with no business types: env, router, theme,
@@ -53,13 +56,16 @@ lib/
 ## Rules
 
 1. **Smallest thing that works.** No abstraction until the second use.
-2. **Short files and widgets.** Split a widget when its `build` passes
-   ~80 lines or a piece repeats. Private widgets (`_Thing`) in the same
-   file are fine.
+2. **Short files and widgets.** A file is at most 400 lines (aim 200), a
+   function 60 (aim 20), a `build` 80 (aim 40); the gate checks. Split a
+   widget before its `build` reaches the limit or when a piece repeats.
+   Small private widgets (`_Thing`) in the same file are fine; bigger
+   ones get their own file in `presentation/widgets/`.
 3. **`const` everywhere it compiles.** Stateless by default; `ConsumerWidget`
    to read providers; `StatefulWidget` only for controllers/animations.
 4. **State lives in providers, not widgets.** `ref.watch` in `build`,
-   `ref.read` in callbacks. `AsyncValue.when` for loading/error/data.
+   `ref.read(controller.notifier)` in callbacks; a widget never calls a
+   repository itself. `AsyncValue.when` for loading/error/data.
 5. **Immutable models** (freezed). `copyWith`, no setters.
 6. **No business rules in Dart.** Prices, roles, statuses, XP: the database
    decides; the app displays.

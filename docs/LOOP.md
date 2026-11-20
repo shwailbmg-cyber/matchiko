@@ -1,5 +1,9 @@
 # Build loop
 
+> **Replaced by the software factory** (`docs/FACTORY.md`, `/factory`).
+> This file stays as the record of steps S1–S22. New work is a feature
+> file in `factory/features/`.
+
 How Claude builds Matchiko on its own: one step at a time, and every step
 is tested and pushed before the next one starts. To continue in any session,
 say **"run the build loop"** (skill `build-loop`). Claude picks the first
@@ -90,6 +94,10 @@ Status: `[x]` done · `[ ]` to do. Milestones refer to `docs/ROADMAP.md`.
       languages), release signing (needs your keystore), Play internal test.
       Code side done (docs/RELEASE.md); the keystore and the Play upload
       are yours.
+
+Next steps **S23–S40** (launch blockers R1, then R2, R3) are specified in
+`docs/BLUEPRINT.md` § 9. Add each one here as `[ ]` when it starts; steps
+that depend on a decision in BLUEPRINT § 8 wait for the user's answer.
 
 ## Notes and deferred items
 
